@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import Backend.ChiefEventCoordinator;
 
 import Backend.Accounts;
 import Backend.Booking;
@@ -50,6 +51,7 @@ public class MainFrame {
     
     // Currently selected room in admin console
     private Room selectedRoom = null;
+    private Accounts selectedAccount = null;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -361,10 +363,11 @@ public class MainFrame {
         
         dashboardWindow.getBtnDashCECPanel().addActionListener(e -> {
             System.out.println("Dashboard: CEC Panel clicked");
+            refreshUserTable();
+            clearCECFields();
             frame.setContentPane(cecWindow.getPane());
             refreshFrame();
         });
-        
         dashboardWindow.getBtnDashLogout().addActionListener(e -> {
             System.out.println("Dashboard: Logout clicked");
             currentUser = null;
@@ -892,22 +895,97 @@ public class MainFrame {
     private void wireCECWindowHandlers() {
         cecWindow.getBtnBackToDashboard().addActionListener(e -> {
             System.out.println("CEC: Back to dashboard clicked");
+            selectedAccount = null;
             frame.setContentPane(dashboardWindow.getPane());
             refreshFrame();
         });
         
-        cecWindow.getBtnGrantAdmin().addActionListener(e -> {
-            System.out.println("CEC: Grant Admin clicked for " + 
-                cecWindow.getAdminIdTextBox().getText());
+     // Table row selection handler
+        cecWindow.getAdminTable().getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int row = cecWindow.getAdminTable().getSelectedRow();
+                if (row != -1) {
+                    DefaultTableModel model = (DefaultTableModel) cecWindow.getAdminTable().getModel();
+                    Object userIdObj = model.getValueAt(row, 0);
+                    Object emailObj = model.getValueAt(row, 1);
+                    
+                    System.out.println("Row selected: " + row + ", UserID: " + userIdObj);
+                    
+                    if (userIdObj != null && emailObj != null) {
+                        String email = emailObj.toString();
+                        
+                        // Find by email instead of UUID
+                        selectedAccount = userCSV.findByEmail(email);
+                        
+                        if (selectedAccount != null) {
+                            cecWindow.getAdminIdTextBox().setText(selectedAccount.getAccountId().toString());
+                            cecWindow.getAdminStatusTextBox().setText(selectedAccount.getAccountType());
+                            System.out.println("Selected account: " + selectedAccount.getEmail());
+                        } else {
+                            System.out.println("Account not found for email: " + email);
+                        }
+                    }
+                }
+            }
         });
         
+        // Grant Admin button
+        cecWindow.getBtnGrantAdmin().addActionListener(e -> {
+            System.out.println("CEC: Grant Admin clicked");
+            
+            if (selectedAccount == null) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please select a user from the table first.",
+                    "No User Selected",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            if (selectedAccount.getAccountType().equals("Admin")) {
+                JOptionPane.showMessageDialog(frame,
+                    "User is already an Admin.",
+                    "Already Admin",
+                    JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            
+            if (selectedAccount.getAccountType().equals("Chief Event Coordinator")) {
+                JOptionPane.showMessageDialog(frame,
+                    "Cannot modify Chief Event Coordinator account.",
+                    "Invalid Operation",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+         // Update account type to Admin in CSV directly
+            userCSV.updateAccountTypeByEmail(selectedAccount.getEmail(), "Admin");
+
+            JOptionPane.showMessageDialog(frame,
+                "User " + selectedAccount.getEmail() + " has been granted Admin privileges.",
+                "Admin Granted",
+                JOptionPane.INFORMATION_MESSAGE);
+
+            refreshUserTable();
+            clearCECFields();
+            selectedAccount = null;
+            refreshFrame();
+        });
+        
+        /*
+        // Disable Admin button - Commented out as per requirements
         cecWindow.getBtnDisableAdmin().addActionListener(e -> {
             System.out.println("CEC: Disable Admin clicked for " + 
                 cecWindow.getAdminIdTextBox().getText());
         });
+        */
         
+        // Refresh button
         cecWindow.getBtnRefreshAdmins().addActionListener(e -> {
             System.out.println("CEC: Refresh clicked (admins + logs)");
+            refreshUserTable();
+            clearCECFields();
+            selectedAccount = null;
+            refreshFrame();
         });
     }
     
@@ -1386,5 +1464,33 @@ public class MainFrame {
     private void refreshFrame() {
         frame.revalidate();
         frame.repaint();
+    }
+    private void clearCECFields() {
+        cecWindow.getAdminIdTextBox().setText("");
+        cecWindow.getAdminStatusTextBox().setText("");
+    }
+
+    // Helper method to refresh user table in CEC window from CSV
+    private void refreshUserTable() {
+        java.util.List<Accounts> accounts = userCSV.findAll();
+        DefaultTableModel model = (DefaultTableModel) cecWindow.getAdminTable().getModel();
+        
+        // Clear existing rows
+        model.setRowCount(0);
+        
+        // Add all accounts from database
+        for (Accounts account : accounts) {
+            model.addRow(new Object[]{
+                account.getAccountId().toString(),
+                account.getEmail(),
+                account.getAccountType()
+            });
+        }
+        
+        // Notify table that data has changed
+        model.fireTableDataChanged();
+        cecWindow.getAdminTable().repaint();
+        
+        System.out.println("User table refreshed. Total accounts: " + accounts.size());
     }
 }

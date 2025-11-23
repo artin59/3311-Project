@@ -15,8 +15,8 @@ public class BookingCSV {
     
     private static BookingCSV instance = new BookingCSV();
     // Use the same directory as RoomDatabase.csv for consistency
-    private final String BOOKING_PATH = "a:\\EECS 3311\\EECS 3311\\BookingDatabase.csv";
-    private final String ROOM_PATH = "a:\\EECS 3311\\EECS 3311\\RoomDatabase.csv";
+    private final String BOOKING_PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\BookingDatabase.csv";
+    private final String ROOM_PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\RoomDatabase.csv";
     
     private BookingCSV() {
         try {

@@ -1,5 +1,5 @@
 package Backend;
-abstract class Administrator extends Accounts {
+public abstract class Administrator extends Accounts {
 	
 	public Administrator(String email, String password) {
 		super(email, password);
