@@ -23,17 +23,6 @@ public abstract class Accounts {
 		accountStatus = "PENDING_VERIFICATION";
 	}
 	
-
-	public boolean login() {
-		
-		//TODO
-		return false;
-	}
-	
-	public void logout() {
-		//TODO
-	}
-	
 	
 	protected UUID getAccountId() {
 		return accountId;

@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class AdminConsoleWindow {
 	
-	
 	// Admin Console (Room Management) pane
 	private JPanel adminConsolePane;
 
@@ -38,7 +37,6 @@ public class AdminConsoleWindow {
 		buildWindow();
 	}
 	
-	@SuppressWarnings("removal")
 	public void buildWindow() {
 
 	    // =====================================================
@@ -69,7 +67,7 @@ public class AdminConsoleWindow {
 	    adminConsolePane.add(roomDetailsTitleLabel);
 
 	    // =====================================================
-	    // 3. Room table (left side)
+	    // 3. Room table (left side) - Empty, populated from CSV
 	    // =====================================================
 
 	    JScrollPane roomScrollPane = new JScrollPane();
@@ -78,29 +76,26 @@ public class AdminConsoleWindow {
 
 	    roomTable = new JTable();
 	    roomTable.setModel(new DefaultTableModel(
-	    	new Object[][] {
-	    		{"R101", "Building A", new Integer(20), "Available", "Enabled"},
-	    		{"R202", "Building B", new Integer(40), "Closed for Maintenance", "Enabled"},
-	    		{"R303", "Building C", new Integer(10), "Reserved", "Disabled"},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    		{null, null, null, null, null},
-	    	},
+	    	new Object[][] {},
 	    	new String[] {
 	    		"Room ID", "Building", "Cap.", "Condition", "Status"
 	    	}
 	    ) {
+	    	private static final long serialVersionUID = 1L;
+	    	
 	    	@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 	    		String.class, String.class, Integer.class, String.class, String.class
 	    	};
+	    	
 	    	@SuppressWarnings({ "unchecked", "rawtypes" })
 			public Class getColumnClass(int columnIndex) {
 	    		return columnTypes[columnIndex];
+	    	}
+	    	
+	    	@Override
+	    	public boolean isCellEditable(int row, int column) {
+	    		return false; // Make table read-only
 	    	}
 	    });
 	    roomTable.getColumnModel().getColumn(0).setPreferredWidth(59);
@@ -110,21 +105,7 @@ public class AdminConsoleWindow {
 
 	    roomScrollPane.setViewportView(roomTable);
 
-	    // Selection -> fill detail fields
-	    roomTable.getSelectionModel().addListSelectionListener(e -> {
-	        if (!e.getValueIsAdjusting()) {
-	            int row = roomTable.getSelectedRow();
-	            if (row != -1) {
-	                DefaultTableModel model = (DefaultTableModel) roomTable.getModel();
-	                roomIdTextBox.setText(String.valueOf(model.getValueAt(row, 0)));
-	                buildingTextBox.setText(String.valueOf(model.getValueAt(row, 1)));
-	                capacityTextBox.setText(String.valueOf(model.getValueAt(row, 2)));
-	                String condition = String.valueOf(model.getValueAt(row, 3));
-	                conditionDropdown.setSelectedItem(condition);
-	                statusTextBox.setText(String.valueOf(model.getValueAt(row, 4)));
-	            }
-	        }
-	    });
+	    // Selection -> fill detail fields (handled in MainFrame)
 
 	    // =====================================================
 	    // 4. Room details (right side)
@@ -157,7 +138,6 @@ public class AdminConsoleWindow {
 	    capacityTextBox.setBounds(472, 159, 80, 18);
 	    adminConsolePane.add(capacityTextBox);
 
-	    // Condition dropdown (replaces Equipment)
 	    JLabel conditionLabel = new JLabel("Condition:");
 	    conditionLabel.setFont(new Font("Bell MT", Font.PLAIN, 16));
 	    conditionLabel.setBounds(372, 187, 90, 20);
@@ -178,7 +158,7 @@ public class AdminConsoleWindow {
 	    adminConsolePane.add(statusLabel);
 
 	    statusTextBox = new JTextField();
-	    statusTextBox.setEditable(false); // Enabled / Disabled
+	    statusTextBox.setEditable(false); // Enabled / Disabled - read only
 	    statusTextBox.setBounds(472, 219, 190, 18);
 	    adminConsolePane.add(statusTextBox);
 
@@ -269,5 +249,4 @@ public class AdminConsoleWindow {
 	public JButton getBtnBackToDashboard() {
 		return btnBackToDashboard;
 	}
-
 }

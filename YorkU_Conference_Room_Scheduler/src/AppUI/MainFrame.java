@@ -2,11 +2,15 @@ package AppUI;
 
 import java.awt.EventQueue;
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import Backend.Accounts;
+import Backend.Room;
+import Backend.RoomService;
 import Backend.User;
 import Backend.UserCSV;
 import Backend.UserFactory;
@@ -29,9 +33,13 @@ public class MainFrame {
     // Backend references
     private UserCSV userCSV = UserCSV.getInstance();
     private UserFactory userFactory = new UserFactory();
+    private RoomService roomService = new RoomService();
     
     // Currently logged in user
-    private Accounts currentUser = null;
+    private Accounts currentUser;
+    
+    // Currently selected room in admin console
+    private Room selectedRoom = null;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -133,7 +141,24 @@ public class MainFrame {
                     "Login Successful! Welcome, " + account.getAccountType() + ".", 
                     "Success", 
                     JOptionPane.INFORMATION_MESSAGE);
+                
+                currentUser = account;
                 clearLoginFields();
+
+                String accountType = account.getAccountType();
+                if(accountType.equals("Admin")) {
+                    dashboardWindow.getBtnDashCECPanel().setVisible(false);
+                    dashboardWindow.getBtnDashAdminConsole().setVisible(true);
+                    dashboardWindow.getBtnDashAdminConsole().setLocation(dashboardWindow.getBtnDashCECPanel().getLocation());
+                }
+                else if (accountType.equals("Chief Event Coordinator")) {
+                    dashboardWindow.getBtnDashAdminConsole().setVisible(true);
+                    dashboardWindow.getBtnDashCECPanel().setVisible(true);
+                }
+                else {
+                    dashboardWindow.getBtnDashAdminConsole().setVisible(false);
+                    dashboardWindow.getBtnDashCECPanel().setVisible(false);
+                } 
                 frame.setContentPane(dashboardWindow.getPane());
                 refreshFrame();
             } else {
@@ -169,7 +194,6 @@ public class MainFrame {
             String accountType = (String) registerWindow.getAccountTypeComboBox().getSelectedItem();
             String orgId = String.valueOf(registerWindow.getTxtBoxOrgID().getPassword()).trim();
             
-            // Validate account type selection
             if (accountType.equals("(Select Account Type)")) {
                 JOptionPane.showMessageDialog(frame, 
                     "Please select an account type.", 
@@ -178,7 +202,6 @@ public class MainFrame {
                 return;
             }
             
-            // Validate email
             if (!ValidationUtil.isValidEmail(email)) {
                 JOptionPane.showMessageDialog(frame, 
                     ValidationUtil.getEmailRequirements(), 
@@ -187,7 +210,6 @@ public class MainFrame {
                 return;
             }
             
-            // Check if email already exists
             if (userCSV.emailExists(email)) {
                 JOptionPane.showMessageDialog(frame, 
                     "An account with this email already exists. Please login instead.", 
@@ -196,7 +218,6 @@ public class MainFrame {
                 return;
             }
             
-            // Validate password
             if (!ValidationUtil.isValidPassword(password)) {
                 JOptionPane.showMessageDialog(frame, 
                     ValidationUtil.getPasswordRequirements(), 
@@ -205,7 +226,6 @@ public class MainFrame {
                 return;
             }
             
-            // Validate org ID
             if (!ValidationUtil.isValidOrgId(orgId)) {
                 JOptionPane.showMessageDialog(frame, 
                     ValidationUtil.getOrgIdRequirements(), 
@@ -214,7 +234,6 @@ public class MainFrame {
                 return;
             }
             
-            // Create user using factory
             try {
                 User newUser = userFactory.createUser(email, password, accountType, orgId);
                 userCSV.write(newUser);
@@ -253,6 +272,8 @@ public class MainFrame {
         
         dashboardWindow.getBtnDashAdminConsole().addActionListener(e -> {
             System.out.println("Dashboard: Admin Console clicked");
+            refreshRoomTable();
+            clearAdminConsoleFields();
             frame.setContentPane(adminConsoleWindow.getPane());
             refreshFrame();
         });
@@ -328,31 +349,179 @@ public class MainFrame {
     private void wireAdminConsoleWindowHandlers() {
         adminConsoleWindow.getBtnBackToDashboard().addActionListener(e -> {
             System.out.println("Admin Console: Back to dashboard clicked");
+            selectedRoom = null;
             frame.setContentPane(dashboardWindow.getPane());
             refreshFrame();
         });
         
+        // Table row selection handler
+        adminConsoleWindow.getRoomTable().getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int row = adminConsoleWindow.getRoomTable().getSelectedRow();
+                if (row != -1) {
+                    String roomNumber = (String) adminConsoleWindow.getRoomTable().getValueAt(row, 0);
+                    String building = (String) adminConsoleWindow.getRoomTable().getValueAt(row, 1);
+                    
+                    if (roomNumber != null && building != null) {
+                        selectedRoom = roomService.getRoomByLocation(building, roomNumber);
+                    }
+                }
+            }
+        });
+        
+        // Add Room button
         adminConsoleWindow.getBtnAddRoom().addActionListener(e -> {
             System.out.println("Admin Console: Add Room clicked");
+            
+            String roomNumber = adminConsoleWindow.getRoomIdTextBox().getText().trim();
+            String building = adminConsoleWindow.getBuildingTextBox().getText().trim();
+            String capacityStr = adminConsoleWindow.getCapacityTextBox().getText().trim();
+            
+            if (roomNumber.isEmpty() || building.isEmpty() || capacityStr.isEmpty()) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please fill in Room ID, Building, and Capacity.",
+                    "Missing Information",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            int capacity;
+            try {
+                capacity = Integer.parseInt(capacityStr);
+                if (capacity <= 0) {
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please enter a valid positive number for capacity.",
+                    "Invalid Capacity",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            Room newRoom = roomService.addRoom(capacity, building, roomNumber);
+            
+            if (newRoom != null) {
+                JOptionPane.showMessageDialog(frame,
+                    "Room added successfully!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+                refreshRoomTable();
+                clearAdminConsoleFields();
+            } else {
+                JOptionPane.showMessageDialog(frame,
+                    "Room already exists at this location.",
+                    "Add Room Failed",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
         
+        // Save Changes button (update condition)
         adminConsoleWindow.getBtnSaveChanges().addActionListener(e -> {
-            System.out.println("Admin Console: Save Changes clicked for " + 
-                adminConsoleWindow.getRoomIdTextBox().getText());
+            System.out.println("Admin Console: Save Changes clicked");
+            
+            if (selectedRoom == null) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please select a room from the table first.",
+                    "No Room Selected",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            String selectedCondition = (String) adminConsoleWindow.getConditionDropdown().getSelectedItem();
+            String currentCondition = selectedRoom.getCondition();
+            
+            // Map dropdown value to state name
+            String targetState = mapDropdownToState(selectedCondition);
+            
+            if (targetState.equals(currentCondition)) {
+                JOptionPane.showMessageDialog(frame,
+                    "Room is already in " + selectedCondition + " condition.",
+                    "No Change",
+                    JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            
+            boolean success = changeRoomCondition(selectedRoom, targetState);
+            
+            if (success) {
+                JOptionPane.showMessageDialog(frame,
+                    "Room condition updated to " + selectedCondition + ".",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+                refreshRoomTable();
+            } else {
+                JOptionPane.showMessageDialog(frame,
+                    "Cannot change condition from " + currentCondition + " to " + selectedCondition + ".",
+                    "Invalid Transition",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
         
+        // Enable Room button
         adminConsoleWindow.getBtnEnableRoom().addActionListener(e -> {
-            System.out.println("Admin Console: Enable Room clicked for " + 
-                adminConsoleWindow.getRoomIdTextBox().getText());
+            System.out.println("Admin Console: Enable Room clicked");
+            
+            if (selectedRoom == null) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please select a room from the table first.",
+                    "No Room Selected",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            if (selectedRoom.getStatus().equals("ENABLED")) {
+                JOptionPane.showMessageDialog(frame,
+                    "Room is already enabled.",
+                    "Already Enabled",
+                    JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            
+            roomService.enableRoom(selectedRoom.getRoomId());
+            JOptionPane.showMessageDialog(frame,
+                "Room enabled successfully!",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+            refreshRoomTable();
+            adminConsoleWindow.getStatusTextBox().setText("Enabled");
         });
         
+        // Disable Room button
         adminConsoleWindow.getBtnDisableRoom().addActionListener(e -> {
-            System.out.println("Admin Console: Disable Room clicked for " + 
-                adminConsoleWindow.getRoomIdTextBox().getText());
+            System.out.println("Admin Console: Disable Room clicked");
+            
+            if (selectedRoom == null) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please select a room from the table first.",
+                    "No Room Selected",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            if (selectedRoom.getStatus().equals("DISABLED")) {
+                JOptionPane.showMessageDialog(frame,
+                    "Room is already disabled.",
+                    "Already Disabled",
+                    JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            
+            roomService.disableRoom(selectedRoom.getRoomId());
+            JOptionPane.showMessageDialog(frame,
+                "Room disabled successfully!",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+            refreshRoomTable();
+            adminConsoleWindow.getStatusTextBox().setText("Disabled");
         });
         
+        // Refresh button
         adminConsoleWindow.getBtnRefreshRooms().addActionListener(e -> {
             System.out.println("Admin Console: Refresh rooms clicked");
+            refreshRoomTable();
+            clearAdminConsoleFields();
+            selectedRoom = null;
         });
     }
     
@@ -398,6 +567,92 @@ public class MainFrame {
         });
     }
     
+    // Helper method to refresh room table from CSV
+    private void refreshRoomTable() {
+        List<Room> rooms = roomService.getAllRooms();
+        DefaultTableModel model = (DefaultTableModel) adminConsoleWindow.getRoomTable().getModel();
+        
+        // Clear existing rows
+        model.setRowCount(0);
+        
+        // Add rooms from database
+        for (Room room : rooms) {
+            model.addRow(new Object[]{
+                room.getRoomNumber(),
+                room.getBuildingName(),
+                room.getCapacity(),
+                mapStateToDropdown(room.getCondition()),
+                room.getStatus().equals("ENABLED") ? "Enabled" : "Disabled"
+            });
+        }
+        
+        // Add empty rows to fill table
+        int emptyRows = 10 - rooms.size();
+        for (int i = 0; i < emptyRows && i < 10; i++) {
+            model.addRow(new Object[]{null, null, null, null, null});
+        }
+    }
+    
+    // Map state name to dropdown display value
+    private String mapStateToDropdown(String stateName) {
+        switch (stateName) {
+            case "Available": return "Available";
+            case "Reserved": return "Reserved";
+            case "InUse": return "In Use";
+            case "Maintenance": return "Closed for Maintenance";
+            case "NoShow": return "No-Show";
+            default: return stateName;
+        }
+    }
+    
+    // Map dropdown display value to state name
+    private String mapDropdownToState(String dropdownValue) {
+        switch (dropdownValue) {
+            case "Available": return "Available";
+            case "Reserved": return "Reserved";
+            case "In Use": return "InUse";
+            case "Closed for Maintenance": return "Maintenance";
+            case "No-Show": return "NoShow";
+            default: return dropdownValue;
+        }
+    }
+    
+    // Change room condition using RoomService
+    private boolean changeRoomCondition(Room room, String targetState) {
+        String currentState = room.getCondition();
+        
+        switch (targetState) {
+            case "Available":
+                if (currentState.equals("Maintenance")) {
+                    return roomService.clearRoomMaintenance(room.getRoomId());
+                } else if (currentState.equals("Reserved") || currentState.equals("NoShow")) {
+                    return roomService.cancelBooking(room.getRoomId());
+                } else if (currentState.equals("InUse")) {
+                    return roomService.checkOut(room.getRoomId());
+                }
+                break;
+            case "Maintenance":
+                if (currentState.equals("Available")) {
+                    return roomService.setRoomMaintenance(room.getRoomId());
+                }
+                break;
+            case "Reserved":
+                // Admin cannot manually set to Reserved - must go through booking
+                return false;
+            case "InUse":
+                if (currentState.equals("Reserved")) {
+                    return roomService.checkIn(room.getRoomId());
+                }
+                break;
+            case "NoShow":
+                if (currentState.equals("Reserved")) {
+                    return roomService.processNoShow(room.getRoomId());
+                }
+                break;
+        }
+        return false;
+    }
+    
     private void clearLoginFields() {
         loginWindow.getTxtBoxEmail().setText("");
         loginWindow.getTxtBoxPassword().setText("");
@@ -408,6 +663,14 @@ public class MainFrame {
         registerWindow.getTxtBoxPassword().setText("");
         registerWindow.getAccountTypeComboBox().setSelectedIndex(0);
         registerWindow.getTxtBoxOrgID().setText("");
+    }
+    
+    private void clearAdminConsoleFields() {
+        adminConsoleWindow.getRoomIdTextBox().setText("");
+        adminConsoleWindow.getBuildingTextBox().setText("");
+        adminConsoleWindow.getCapacityTextBox().setText("");
+        adminConsoleWindow.getConditionDropdown().setSelectedIndex(0);
+        adminConsoleWindow.getStatusTextBox().setText("");
     }
 
     private void refreshFrame() {
