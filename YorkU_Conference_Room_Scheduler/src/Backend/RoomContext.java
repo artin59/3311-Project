@@ -8,6 +8,7 @@ public class RoomContext {
     private RoomState currentState;
     
     // Booking info (null when no active booking)
+    private String bookingId;
     private UUID bookingUserId;
     private String bookingStartTime;
     private String bookingEndTime;
@@ -71,7 +72,8 @@ public class RoomContext {
     }
     
     // Booking info methods
-    public void setBookingInfo(UUID userId, String date, String startTime, String endTime) {
+    public void setBookingInfo(String bookingId2, UUID userId, String date, String startTime, String endTime) {
+        this.bookingId = bookingId;
         this.bookingUserId = userId;
         this.bookingDate = date;
         this.bookingStartTime = startTime;
@@ -79,6 +81,7 @@ public class RoomContext {
     }
     
     public void clearBookingInfo() {
+        this.bookingId = null;
         this.bookingUserId = null;
         this.bookingDate = null;
         this.bookingStartTime = null;
@@ -88,6 +91,10 @@ public class RoomContext {
     // Getters
     public UUID getRoomId() {
         return roomId;
+    }
+    
+    public String getBookingId() {
+        return bookingId;
     }
     
     public UUID getBookingUserId() {

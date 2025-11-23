@@ -30,7 +30,7 @@ public abstract class Accounts {
 	protected void setAccountId(UUID accountId) {
 		this.accountId = accountId;
 	}
-	protected String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 	protected void setEmail(String email) {

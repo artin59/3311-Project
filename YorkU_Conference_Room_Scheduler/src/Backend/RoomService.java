@@ -41,13 +41,28 @@ public class RoomService {
         return roomCSV.findByLocation(buildingName, roomNumber);
     }
     
+    // Get room by number (searches all rooms)
+    public Room getRoomByNumber(String roomNumber) {
+        List<Room> allRooms = getAllRooms();
+        for (Room room : allRooms) {
+            if (room.getRoomNumber().equals(roomNumber)) {
+                return room;
+            }
+        }
+        return null;
+    }
+    
     // Get available rooms (enabled AND in Available state)
+    // Get available rooms (enabled rooms - time slot availability should be checked separately)
+    // Note: This method returns all enabled rooms. Time slot availability should be checked
+    // using isRoomAvailableForTime() or getAvailableRooms() with time parameters
     public List<Room> getAvailableRooms() {
         List<Room> allRooms = roomCSV.findAll();
         List<Room> availableRooms = new ArrayList<>();
         
+        // Return all enabled rooms - time slot conflicts should be checked separately
         for (Room room : allRooms) {
-            if (room.isBookable()) {
+            if (room.getStatus().equals("ENABLED")) {
                 availableRooms.add(room);
             }
         }
@@ -81,16 +96,38 @@ public class RoomService {
     }
     
     // Get available rooms with full filters (capacity, building, time range)
-    // TODO: Time range filtering will be implemented when booking system supports multiple bookings
     public List<Room> getAvailableRooms(int minCapacity, String buildingName, 
                                          String date, String startTime, String endTime) {
-        // For now, same as filtering by capacity and building
-        // Time-based filtering will be added when booking system is enhanced
-        return getAvailableRooms(minCapacity, buildingName);
+        List<Room> filteredRooms = getAvailableRooms(minCapacity, buildingName);
+        List<Room> availableRooms = new ArrayList<>();
+        
+        // Filter out rooms that have time conflicts
+        BookingCSV bookingCSV = BookingCSV.getInstance();
+        for (Room room : filteredRooms) {
+            // Check if room has a time conflict for the requested time slot
+            if (!bookingCSV.hasTimeConflict(room.getRoomNumber(), date, startTime, endTime)) {
+                availableRooms.add(room);
+            }
+        }
+        
+        return availableRooms;
+    }
+    
+    // Check if a room is available for a specific time slot
+    public boolean isRoomAvailableForTime(UUID roomId, String date, String startTime, String endTime) {
+        Room room = roomCSV.findById(roomId);
+        if (room == null || !room.getStatus().equals("ENABLED")) {
+            return false;
+        }
+        
+        BookingCSV bookingCSV = BookingCSV.getInstance();
+        return !bookingCSV.hasTimeConflict(room.getRoomNumber(), date, startTime, endTime);
     }
     
     // Book a room
-    public boolean bookRoom(UUID roomId, UUID userId, String date, String startTime, String endTime) {
+    // Note: This method now allows multiple bookings per room at different times
+    // Time conflict checking is done in ReservationSystem before calling this method
+    public boolean bookRoom(UUID roomId, String bookingId, UUID userId, String date, String startTime, String endTime) {
         Room room = roomCSV.findById(roomId);
         
         if (room == null) {
@@ -98,12 +135,13 @@ public class RoomService {
             return false;
         }
         
-        if (!room.isBookable()) {
-            System.out.println("Room is not available for booking.");
+        // Check if room is enabled (but allow booking even if already reserved for different time)
+        if (!room.getStatus().equals("ENABLED")) {
+            System.out.println("Room is not enabled for booking.");
             return false;
         }
         
-        room.book(userId, date, startTime, endTime);
+        room.book(bookingId, userId, date, startTime, endTime);
         roomCSV.update(room);
         return true;
     }

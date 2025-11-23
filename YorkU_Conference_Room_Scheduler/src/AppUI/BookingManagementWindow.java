@@ -21,8 +21,11 @@ public class BookingManagementWindow {
 	private JTextField selectedDateTextBox;
 	private JTextField selectedTimeTextBox;
 
+	private JTextField newBuildingTextBox;
+	private JTextField newRoomNumberTextBox;
 	private JTextField newDateTextBox;
 	private JTextField newStartTimeTextBox;
+	private JTextField newEndTimeTextBox;
 	private JTextField extendByHoursTextBox;
 
 	private JButton btnApplyEdit;
@@ -74,26 +77,15 @@ public class BookingManagementWindow {
 	    bookingManagementPane.add(bookingScrollPane);
 
 	    bookingTable = new JTable();
+	    // Initialize with empty table - data will be loaded from BookingDatabase.csv
 	    bookingTable.setModel(new DefaultTableModel(
-	        new Object[][] {
-	            // sample rows – replace with real data later
-	            {"B001", "R101", "2025-03-10", "09:00", "10:00", "Reserved"},
-	            {"B002", "R202", "2025-03-11", "13:00", "14:00", "Cancelled"},
-	            {"B003", "R305", "2025-03-12", "10:00", "12:00", "In Use"},
-	            {null, null, null, null, null, null},
-	            {null, null, null, null, null, null},
-	            {null, null, null, null, null, null},
-	            {null, null, null, null, null, null},
-	            {null, null, null, null, null, null},
-	            {null, null, null, null, null, null},
-	            {null, null, null, null, null, null},
-	        },
+	        new Object[][] {},
 	        new String[] {
-	            "Booking ID", "Room #", "Date", "Start", "End", "Status"
+	            "Booking ID", "Room ID", "Building", "Room #", "Date", "Start", "End", "Status"
 	        }
 	    ) {
 	        boolean[] columnEditables = new boolean[] {
-	            false, false, false, false, false, false
+	            false, false, false, false, false, false, false, false
 	        };
 	        public boolean isCellEditable(int row, int column) {
 	            return columnEditables[column];
@@ -107,19 +99,24 @@ public class BookingManagementWindow {
 	            if (row != -1) {
 	                DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();
 	                String bookingId = String.valueOf(model.getValueAt(row, 0));
-	                String room = String.valueOf(model.getValueAt(row, 1));
-	                String date = String.valueOf(model.getValueAt(row, 2));
-	                String start = String.valueOf(model.getValueAt(row, 3));
-	                String end   = String.valueOf(model.getValueAt(row, 4));
+	                String roomId = String.valueOf(model.getValueAt(row, 1));
+	                String building = String.valueOf(model.getValueAt(row, 2));
+	                String room = String.valueOf(model.getValueAt(row, 3));
+	                String date = String.valueOf(model.getValueAt(row, 4));
+	                String start = String.valueOf(model.getValueAt(row, 5));
+	                String end = String.valueOf(model.getValueAt(row, 6));
 
 	                selectedBookingIdTextBox.setText(bookingId);
-	                selectedRoomTextBox.setText(room);
+	                selectedRoomTextBox.setText(building + " - Room " + room);
 	                selectedDateTextBox.setText(date);
 	                selectedTimeTextBox.setText(start + " - " + end);
 
 	                // pre-fill edit fields with current values
+	                newBuildingTextBox.setText(building);
+	                newRoomNumberTextBox.setText(room);
 	                newDateTextBox.setText(date);
 	                newStartTimeTextBox.setText(start);
+	                newEndTimeTextBox.setText(end);
 	            }
 	        }
 	    });
@@ -198,13 +195,40 @@ public class BookingManagementWindow {
 	    newStartTimeTextBox.setBounds(550, 257, 110, 18);
 	    bookingManagementPane.add(newStartTimeTextBox);
 
+	    JLabel newEndTimeLabel = new JLabel("New End Time:");
+	    newEndTimeLabel.setFont(new Font("Bell MT", Font.PLAIN, 16));
+	    newEndTimeLabel.setBounds(430, 280, 110, 20);
+	    bookingManagementPane.add(newEndTimeLabel);
+
+	    newEndTimeTextBox = new JTextField();
+	    newEndTimeTextBox.setBounds(550, 282, 110, 18);
+	    bookingManagementPane.add(newEndTimeTextBox);
+
+	    JLabel newBuildingLabel = new JLabel("New Building:");
+	    newBuildingLabel.setFont(new Font("Bell MT", Font.PLAIN, 16));
+	    newBuildingLabel.setBounds(430, 305, 110, 20);
+	    bookingManagementPane.add(newBuildingLabel);
+
+	    newBuildingTextBox = new JTextField();
+	    newBuildingTextBox.setBounds(550, 307, 130, 18);
+	    bookingManagementPane.add(newBuildingTextBox);
+
+	    JLabel newRoomNumberLabel = new JLabel("New Room #:");
+	    newRoomNumberLabel.setFont(new Font("Bell MT", Font.PLAIN, 16));
+	    newRoomNumberLabel.setBounds(430, 330, 110, 20);
+	    bookingManagementPane.add(newRoomNumberLabel);
+
+	    newRoomNumberTextBox = new JTextField();
+	    newRoomNumberTextBox.setBounds(550, 332, 130, 18);
+	    bookingManagementPane.add(newRoomNumberTextBox);
+
 	    JLabel extendByLabel = new JLabel("Extend (hrs):");
 	    extendByLabel.setFont(new Font("Bell MT", Font.PLAIN, 16));
-	    extendByLabel.setBounds(430, 280, 100, 20);
+	    extendByLabel.setBounds(430, 355, 100, 20);
 	    bookingManagementPane.add(extendByLabel);
 
 	    extendByHoursTextBox = new JTextField();
-	    extendByHoursTextBox.setBounds(530, 282, 50, 18);
+	    extendByHoursTextBox.setBounds(550, 357, 50, 18);
 	    bookingManagementPane.add(extendByHoursTextBox);
 
 	    // =====================================================
@@ -213,22 +237,22 @@ public class BookingManagementWindow {
 
 	    btnApplyEdit = new JButton("Apply Edit");
 	    btnApplyEdit.setFont(new Font("Baskerville Old Face", Font.ITALIC, 15));
-	    btnApplyEdit.setBounds(430, 310, 120, 23);
+	    btnApplyEdit.setBounds(430, 385, 120, 23);
 	    bookingManagementPane.add(btnApplyEdit);
 
 	    btnExtendBooking = new JButton("Extend");
 	    btnExtendBooking.setFont(new Font("Baskerville Old Face", Font.ITALIC, 15));
-	    btnExtendBooking.setBounds(560, 310, 100, 23);
+	    btnExtendBooking.setBounds(560, 385, 100, 23);
 	    bookingManagementPane.add(btnExtendBooking);
 
 	    btnCancelBooking = new JButton("Cancel");
 	    btnCancelBooking.setFont(new Font("Baskerville Old Face", Font.ITALIC, 15));
-	    btnCancelBooking.setBounds(430, 340, 120, 23);
+	    btnCancelBooking.setBounds(430, 415, 120, 23);
 	    bookingManagementPane.add(btnCancelBooking);
 
 	    btnRefresh = new JButton("Refresh");
 	    btnRefresh.setFont(new Font("Baskerville Old Face", Font.ITALIC, 15));
-	    btnRefresh.setBounds(560, 340, 100, 23);
+	    btnRefresh.setBounds(560, 415, 100, 23);
 	    bookingManagementPane.add(btnRefresh);
 
 	    // =====================================================
@@ -265,12 +289,24 @@ public class BookingManagementWindow {
 		return selectedTimeTextBox;
 	}
 
+	public JTextField getNewBuildingTextBox() {
+		return newBuildingTextBox;
+	}
+
+	public JTextField getNewRoomNumberTextBox() {
+		return newRoomNumberTextBox;
+	}
+
 	public JTextField getNewDateTextBox() {
 		return newDateTextBox;
 	}
 
 	public JTextField getNewStartTimeTextBox() {
 		return newStartTimeTextBox;
+	}
+
+	public JTextField getNewEndTimeTextBox() {
+		return newEndTimeTextBox;
 	}
 
 	public JTextField getExtendByHoursTextBox() {

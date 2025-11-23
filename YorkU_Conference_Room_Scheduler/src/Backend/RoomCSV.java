@@ -12,13 +12,16 @@ import com.csvreader.CsvWriter;
 public class RoomCSV {
     
     private static RoomCSV instance = new RoomCSV();
-    private final String PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\RoomDatabase.csv";
+    private final String PATH = "a:\\EECS 3311\\EECS 3311\\RoomDatabase.csv";
     
     private RoomCSV() {
         try {
             File file = new File(PATH);
             
             if (!file.exists()) {
+                // Create directory if it doesn't exist
+                file.getParentFile().mkdirs();
+                
                 CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, false), ',');
                 csvWrite.write("Room ID");
                 csvWrite.write("Capacity");
@@ -26,6 +29,7 @@ public class RoomCSV {
                 csvWrite.write("Room Number");
                 csvWrite.write("Status");
                 csvWrite.write("Condition");
+                csvWrite.write("Booking ID");
                 csvWrite.write("Booking User ID");
                 csvWrite.write("Booking Date");
                 csvWrite.write("Booking Start Time");
@@ -51,6 +55,7 @@ public class RoomCSV {
             csvWrite.write(room.getRoomNumber());
             csvWrite.write(room.getStatus());
             csvWrite.write(room.getCondition());
+            csvWrite.write(room.getBookingId() != null ? room.getBookingId() : "");
             csvWrite.write(room.getBookingUserId() != null ? String.valueOf(room.getBookingUserId()) : "");
             csvWrite.write(room.getBookingDate() != null ? room.getBookingDate() : "");
             csvWrite.write(room.getBookingStartTime() != null ? room.getBookingStartTime() : "");
@@ -134,6 +139,7 @@ public class RoomCSV {
             csvWrite.write("Room Number");
             csvWrite.write("Status");
             csvWrite.write("Condition");
+            csvWrite.write("Booking ID");
             csvWrite.write("Booking User ID");
             csvWrite.write("Booking Date");
             csvWrite.write("Booking Start Time");
@@ -166,6 +172,7 @@ public class RoomCSV {
             csvWrite.write("Room Number");
             csvWrite.write("Status");
             csvWrite.write("Condition");
+            csvWrite.write("Booking ID");
             csvWrite.write("Booking User ID");
             csvWrite.write("Booking Date");
             csvWrite.write("Booking Start Time");
@@ -191,6 +198,17 @@ public class RoomCSV {
         String status = csvRead.get("Status");
         String condition = csvRead.get("Condition");
         
+        // Try to read Booking ID (may not exist in old CSV files)
+        String bookingId = null;
+        try {
+            bookingId = csvRead.get("Booking ID");
+            if (bookingId != null && bookingId.trim().isEmpty()) {
+                bookingId = null;
+            }
+        } catch (Exception e) {
+            // Column doesn't exist in old CSV files, leave as null
+        }
+        
         String bookingUserIdStr = csvRead.get("Booking User ID");
         UUID bookingUserId = (bookingUserIdStr != null && !bookingUserIdStr.isEmpty()) 
                              ? UUID.fromString(bookingUserIdStr) : null;
@@ -205,7 +223,7 @@ public class RoomCSV {
         bookingEndTime = (bookingEndTime != null && !bookingEndTime.isEmpty()) ? bookingEndTime : null;
         
         return new Room(roomId, capacity, buildingName, roomNumber, status, condition,
-                        bookingUserId, bookingDate, bookingStartTime, bookingEndTime);
+                        bookingId, bookingUserId, bookingDate, bookingStartTime, bookingEndTime);
     }
     
     private void writeRoomRecord(CsvWriter csvWrite, Room room) throws Exception {
@@ -215,6 +233,7 @@ public class RoomCSV {
         csvWrite.write(room.getRoomNumber());
         csvWrite.write(room.getStatus());
         csvWrite.write(room.getCondition());
+        csvWrite.write(room.getBookingId() != null ? room.getBookingId() : "");
         csvWrite.write(room.getBookingUserId() != null ? String.valueOf(room.getBookingUserId()) : "");
         csvWrite.write(room.getBookingDate() != null ? room.getBookingDate() : "");
         csvWrite.write(room.getBookingStartTime() != null ? room.getBookingStartTime() : "");

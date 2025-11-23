@@ -9,7 +9,7 @@ import com.csvreader.CsvWriter;
 public class UserCSV {
     
     private static UserCSV instance = new UserCSV();
-    private final String PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\Database.csv";
+    private final String PATH = "A:\\EECS 3311\\EECS 3311\\Database.csv";
         
     private UserCSV() { 
         try {
@@ -63,6 +63,7 @@ public class UserCSV {
                 if (csvRead.get("ID").equals(String.valueOf(id))) {
                     if (csvRead.get("Type").equals("Admin")) {    
                         account = new Admin(csvRead.get("Email"), csvRead.get("Password")); 
+                        account.setAccountId(id); // Preserve original UUID
                     } else if (csvRead.get("Type").equals("Chief Event Coordinator")) {
                         csvRead.close();
                         return ChiefEventCoordinator.getCEOInstance();
@@ -74,6 +75,7 @@ public class UserCSV {
                             csvRead.get("Type"), 
                             csvRead.get("Org ID")
                         );
+                        account.setAccountId(id); // Preserve original UUID
                     }
                     csvRead.close();
                     return account;
@@ -98,15 +100,26 @@ public class UserCSV {
                     String storedEmail = csvRead.get("Email");
                     String storedPassword = csvRead.get("Password");
                     String orgId = csvRead.get("Org ID");
+                    String storedId = csvRead.get("ID");
                     
                     if (type.equals("Admin")) {    
-                        account = new Admin(storedEmail, storedPassword); 
+                        account = new Admin(storedEmail, storedPassword);
+                        try {
+                            account.setAccountId(UUID.fromString(storedId)); // Preserve original UUID
+                        } catch (Exception e) {
+                            // If UUID parsing fails, keep the new one
+                        }
                     } else if (type.equals("Chief Event Coordinator")) {
                         csvRead.close();
                         return ChiefEventCoordinator.getCEOInstance();
                     } else {
                         UserFactory factory = new UserFactory();
                         account = factory.createUser(storedEmail, storedPassword, type, orgId);
+                        try {
+                            account.setAccountId(UUID.fromString(storedId)); // Preserve original UUID
+                        } catch (Exception e) {
+                            // If UUID parsing fails, keep the new one
+                        }
                     }
                     csvRead.close();
                     return account;

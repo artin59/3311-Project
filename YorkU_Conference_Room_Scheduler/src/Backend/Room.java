@@ -33,11 +33,11 @@ public class Room {
     
     // Constructor with booking info (for loading from CSV)
     public Room(UUID roomId, int capacity, String buildingName, String roomNumber,
-                String status, String stateName, UUID bookingUserId, 
+                String status, String stateName, String bookingId, UUID bookingUserId, 
                 String bookingDate, String bookingStartTime, String bookingEndTime) {
         this(roomId, capacity, buildingName, roomNumber, status, stateName);
         if (bookingUserId != null) {
-            this.roomContext.setBookingInfo(bookingUserId, bookingDate, bookingStartTime, bookingEndTime);
+            this.roomContext.setBookingInfo(bookingId, bookingUserId, bookingDate, bookingStartTime, bookingEndTime);
         }
     }
     
@@ -75,14 +75,19 @@ public class Room {
     }
     
     // Delegate state actions to context
-    public void book(UUID userId, String date, String startTime, String endTime) {
-        if (!isBookable()) {
-            System.out.println("Room " + roomId + " cannot be booked.");
+    // Note: This method now allows booking even if room is already reserved
+    // Time conflict checking should be done before calling this method
+    public void book(String bookingId, UUID userId, String date, String startTime, String endTime) {
+        // Check if room is enabled (but allow booking even if already reserved for different time)
+        if (!status.equals("ENABLED")) {
+            System.out.println("Room " + roomId + " is not enabled for booking.");
             return;
         }
-        roomContext.setBookingInfo(userId, date, startTime, endTime);
+        // Set booking info and state to Reserved for this booking
+        // Multiple bookings can exist for the same room at different times
+        roomContext.setBookingInfo(bookingId, userId, date, startTime, endTime);
         roomContext.setState(ReservedState.getInstance());
-        System.out.println("Room " + roomId + " booked successfully.");
+        System.out.println("Room " + roomId + " booked successfully for " + date + " " + startTime + "-" + endTime);
     }
     
     public void checkIn() {
@@ -143,6 +148,10 @@ public class Room {
     }
     
     // Booking info getters (delegated to context)
+    public String getBookingId() {
+        return roomContext.getBookingId();
+    }
+    
     public UUID getBookingUserId() {
         return roomContext.getBookingUserId();
     }

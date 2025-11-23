@@ -3,12 +3,20 @@ package AppUI;
 import java.awt.EventQueue;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import Backend.Accounts;
+import Backend.Booking;
+import Backend.BookingController;
+import Backend.BookingCSV;
+import Backend.BookingTimeUtil;
+import Backend.ReservationSystem;
 import Backend.Room;
 import Backend.RoomService;
 import Backend.User;
@@ -34,6 +42,8 @@ public class MainFrame {
     private UserCSV userCSV = UserCSV.getInstance();
     private UserFactory userFactory = new UserFactory();
     private RoomService roomService = new RoomService();
+    private ReservationSystem reservationSystem = ReservationSystem.getInstance();
+    private BookingCSV bookingCSV = BookingCSV.getInstance();
     
     // Currently logged in user
     private Accounts currentUser;
@@ -73,6 +83,11 @@ public class MainFrame {
         wireBookingManagementHandlers();
         wireAdminConsoleWindowHandlers();
         wireCECWindowHandlers();
+        
+        // Register observers for booking changes (REQ8, REQ9)
+        BookingController controller = BookingController.getInstance();
+        controller.addObserver(new BookingManagementObserver(this));
+        controller.addObserver(new ReserveRoomObserver(this));
     }
     
     private void wireIntroHandlers() {
@@ -92,22 +107,87 @@ public class MainFrame {
     private void wireCheckInHandlers() {
         checkInWindow.getBtnBackToIntro().addActionListener(e -> {
             System.out.println("Back to Intro clicked");
+            // Clear check-in fields
+            checkInWindow.getBookingIdTextBox().setText("");
+            checkInWindow.getEmailTextBox().setText("");
+            checkInWindow.getOccupantsTextBox().setText("");
+            checkInWindow.getRoomNumberTextBox().setText("");
+            checkInWindow.getBookingTimeTextBox().setText("");
             frame.setContentPane(introWindow.getPane());
             refreshFrame();
         });
 
         checkInWindow.getBtnSimulateScan().addActionListener(e -> {
-            String bookingId = checkInWindow.getBookingIdTextBox().getText();
-            String email = checkInWindow.getEmailTextBox().getText();
-            String occupants = checkInWindow.getOccupantsTextBox().getText();
+            String bookingId = checkInWindow.getBookingIdTextBox().getText().trim();
+            String email = checkInWindow.getEmailTextBox().getText().trim();
+            String occupants = checkInWindow.getOccupantsTextBox().getText().trim();
 
             System.out.println("Simulate Scan");
             System.out.println("Booking ID: " + bookingId);
             System.out.println("Email: " + email);
             System.out.println("Occupants: " + occupants);
 
-            checkInWindow.getRoomNumberTextBox().setText("Room 101");
-            checkInWindow.getBookingTimeTextBox().setText("09:00 - 10:00");
+            // Validate input
+            if (bookingId.isEmpty() || email.isEmpty()) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please enter both Booking ID and Email.",
+                    "Missing Information",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Find booking from database using ReservationSystem
+            Booking booking = reservationSystem.findBooking(bookingId);
+            
+            if (booking == null) {
+                JOptionPane.showMessageDialog(frame,
+                    "Booking not found. Please check the Booking ID.",
+                    "Booking Not Found",
+                    JOptionPane.ERROR_MESSAGE);
+                checkInWindow.getRoomNumberTextBox().setText("");
+                checkInWindow.getBookingTimeTextBox().setText("");
+                return;
+            }
+
+            // Verify email matches
+            if (!booking.getUser().getEmail().equalsIgnoreCase(email)) {
+                JOptionPane.showMessageDialog(frame,
+                    "Email does not match the booking. Please verify your email.",
+                    "Email Mismatch",
+                    JOptionPane.ERROR_MESSAGE);
+                checkInWindow.getRoomNumberTextBox().setText("");
+                checkInWindow.getBookingTimeTextBox().setText("");
+                return;
+            }
+
+            // Display booking information
+            String roomNumber = booking.getRoomNumber() != null ? booking.getRoomNumber() : "Not assigned";
+            String bookingTime = "";
+            if (booking.getBookingStartTime() != null && booking.getBookingEndTime() != null) {
+                bookingTime = booking.getBookingStartTime() + " - " + booking.getBookingEndTime();
+            } else if (booking.getBookingDate() != null) {
+                bookingTime = booking.getBookingDate();
+            } else {
+                bookingTime = "Time not specified";
+            }
+
+            checkInWindow.getRoomNumberTextBox().setText(roomNumber);
+            checkInWindow.getBookingTimeTextBox().setText(bookingTime);
+
+            // Perform check-in
+            boolean checkInSuccess = reservationSystem.checkIn(bookingId, email);
+            
+            if (checkInSuccess) {
+                JOptionPane.showMessageDialog(frame,
+                    "Check-in successful! Room: " + roomNumber,
+                    "Check-In Successful",
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(frame,
+                    "Check-in failed. Please contact support.",
+                    "Check-In Failed",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     
@@ -259,12 +339,14 @@ public class MainFrame {
     private void wireDashboardHandlers() {
         dashboardWindow.getBtnDashReserve().addActionListener(e -> {
             System.out.println("Dashboard: Book Room clicked");
+            refreshReserveRoomTable();
             frame.setContentPane(reserveRoomWindow.getPane());
             refreshFrame();
         });
         
         dashboardWindow.getBtnDashMyBookings().addActionListener(e -> {
             System.out.println("Dashboard: Manage Bookings clicked");
+            refreshBookingTable();
             frame.setContentPane(bookingManagementWindow.getPane());
             refreshFrame();
         });
@@ -298,11 +380,64 @@ public class MainFrame {
             refreshFrame();
         });
         
+        // Add listener to room table selection to update time slot table
+        reserveRoomWindow.getRoomTable().getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = reserveRoomWindow.getRoomTable().getSelectedRow();
+                String roomNumber = null;
+                if (selectedRow >= 0) {
+                    Object roomValue = reserveRoomWindow.getRoomTable().getValueAt(selectedRow, 0);
+                    if (roomValue != null) {
+                        roomNumber = String.valueOf(roomValue).trim();
+                        System.out.println("Room selected: '" + roomNumber + "'");
+                    }
+                }
+                String date = reserveRoomWindow.getBookDateTextBox().getText().trim();
+                System.out.println("Date from text box: '" + date + "'");
+                refreshTimeSlotTable(roomNumber, date);
+            }
+        });
+        
+        // Add listener to date text box to update time slot table when date changes
+        reserveRoomWindow.getBookDateTextBox().getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateTimeSlotTable();
+            }
+            
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateTimeSlotTable();
+            }
+            
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateTimeSlotTable();
+            }
+            
+            private void updateTimeSlotTable() {
+                String roomNumber = reserveRoomWindow.getRoomTextBox().getText().trim();
+                String date = reserveRoomWindow.getBookDateTextBox().getText().trim();
+                refreshTimeSlotTable(roomNumber, date);
+            }
+        });
+        
         reserveRoomWindow.getBtnCalculate().addActionListener(e -> {
-            LocalTime time = LocalTime.now();
-            Double rate = 7711.0 * time.getSecond();
+            // Validate user is logged in
+            if (currentUser == null || !(currentUser instanceof User)) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please login to calculate rates.",
+                    "Login Required",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Calculate hourly rate based on user type
+            User user = (User) currentUser;
+            double rate = reservationSystem.calculateHourlyRate(user);
+            
             System.out.println("Reserve Room: Calculate clicked, Rate = " + rate);
-            reserveRoomWindow.getHourlyRateTextBox().setText(rate.toString());
+            reserveRoomWindow.getHourlyRateTextBox().setText(String.valueOf(rate));
             refreshFrame();
         });
         
@@ -324,23 +459,253 @@ public class MainFrame {
         });
         
         bookingManagementWindow.getBtnApplyEdit().addActionListener(e -> {
-            System.out.println("Apply Edit clicked for booking " + 
-                bookingManagementWindow.getSelectedBookingIdTextBox().getText());
+            String bookingId = bookingManagementWindow.getSelectedBookingIdTextBox().getText().trim();
+            
+            if (bookingId == null || bookingId.isEmpty() || bookingId.equals("null")) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please select a booking to edit.",
+                    "No Booking Selected",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Get new values from text fields
+            String newBuilding = bookingManagementWindow.getNewBuildingTextBox().getText().trim();
+            String newRoomNumber = bookingManagementWindow.getNewRoomNumberTextBox().getText().trim();
+            String newDate = bookingManagementWindow.getNewDateTextBox().getText().trim();
+            String newStartTime = bookingManagementWindow.getNewStartTimeTextBox().getText().trim();
+            String newEndTime = bookingManagementWindow.getNewEndTimeTextBox().getText().trim();
+            
+            if (newBuilding.isEmpty() && newRoomNumber.isEmpty() && newDate.isEmpty() && 
+                newStartTime.isEmpty() && newEndTime.isEmpty()) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please enter at least one field to update.",
+                    "No Changes Specified",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            try {
+                // If room number is provided, look up the building name from the room
+                if (!newRoomNumber.isEmpty()) {
+                    Room room = roomService.getRoomByNumber(newRoomNumber);
+                    if (room != null) {
+                        // Use the room's building name if building name is not provided
+                        if (newBuilding.isEmpty()) {
+                            newBuilding = room.getBuildingName();
+                        }
+                        // Validate that the provided building name matches the room's building
+                        else if (!newBuilding.equals(room.getBuildingName())) {
+                            JOptionPane.showMessageDialog(frame,
+                                "Building name does not match the room. Room " + newRoomNumber + 
+                                " is in " + room.getBuildingName() + ".",
+                                "Invalid Building",
+                                JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(frame,
+                            "Room " + newRoomNumber + " not found.",
+                            "Room Not Found",
+                            JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+                
+                // Use BookingController to execute edit command
+                BookingController controller = BookingController.getInstance();
+                boolean success = controller.editBooking(bookingId, 
+                    newBuilding.isEmpty() ? null : newBuilding,
+                    newRoomNumber.isEmpty() ? null : newRoomNumber,
+                    newDate.isEmpty() ? null : newDate,
+                    newStartTime.isEmpty() ? null : newStartTime,
+                    newEndTime.isEmpty() ? null : newEndTime);
+                
+                if (success) {
+                    JOptionPane.showMessageDialog(frame,
+                        "Booking " + bookingId + " has been updated successfully.",
+                        "Booking Updated",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Refresh the booking table
+                    refreshBookingTable();
+                    
+                    // Clear edit fields
+                    bookingManagementWindow.getNewBuildingTextBox().setText("");
+                    bookingManagementWindow.getNewRoomNumberTextBox().setText("");
+                    bookingManagementWindow.getNewDateTextBox().setText("");
+                    bookingManagementWindow.getNewStartTimeTextBox().setText("");
+                    bookingManagementWindow.getNewEndTimeTextBox().setText("");
+                } else {
+                    JOptionPane.showMessageDialog(frame,
+                        "Failed to update booking. The booking may not be in a valid state for editing.",
+                        "Update Failed",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame,
+                    "Error updating booking: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
         });
         
         bookingManagementWindow.getBtnExtendBooking().addActionListener(e -> {
-            System.out.println("Extend clicked for booking " + 
-                bookingManagementWindow.getSelectedBookingIdTextBox().getText()
-                + ", extra hours: " + bookingManagementWindow.getExtendByHoursTextBox().getText());
+            String bookingId = bookingManagementWindow.getSelectedBookingIdTextBox().getText().trim();
+            String extraHoursText = bookingManagementWindow.getExtendByHoursTextBox().getText().trim();
+            
+            if (bookingId == null || bookingId.isEmpty() || bookingId.equals("null")) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please select a booking to extend.",
+                    "No Booking Selected",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            if (extraHoursText.isEmpty()) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please enter the number of hours to extend.",
+                    "No Duration Specified",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            try {
+                int extraHours = Integer.parseInt(extraHoursText);
+                if (extraHours <= 0) {
+                    JOptionPane.showMessageDialog(frame,
+                        "Please enter a positive number of hours.",
+                        "Invalid Duration",
+                        JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                // Use BookingController to execute extend command
+                BookingController controller = BookingController.getInstance();
+                boolean success = controller.extendBooking(bookingId, extraHours);
+                
+                if (success) {
+                    JOptionPane.showMessageDialog(frame,
+                        "Booking " + bookingId + " has been extended by " + extraHours + " hours.",
+                        "Booking Extended",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Refresh the booking table
+                    refreshBookingTable();
+                    
+                    // Clear extend field
+                    bookingManagementWindow.getExtendByHoursTextBox().setText("");
+                } else {
+                    // Get more details about why extension failed
+                    Booking booking = bookingCSV.findById(bookingId);
+                    String errorMsg = "Failed to extend booking. ";
+                    if (booking != null) {
+                        errorMsg += "Booking status: '" + booking.getStatus() + "'. ";
+                        String bookingDate = booking.getBookingDate();
+                        String bookingEndTime = booking.getBookingEndTime();
+                        
+                        if (bookingEndTime == null || bookingEndTime.trim().isEmpty()) {
+                            errorMsg += "Booking end time is not set.";
+                        } else if (bookingDate == null || bookingDate.trim().isEmpty()) {
+                            errorMsg += "Booking date is not set.";
+                        } else if (BookingTimeUtil.hasEndTimePassed(bookingDate, bookingEndTime)) {
+                            errorMsg += "Booking end time (" + bookingEndTime + " on " + bookingDate + ") has already passed.";
+                        } else {
+                            errorMsg += "The extended time slot may already be reserved by another booking.";
+                        }
+                    } else {
+                        errorMsg += "Booking not found.";
+                    }
+                    
+                    JOptionPane.showMessageDialog(frame,
+                        errorMsg,
+                        "Extension Failed",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please enter a valid number of hours.",
+                    "Invalid Input",
+                    JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame,
+                    "Error extending booking: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
         });
         
         bookingManagementWindow.getBtnCancelBooking().addActionListener(e -> {
-            System.out.println("Cancel clicked for booking " + 
-                bookingManagementWindow.getSelectedBookingIdTextBox().getText());
+            String bookingId = bookingManagementWindow.getSelectedBookingIdTextBox().getText().trim();
+            
+            if (bookingId == null || bookingId.isEmpty() || bookingId.equals("null")) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please select a booking to cancel.",
+                    "No Booking Selected",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Confirm cancellation
+            int confirm = JOptionPane.showConfirmDialog(frame,
+                "Are you sure you want to cancel booking " + bookingId + "?",
+                "Confirm Cancellation",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+            
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    // Use BookingController to execute cancel command (REQ8)
+                    BookingController controller = BookingController.getInstance();
+                    boolean cancelled = controller.cancelBooking(bookingId);
+                    
+                    if (cancelled) {
+                        JOptionPane.showMessageDialog(frame,
+                            "Booking " + bookingId + " has been cancelled successfully.",
+                            "Booking Cancelled",
+                            JOptionPane.INFORMATION_MESSAGE);
+                        
+                        // Refresh the booking table
+                        refreshBookingTable();
+                        
+                        // Clear the selected booking fields
+                        bookingManagementWindow.getSelectedBookingIdTextBox().setText("");
+                        bookingManagementWindow.getSelectedRoomTextBox().setText("");
+                        bookingManagementWindow.getSelectedDateTextBox().setText("");
+                        bookingManagementWindow.getSelectedTimeTextBox().setText("");
+                        bookingManagementWindow.getNewDateTextBox().setText("");
+                        bookingManagementWindow.getNewStartTimeTextBox().setText("");
+                    } else {
+                        // Get more details about why cancellation failed
+                        Booking booking = bookingCSV.findById(bookingId);
+                        String errorMsg = "Failed to cancel booking. ";
+                        if (booking != null) {
+                            errorMsg += "Booking status: '" + booking.getStatus() + "'. ";
+                            errorMsg += "Booking must be in 'Reserved' state and start time must not have passed.";
+                        } else {
+                            errorMsg += "Booking not found.";
+                        }
+                        
+                        JOptionPane.showMessageDialog(frame,
+                            errorMsg,
+                            "Cancellation Failed",
+                            JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame,
+                        "Error cancelling booking: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
+                }
+            }
         });
         
         bookingManagementWindow.getBtnRefresh().addActionListener(e -> {
             System.out.println("Refresh clicked");
+            refreshBookingTable();
             refreshFrame();
         });
     }
@@ -549,14 +914,145 @@ public class MainFrame {
     private void wirePaymentWindowHandlers(PaymentWindow paymentWindow) {
         paymentWindow.getBtnConfirmPayment().addActionListener(e -> {
             String method = (String) paymentWindow.getPaymentMethodComboBox().getSelectedItem();
-            System.out.println("Payment confirmed for " + paymentWindow.getAmountTextBox().getText()
-                               + " via " + method);
-            JOptionPane.showMessageDialog(frame,
-                    "Payment processed for " + paymentWindow.getAmountTextBox().getText(),
-                    "Payment Successful",
+            
+            // Validate payment method selected
+            if (method == null || method.equals("Select a method...")) {
+                JOptionPane.showMessageDialog(frame,
+                    "Please select a payment method.",
+                    "Payment Method Required",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Get booking information from ReserveRoomWindow
+            String roomNumber = reserveRoomWindow.getRoomTextBox().getText().trim();
+            String bookingDate = reserveRoomWindow.getBookDateTextBox().getText().trim();
+            String bookingTime = reserveRoomWindow.getBookTimeTextBox().getText().trim();
+            String rateText = reserveRoomWindow.getHourlyRateTextBox().getText().trim();
+            
+            // Validate required fields
+            if (roomNumber.isEmpty() || bookingDate.isEmpty() || bookingTime.isEmpty() || rateText.isEmpty()) {
+                JOptionPane.showMessageDialog(frame,
+                    "Missing booking information. Please go back and complete the reservation form.",
+                    "Incomplete Booking",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Validate current user
+            if (currentUser == null || !(currentUser instanceof User)) {
+                JOptionPane.showMessageDialog(frame,
+                    "User session expired. Please login again.",
+                    "Session Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            try {
+                User user = (User) currentUser;
+                double rate = Double.parseDouble(rateText);
+                
+                // Parse time range (e.g., "09:00 - 11:00" or just "09:00")
+                String startTime = bookingTime;
+                String endTime = null;
+                int hours = 1; // Default to 1 hour
+                
+                if (bookingTime.contains(" - ")) {
+                    String[] times = bookingTime.split(" - ");
+                    startTime = times[0].trim();
+                    endTime = times.length > 1 ? times[1].trim() : null;
+                    
+                    // Calculate hours from time difference
+                    if (endTime != null) {
+                        try {
+                            String[] startParts = startTime.split(":");
+                            String[] endParts = endTime.split(":");
+                            int startHour = Integer.parseInt(startParts[0]);
+                            int startMin = startParts.length > 1 ? Integer.parseInt(startParts[1]) : 0;
+                            int endHour = Integer.parseInt(endParts[0]);
+                            int endMin = endParts.length > 1 ? Integer.parseInt(endParts[1]) : 0;
+                            
+                            int startTotalMinutes = startHour * 60 + startMin;
+                            int endTotalMinutes = endHour * 60 + endMin;
+                            int diffMinutes = endTotalMinutes - startTotalMinutes;
+                            
+                            // Round up to nearest hour
+                            hours = (int) Math.ceil(diffMinutes / 60.0);
+                            if (hours < 1) hours = 1;
+                        } catch (Exception ex) {
+                            // If parsing fails, default to 1 hour
+                            hours = 1;
+                        }
+                    }
+                }
+                
+                // If end time is not provided, calculate it as start time + 1 hour
+                if (endTime == null || endTime.trim().isEmpty()) {
+                    try {
+                        String[] startParts = startTime.split(":");
+                        int startHour = Integer.parseInt(startParts[0]);
+                        int startMin = startParts.length > 1 ? Integer.parseInt(startParts[1]) : 0;
+                        
+                        // Add 1 hour
+                        startHour += 1;
+                        if (startHour >= 24) {
+                            startHour = startHour % 24;
+                        }
+                        
+                        endTime = String.format("%02d:%02d", startHour, startMin);
+                        hours = 1; // Default to 1 hour
+                        System.out.println("Calculated end time from start time: " + startTime + " -> " + endTime);
+                    } catch (Exception ex) {
+                        System.err.println("Error calculating end time: " + ex.getMessage());
+                        // If calculation fails, default to start time + 1 hour as string
+                        endTime = startTime; // This will be handled by the backend
+                    }
+                }
+                
+                // Create booking using ReservationSystem
+                Booking booking = reservationSystem.createBooking(
+                    user,
+                    hours,
+                    rate,
+                    roomNumber,
+                    bookingDate,
+                    startTime,
+                    endTime
+                );
+                
+                System.out.println("Payment confirmed for " + paymentWindow.getAmountTextBox().getText()
+                                   + " via " + method);
+                System.out.println("Booking created: " + booking.getBookingId());
+                
+                JOptionPane.showMessageDialog(frame,
+                    "Payment processed and booking confirmed!\n" +
+                    "Booking ID: " + booking.getBookingId() + "\n" +
+                    "Room: " + roomNumber + "\n" +
+                    "Date: " + bookingDate + "\n" +
+                    "Time: " + bookingTime,
+                    "Booking Successful",
                     JOptionPane.INFORMATION_MESSAGE);
-            frame.setContentPane(dashboardWindow.getPane());
-            refreshFrame();
+                
+                // Clear reservation form
+                reserveRoomWindow.getRoomTextBox().setText("");
+                reserveRoomWindow.getBookDateTextBox().setText("");
+                reserveRoomWindow.getBookTimeTextBox().setText("");
+                reserveRoomWindow.getHourlyRateTextBox().setText("");
+                
+                frame.setContentPane(dashboardWindow.getPane());
+                refreshFrame();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame,
+                    "Invalid rate value. Please calculate the rate again.",
+                    "Invalid Rate",
+                    JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame,
+                    "Error creating booking: " + ex.getMessage(),
+                    "Booking Error",
+                    JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
         });
         
         paymentWindow.getBtnCancelPayment().addActionListener(e -> {
@@ -564,6 +1060,221 @@ public class MainFrame {
             frame.setContentPane(reserveRoomWindow.getPane());
             refreshFrame();
         });
+    }
+    
+    // Helper method to refresh reserve room table with rooms from RoomDatabase.csv
+    private void refreshReserveRoomTable() {
+        // Get all rooms from RoomDatabase.csv
+        List<Room> allRooms = roomService.getAllRooms();
+        DefaultTableModel model = (DefaultTableModel) reserveRoomWindow.getRoomTable().getModel();
+        
+        // Clear existing rows
+        model.setRowCount(0);
+        
+        // Add all rooms from RoomDatabase.csv
+        for (Room room : allRooms) {
+            // Determine status based on room status
+            // Note: Time slot availability is checked separately when booking
+            String status;
+            if (room.getStatus().equals("ENABLED")) {
+                // Room is enabled - show current condition
+                // Time slot availability will be checked when user selects a date/time
+                status = room.getCondition(); // Show current condition (Available, Reserved, InUse, etc.)
+            } else {
+                status = "Inactive";
+            }
+            
+            model.addRow(new Object[]{
+                room.getRoomNumber(),
+                room.getBuildingName(),
+                room.getCapacity(),
+                status
+            });
+        }
+        
+        // Add empty rows to fill table if needed
+        int emptyRows = Math.max(0, 15 - allRooms.size());
+        for (int i = 0; i < emptyRows; i++) {
+            model.addRow(new Object[]{null, null, null, null});
+        }
+    }
+    
+    // Helper method to refresh time slot table for currently selected room and date
+    // Made public so observers can call it
+    public void refreshTimeSlotTableForSelectedRoom() {
+        String roomNumber = reserveRoomWindow.getRoomTextBox().getText().trim();
+        String date = reserveRoomWindow.getBookDateTextBox().getText().trim();
+        refreshTimeSlotTable(roomNumber, date);
+    }
+    
+    // Helper method to refresh time slot table based on selected room and date
+    private void refreshTimeSlotTable(String roomNumber, String date) {
+        DefaultTableModel model = (DefaultTableModel) reserveRoomWindow.getTimeSlotTable().getModel();
+        
+        // Time slots from 09:00 to 16:00 in 30-minute intervals
+        String[] timeSlots = {
+            "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+            "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
+            "15:00", "15:30", "16:00"
+        };
+        
+        // Clear existing rows
+        model.setRowCount(0);
+        
+        // Normalize inputs
+        String normalizedRoomNumber = (roomNumber != null) ? roomNumber.trim() : "";
+        String normalizedDate = (date != null) ? date.trim() : "";
+        
+        System.out.println("refreshTimeSlotTable called with Room='" + normalizedRoomNumber + "', Date='" + normalizedDate + "'");
+        
+        // If no room or date selected, show all as available
+        if (normalizedRoomNumber.isEmpty() || normalizedDate.isEmpty()) {
+            System.out.println("refreshTimeSlotTable: No room or date, showing all available");
+            for (String time : timeSlots) {
+                model.addRow(new Object[]{time, "Available"});
+            }
+            return;
+        }
+        
+        // Get existing bookings for this room on this date from BookingDatabase.csv
+        List<Map<String, String>> existingBookings = bookingCSV.getBookingsForRoomAndDate(normalizedRoomNumber, normalizedDate);
+        
+        System.out.println("refreshTimeSlotTable: Room='" + normalizedRoomNumber + "', Date='" + normalizedDate + "', Found " + existingBookings.size() + " bookings");
+        
+        // Debug: Print all bookings found
+        for (Map<String, String> booking : existingBookings) {
+            System.out.println("  Booking: startTime='" + booking.get("startTime") + "', endTime='" + booking.get("endTime") + "'");
+        }
+        
+        // Populate time slot table
+        for (String timeSlot : timeSlots) {
+            String availability = "Available";
+            
+            // Check if this time slot conflicts with any existing booking
+            for (Map<String, String> booking : existingBookings) {
+                String bookingStartTime = booking.get("startTime");
+                String bookingEndTime = booking.get("endTime");
+                
+                if (bookingStartTime == null || bookingStartTime.trim().isEmpty()) {
+                    continue; // Skip if no start time
+                }
+                
+                bookingStartTime = bookingStartTime.trim();
+                
+                // First check: if the time slot exactly matches the booking start time, it's reserved
+                if (timeSlot.equals(bookingStartTime)) {
+                    availability = "Reserved";
+                    System.out.println("Time slot " + timeSlot + " is RESERVED (matches start time: " + bookingStartTime + ")");
+                    break;
+                }
+                
+                // Second check: if we have an end time, check if time slot falls within the booking range
+                if (bookingEndTime != null && !bookingEndTime.trim().isEmpty()) {
+                    bookingEndTime = bookingEndTime.trim();
+                    if (isTimeInRange(timeSlot, bookingStartTime, bookingEndTime)) {
+                        availability = "Reserved";
+                        System.out.println("Time slot " + timeSlot + " is RESERVED (within range: " + bookingStartTime + " - " + bookingEndTime + ")");
+                        break;
+                    }
+                }
+            }
+            
+            model.addRow(new Object[]{timeSlot, availability});
+        }
+    }
+    
+    // Helper method to check if a time is within a range
+    private boolean isTimeInRange(String time, String startTime, String endTime) {
+        try {
+            int timeMinutes = parseTimeToMinutes(time);
+            int startMinutes = parseTimeToMinutes(startTime);
+            int endMinutes = parseTimeToMinutes(endTime);
+            
+            // Check if time is within the range (inclusive start, inclusive end for time slots)
+            // A time slot is reserved if it falls within or exactly matches the booking range
+            return timeMinutes >= startMinutes && timeMinutes <= endMinutes;
+        } catch (Exception e) {
+            // If parsing fails, do simple string comparison
+            System.err.println("Error parsing time: " + e.getMessage());
+            return time.equals(startTime) || time.equals(endTime);
+        }
+    }
+    
+    // Helper method to parse time string (HH:MM) to minutes since midnight
+    private int parseTimeToMinutes(String time) {
+        if (time == null || time.trim().isEmpty()) {
+            return 0;
+        }
+        String[] parts = time.trim().split(":");
+        if (parts.length >= 2) {
+            int hours = Integer.parseInt(parts[0]);
+            int minutes = Integer.parseInt(parts[1]);
+            return hours * 60 + minutes;
+        }
+        return 0;
+    }
+    
+    // Helper method to refresh booking table from BookingDatabase.csv
+    // Made public so observers can call it
+    public void refreshBookingTable() {
+        System.out.println("refreshBookingTable: Loading all bookings from BookingDatabase.csv");
+        
+        DefaultTableModel model = (DefaultTableModel) bookingManagementWindow.getBookingTable().getModel();
+        
+        // Clear existing rows
+        model.setRowCount(0);
+        
+        // Get all booking records directly from CSV (no user lookup needed)
+        List<Map<String, String>> bookingRecords = bookingCSV.getAllBookingRecords();
+        
+        System.out.println("refreshBookingTable: Found " + bookingRecords.size() + " booking records in CSV");
+        
+        // Debug: Print all end times
+        for (Map<String, String> record : bookingRecords) {
+            System.out.println("refreshBookingTable: Booking " + record.get("bookingId") + 
+                             " - End time: " + record.get("endTime"));
+        }
+        
+        // Add all booking records to table
+        for (Map<String, String> record : bookingRecords) {
+            String bookingId = record.get("bookingId");
+            String roomId = record.get("roomId");
+            String buildingName = record.get("buildingName");
+            String roomNumber = record.get("roomNumber");
+            String date = record.get("date");
+            String startTime = record.get("startTime");
+            String endTime = record.get("endTime");
+            String status = record.get("status");
+            
+            System.out.println("Adding booking to table: " + bookingId + " - " + roomNumber + " - " + date);
+            
+            model.addRow(new Object[]{
+                bookingId,
+                roomId,
+                buildingName,
+                roomNumber,
+                date,
+                startTime,
+                endTime != null && !endTime.equals("N/A") ? endTime : "",
+                status
+            });
+        }
+        
+        // Add empty rows to fill table if needed
+        int emptyRows = Math.max(0, 10 - bookingRecords.size());
+        for (int i = 0; i < emptyRows; i++) {
+            model.addRow(new Object[]{null, null, null, null, null, null, null});
+        }
+        
+        // Force table to repaint and revalidate
+        bookingManagementWindow.getBookingTable().repaint();
+        bookingManagementWindow.getBookingTable().revalidate();
+        
+        // Fire table data changed event to ensure UI updates
+        model.fireTableDataChanged();
+        
+        System.out.println("Table refreshed. Total rows in table: " + model.getRowCount());
+        System.out.println("Table model row count: " + model.getRowCount() + ", column count: " + model.getColumnCount());
     }
     
     // Helper method to refresh room table from CSV
