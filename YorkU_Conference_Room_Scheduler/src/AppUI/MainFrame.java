@@ -144,7 +144,6 @@ public class MainFrame {
                 
                 currentUser = account;
                 clearLoginFields();
-
                 String accountType = account.getAccountType();
                 if(accountType.equals("Admin")) {
                     dashboardWindow.getBtnDashCECPanel().setVisible(false);
