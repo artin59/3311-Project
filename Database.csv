@@ -3,3 +3,5 @@ ID,Type,Org ID,Email,Password,Date Created
 c6ab9434-86d5-468a-be65-c20b12e957b2,Student,219457969,test@email.com,Art1234567$,Sun Nov 23 18:32:44 EST 2025
 c9469c1b-1a23-4a8f-811b-9b6774f741f9,Student,219457969,test@gmail.com,Art1234567$,Sun Nov 23 18:32:44 EST 2025
 98ca307f-4f09-4eb9-a8ba-283e7c8adb59,Admin,123456789,staff@gmail.com,Staff1234$,Sun Nov 23 18:32:44 EST 2025
+775f43ad-9803-4641-9a9f-a9b1eac0d33d,Student,132456789,artin@my.yorku.ca,Artin1234$,Sun Nov 23 18:50:15 EST 2025
+a14fcaaf-cd4f-40e6-aa2d-9ff7b126a3bd,Student,111111111,andy@my.yorku.ca,Andy1234$,Sun Nov 23 18:53:24 EST 2025

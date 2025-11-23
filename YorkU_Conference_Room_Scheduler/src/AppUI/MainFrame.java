@@ -283,9 +283,10 @@ public class MainFrame {
                 return;
             }
             
-            if (!ValidationUtil.isValidEmail(email)) {
+         // Validate email (account type specific)
+            if (!ValidationUtil.isValidEmail(email, accountType)) {
                 JOptionPane.showMessageDialog(frame, 
-                    ValidationUtil.getEmailRequirements(), 
+                    ValidationUtil.getEmailRequirements(accountType), 
                     "Invalid Email", 
                     JOptionPane.ERROR_MESSAGE);
                 return;
@@ -307,9 +308,10 @@ public class MainFrame {
                 return;
             }
             
-            if (!ValidationUtil.isValidOrgId(orgId)) {
+         // Validate org ID (account type specific)
+            if (!ValidationUtil.isValidOrgId(orgId, accountType)) {
                 JOptionPane.showMessageDialog(frame, 
-                    ValidationUtil.getOrgIdRequirements(), 
+                    ValidationUtil.getOrgIdRequirements(accountType), 
                     "Invalid Organization ID", 
                     JOptionPane.ERROR_MESSAGE);
                 return;
