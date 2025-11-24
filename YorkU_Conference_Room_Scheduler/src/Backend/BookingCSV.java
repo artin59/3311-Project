@@ -15,8 +15,8 @@ public class BookingCSV {
     
     private static BookingCSV instance = new BookingCSV();
     // Use the same directory as RoomDatabase.csv for consistency
-    private final String BOOKING_PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\BookingDatabase.csv";
-    private final String ROOM_PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\RoomDatabase.csv";
+    private final String BOOKING_PATH = "A:\\EECS 3311\\EECS 3311\\BookingDatabase.csv";
+    //private final String ROOM_PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\RoomDatabase.csv";
     
     private BookingCSV() {
         try {
@@ -946,14 +946,30 @@ public class BookingCSV {
             }
             
             Accounts account = userCSV.find(userId);
+            User user;
             
             if (account == null || !(account instanceof User)) {
+                // User not found - create a placeholder user for cancellation/management purposes
                 System.err.println("parseBookingFromRecord: User not found for ID: " + userIdStr);
-                System.err.println("parseBookingFromRecord: This booking cannot be displayed - user ID doesn't exist in user database");
-                return null;
+                System.err.println("parseBookingFromRecord: Creating placeholder user for booking management");
+                
+                // Create a placeholder Student user (simplest user type)
+                // Use a dummy email since we don't have the original email
+                user = new Student("deleted_user_" + userIdStr.substring(0, 8) + "@placeholder.com", 
+                                  "placeholder", "PLACEHOLDER");
+                
+                // Use reflection to set the accountId to match the UUID from CSV
+                try {
+                    java.lang.reflect.Method setAccountIdMethod = Accounts.class.getDeclaredMethod("setAccountId", UUID.class);
+                    setAccountIdMethod.setAccessible(true);
+                    setAccountIdMethod.invoke(user, userId);
+                } catch (Exception e) {
+                    System.err.println("parseBookingFromRecord: Warning - Could not set accountId for placeholder user: " + e.getMessage());
+                    // Continue anyway - the booking can still be managed
+                }
+            } else {
+                user = (User) account;
             }
-            
-            User user = (User) account;
             
             // Get end time from CSV first, then fallback to RoomDatabase.csv if not present
             String bookingEndTime = null;

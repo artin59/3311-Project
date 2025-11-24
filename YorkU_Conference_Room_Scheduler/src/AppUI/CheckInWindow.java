@@ -92,7 +92,7 @@ public class CheckInWindow {
 	    // 4. Simulate Scan button
 	    // =====================================================
 
-	    btnSimulateScan = new JButton("Simulate Scan");
+	    btnSimulateScan = new JButton("Check in");
 	    btnSimulateScan.setFont(new Font("Baskerville Old Face", Font.PLAIN, 22));
 	    btnSimulateScan.setBounds(220, 205, 260, 50);
 	    checkInPane.add(btnSimulateScan);
