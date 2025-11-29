@@ -15,8 +15,8 @@ public class BookingCSV {
     
     private static BookingCSV instance = new BookingCSV();
     // Use the same directory as RoomDatabase.csv for consistency
-    private final String BOOKING_PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\BookingDatabase.csv";
-    private final String ROOM_PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\RoomDatabase.csv";
+    private final String BOOKING_PATH = "../BookingDatabase.csv";
+    private final String ROOM_PATH = "../RoomDatabase.csv";
     
     private BookingCSV() {
         try {
@@ -81,18 +81,13 @@ public class BookingCSV {
             csvWrite.endRecord();
             csvWrite.close();
             
-            // Note: RoomDatabase.csv is updated by ReservationSystem through RoomService.bookRoom()
-            // before this method is called, so we don't need to update it again here
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    /**
-     * Calculate end time as start time + 1 hour
-     * @param startTime Start time in HH:MM format
-     * @return End time in HH:MM format (start time + 1 hour)
-     */
+   // Calculate end time as start time + 1 hour
+
     private String calculateEndTime(String startTime) {
         if (startTime == null || startTime.trim().isEmpty()) {
             return "";
@@ -180,15 +175,8 @@ public class BookingCSV {
         return hasTimeConflict(roomNumber, date, startTime, endTime, null);
     }
     
-    /**
-     * Check if there's a time conflict for a room on a given date and time range
-     * @param roomNumber The room number
-     * @param date The booking date
-     * @param startTime The start time
-     * @param endTime The end time
-     * @param excludeBookingId Optional booking ID to exclude from conflict check (e.g., when extending a booking)
-     * @return true if there's a conflict, false otherwise
-     */
+   //Check if there's a time conflict for a room on a given date and time range
+
     public boolean hasTimeConflict(String roomNumber, String date, String startTime, String endTime, String excludeBookingId) {
         System.out.println("hasTimeConflict: Checking for conflicts - Room: " + roomNumber + ", Date: " + date + 
                          ", Time: " + startTime + "-" + endTime + ", Exclude: " + excludeBookingId);
@@ -330,9 +318,6 @@ public class BookingCSV {
     }
     
     // Helper method to check if two time ranges overlap
-    // Two ranges overlap if they share any common time (excluding exact boundaries)
-    // e.g., 16:00-17:00 and 17:00-18:00 do NOT overlap (adjacent is OK)
-    // e.g., 16:00-18:00 and 17:00-19:00 DO overlap (17:00-18:00 is shared)
     private boolean timesOverlap(String start1, String end1, String start2, String end2) {
         try {
             // Parse times (assuming format HH:MM)
@@ -341,9 +326,7 @@ public class BookingCSV {
             int start2Minutes = parseTimeToMinutes(start2);
             int end2Minutes = parseTimeToMinutes(end2);
             
-            // Check for overlap: two ranges overlap if start1 < end2 AND start2 < end1
-            // This means they share some common time (excluding exact boundaries)
-            // Adjacent slots (e.g., 17:00-18:00 and 18:00-19:00) do NOT overlap
+
             boolean overlaps = start1Minutes < end2Minutes && start2Minutes < end1Minutes;
             System.out.println("timesOverlap: Range1=" + start1 + "-" + end1 + " (" + start1Minutes + "-" + end1Minutes + 
                              "), Range2=" + start2 + "-" + end2 + " (" + start2Minutes + "-" + end2Minutes + 
@@ -620,8 +603,6 @@ public class BookingCSV {
                                 }
                             } else {
                                 // This booking doesn't match the room's current booking
-                                // Room might be Available due to another booking being cancelled
-                                // Default to Reserved for this booking
                                 status = "Reserved";
                             }
                         }
@@ -946,14 +927,30 @@ public class BookingCSV {
             }
             
             Accounts account = userCSV.find(userId);
-            
+            User user;
+
+
             if (account == null || !(account instanceof User)) {
                 System.err.println("parseBookingFromRecord: User not found for ID: " + userIdStr);
-                System.err.println("parseBookingFromRecord: This booking cannot be displayed - user ID doesn't exist in user database");
-                return null;
+                System.err.println("parseBookingFromRecord: Creating placeholder user for booking management");
+                
+                user = new Student("deleted_user_" + userIdStr.substring(0, 8) + "@placeholder.com", 
+                                  "placeholder", "PLACEHOLDER");
+                
+                // Use reflection to set the accountId to match the UUID from CSV
+                try {
+                    java.lang.reflect.Method setAccountIdMethod = Accounts.class.getDeclaredMethod("setAccountId", UUID.class);
+                    setAccountIdMethod.setAccessible(true);
+                    setAccountIdMethod.invoke(user, userId);
+                } catch (Exception e) {
+                    System.err.println("parseBookingFromRecord: Warning - Could not set accountId for placeholder user: " + e.getMessage());
+                    // Continue anyway - the booking can still be managed
+                }
+            } else {
+                user = (User) account;
+            
             }
             
-            User user = (User) account;
             
             // Get end time from CSV first, then fallback to RoomDatabase.csv if not present
             String bookingEndTime = null;
@@ -972,7 +969,6 @@ public class BookingCSV {
             }
             
             // Get status from RoomDatabase.csv
-            // Only use room condition if this booking's time slot matches the room's current booking
             String status = "Reserved"; // Default status
             
             if (roomIdStr != null && !roomIdStr.isEmpty()) {
@@ -1031,8 +1027,6 @@ public class BookingCSV {
                             }
                         } else {
                             // This booking doesn't match the room's current booking
-                            // Room might be Available due to another booking being cancelled
-                            // Default to Reserved for this booking
                             status = "Reserved";
                         }
                     }

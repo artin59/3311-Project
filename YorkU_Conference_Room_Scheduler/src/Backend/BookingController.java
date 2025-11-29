@@ -30,29 +30,22 @@ public class BookingController {
         return instance;
     }
     
-    /**
-     * Add an observer to be notified of booking changes
-     * @param observer The observer to add
-     */
+    //Add an observer to be notified of booking changes
+
     public void addObserver(BookingObserver observer) {
         if (observer != null && !observers.contains(observer)) {
             observers.add(observer);
         }
     }
     
-    /**
-     * Remove an observer
-     * @param observer The observer to remove
-     */
+   //Remove an observer
     public void removeObserver(BookingObserver observer) {
         observers.remove(observer);
     }
     
-    /**
-     * Execute a cancel booking command
-     * @param bookingId The ID of the booking to cancel
-     * @return true if successful, false otherwise
-     */
+
+  //Execute a cancel booking command
+
     public boolean cancelBooking(String bookingId) {
         // Check if booking can be cancelled
         Booking booking = repository.findById(bookingId);
@@ -83,17 +76,8 @@ public class BookingController {
         return command.execute();
     }
     
-    /**
-     * Execute an edit booking command
-     * REQ8: Only executes if booking is in pre-start state
-     * @param bookingId The ID of the booking to edit
-     * @param newBuildingName New building name (null to keep current)
-     * @param newRoomNumber New room number (null to keep current)
-     * @param newDate New date (null to keep current)
-     * @param newStartTime New start time (null to keep current)
-     * @param newEndTime New end time (null to keep current)
-     * @return true if successful, false otherwise
-     */
+    //Execute an edit booking command
+    //REQ8: Only executes if booking is in pre-start state
     public boolean editBooking(String bookingId, String newBuildingName, String newRoomNumber, 
                               String newDate, String newStartTime, String newEndTime) {
         // Check if booking is in pre-start state before creating command
@@ -117,13 +101,10 @@ public class BookingController {
         return command.execute();
     }
     
-    /**
-     * Execute an extend booking command
-     * REQ9: Checks booking state (InUseState or ReservedState) and ensures end time has not passed
-     * @param bookingId The ID of the booking to extend
-     * @param extraDuration Additional duration in hours
-     * @return true if successful, false otherwise
-     */
+
+  //Execute an extend booking command
+ //REQ9: Checks booking state (InUseState or ReservedState) and ensures end time has not passed
+
     public boolean extendBooking(String bookingId, int extraDuration) {
         // Find the booking
         Booking booking = repository.findById(bookingId);

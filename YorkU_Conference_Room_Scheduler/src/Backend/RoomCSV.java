@@ -12,7 +12,7 @@ import com.csvreader.CsvWriter;
 public class RoomCSV {
     
     private static RoomCSV instance = new RoomCSV();
-    private final String PATH = "C:\\Users\\artin\\OneDrive\\Desktop\\School\\EECS 3311\\RoomDatabase.csv";
+    private final String PATH = "../RoomDatabase.csv";
     
     private RoomCSV() {
         try {

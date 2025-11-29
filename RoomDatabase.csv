@@ -1,3 +1,6 @@
 Room ID,Capacity,Building Name,Room Number,Status,Condition,Booking ID,Booking User ID,Booking Date,Booking Start Time,Booking End Time
-8515b943-1a27-464d-9976-061d335ac0af,20,Vari Hall,1,ENABLED,Reserved,,5f7e9c84-78b2-4b9f-918c-2f88c93988d3,23/11/2025,09:30,10:30
-8615b943-1a27-464d-9976-061d335ac0af,20,Berg,2,ENABLED,Available,,,,,
+8515b943-1a27-464d-9976-061d335ac0af,20,Vari Hall,1,ENABLED,Reserved,,5f7e9c84-78b2-4b9f-918c-2f88c93988d3,23/11/2025,9:30,10:30
+8615b943-1a27-464d-9976-061d335ac0af,20,Berg,2,ENABLED,InUse,,b2e58adb-4a16-4318-977d-10d8229eda6f,22/11/1016,14:00,15:00
+e36eb3e6-6bf5-48f1-a7ac-813a9f94a26d,30,Lassonde,3,ENABLED,Reserved,,dd2bbe55-dbc3-4044-9df2-90b20bdab9da,25/11/2025,13:00,14:00
+66ce3312-e247-480f-bff8-40758d268787,10,ACE,4,DISABLED,Available,,,,,
+2d0a9d91-a500-452a-9a84-b3b9966edcfd,40,ACW,5,ENABLED,Maintenance,,,,,

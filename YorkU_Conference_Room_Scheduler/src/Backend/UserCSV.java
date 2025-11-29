@@ -218,11 +218,10 @@ public class UserCSV {
             while (csvRead.readRecord()) {
                 String rowEmail = csvRead.get("Email");
                 if (rowEmail.equalsIgnoreCase(email)) {
-                    // Update this row - change Type to Admin, keep Org ID
                     String[] row = new String[headers.length];
                     row[0] = csvRead.get("ID");
-                    row[1] = newType; // Change to "Admin"
-                    row[2] = csvRead.get("Org ID"); // Keep original Org ID
+                    row[1] = newType; 
+                    row[2] = csvRead.get("Org ID"); 
                     row[3] = csvRead.get("Email");
                     row[4] = csvRead.get("Password");
                     row[5] = csvRead.get("Date Created");
