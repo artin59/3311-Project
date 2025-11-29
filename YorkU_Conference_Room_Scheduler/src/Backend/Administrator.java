@@ -6,6 +6,8 @@ public abstract class Administrator extends Accounts {
 		this.setAccountStatus("ACTIVE");
 	}
 
+	
+	//THESE ARE DONE IN THE GUI
 	public void addRoom() {
 		//TODO
 	}

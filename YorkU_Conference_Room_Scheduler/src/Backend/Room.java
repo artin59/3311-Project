@@ -11,6 +11,9 @@ public class Room {
     private String status; // ENABLED, DISABLED
     private RoomContext roomContext; // State pattern context
     
+    private int currentOccupancy;
+    
+    
     public Room(int capacity, String buildingName, String roomNumber) {
         this.roomId = UUID.randomUUID();
         this.capacity = capacity;
@@ -18,6 +21,8 @@ public class Room {
         this.roomNumber = roomNumber;
         this.status = "ENABLED";
         this.roomContext = new RoomContext(roomId);
+        this.currentOccupancy = 0;
+
     }
     
     // Constructor for loading from CSV
@@ -29,6 +34,8 @@ public class Room {
         this.roomNumber = roomNumber;
         this.status = status;
         this.roomContext = new RoomContext(roomId, parseState(stateName));
+        this.currentOccupancy = 0;
+
     }
     
     // Constructor with booking info (for loading from CSV)
@@ -36,6 +43,8 @@ public class Room {
                 String status, String stateName, String bookingId, UUID bookingUserId, 
                 String bookingDate, String bookingStartTime, String bookingEndTime) {
         this(roomId, capacity, buildingName, roomNumber, status, stateName);
+        this.currentOccupancy = 0;
+
         if (bookingUserId != null) {
             this.roomContext.setBookingInfo(bookingId, bookingUserId, bookingDate, bookingStartTime, bookingEndTime);
         }
@@ -75,8 +84,6 @@ public class Room {
     }
     
     // Delegate state actions to context
-    // Note: This method now allows booking even if room is already reserved
-    // Time conflict checking should be done before calling this method
     public void book(String bookingId, UUID userId, String date, String startTime, String endTime) {
         // Check if room is enabled (but allow booking even if already reserved for different time)
         if (!status.equals("ENABLED")) {
@@ -171,7 +178,54 @@ public class Room {
     public boolean hasActiveBooking() {
         return roomContext.hasActiveBooking();
     }
-    
+ // Check in people to the room
+    public boolean checkInPeople(int numberOfPeople) {
+        if (numberOfPeople <= 0) {
+            System.out.println("Number of people must be positive.");
+            return false;
+        }
+        
+        if (currentOccupancy + numberOfPeople > capacity) {
+            System.out.println("Cannot check in " + numberOfPeople + " people. Would exceed capacity of " 
+                              + capacity + ". Current occupancy: " + currentOccupancy);
+            return false;
+        }
+        
+        currentOccupancy += numberOfPeople;
+        System.out.println(numberOfPeople + " people checked in. Current occupancy: " 
+                          + currentOccupancy + "/" + capacity);
+        return true;
+    }
+
+    // Check out people from the room
+    public void checkOutPeople(int numberOfPeople) {
+        currentOccupancy -= numberOfPeople;
+        if (currentOccupancy < 0) {
+            currentOccupancy = 0;
+        }
+        System.out.println(numberOfPeople + " people checked out. Current occupancy: " 
+                          + currentOccupancy + "/" + capacity);
+    }
+
+    // Reset occupancy (called when room becomes available)
+    public void resetOccupancy() {
+        currentOccupancy = 0;
+        System.out.println("Room occupancy reset.");
+    }
+
+    // Getter for current occupancy
+    public int getCurrentOccupancy() {
+        return currentOccupancy;
+    }
+
+    // Check if room has space for more people
+    public boolean hasCapacityFor(int numberOfPeople) {
+        return (currentOccupancy + numberOfPeople) <= capacity;
+    }
+
+    public int getRemainingCapacity() {
+        return capacity - currentOccupancy;
+    }
     @Override
     public String toString() {
         return "Room [" + getLocation() + ", Capacity: " + capacity + 

@@ -124,7 +124,7 @@ public class MainFrame {
             String email = checkInWindow.getEmailTextBox().getText().trim();
             String occupants = checkInWindow.getOccupantsTextBox().getText().trim();
 
-            System.out.println("Simulate Scan");
+            System.out.println("Check in");
             System.out.println("Booking ID: " + bookingId);
             System.out.println("Email: " + email);
             System.out.println("Occupants: " + occupants);
@@ -785,7 +785,7 @@ public class MainFrame {
             }
         });
         
-        // Save Changes button (update condition)
+     // Save Changes button (update condition)
         adminConsoleWindow.getBtnSaveChanges().addActionListener(e -> {
             System.out.println("Admin Console: Save Changes clicked");
             
@@ -819,9 +819,11 @@ public class MainFrame {
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE);
                 refreshRoomTable();
+                refreshFrame();
             } else {
                 JOptionPane.showMessageDialog(frame,
-                    "Cannot change condition from " + currentCondition + " to " + selectedCondition + ".",
+                    "Cannot change condition from " + currentCondition + " to " + selectedCondition + 
+                    ". Please use the appropriate action or ensure the transition is valid.",
                     "Invalid Transition",
                     JOptionPane.ERROR_MESSAGE);
             }
@@ -1407,7 +1409,7 @@ public class MainFrame {
         }
     }
     
-    // Change room condition using RoomService
+ // Change room condition using RoomService
     private boolean changeRoomCondition(Room room, String targetState) {
         String currentState = room.getCondition();
         
@@ -1422,7 +1424,16 @@ public class MainFrame {
                 }
                 break;
             case "Maintenance":
+                // Admin can set to maintenance from Available, Reserved, InUse, or NoShow
                 if (currentState.equals("Available")) {
+                    return roomService.setRoomMaintenance(room.getRoomId());
+                } else if (currentState.equals("Reserved") || currentState.equals("InUse")) {
+                    // Cancel existing booking first, then set to maintenance
+                    roomService.cancelBooking(room.getRoomId());
+                    return roomService.setRoomMaintenance(room.getRoomId());
+                } else if (currentState.equals("NoShow")) {
+                    // Process no-show to available first, then set to maintenance
+                    roomService.cancelBooking(room.getRoomId());
                     return roomService.setRoomMaintenance(room.getRoomId());
                 }
                 break;

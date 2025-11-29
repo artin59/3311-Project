@@ -53,9 +53,6 @@ public class RoomService {
     }
     
     // Get available rooms (enabled AND in Available state)
-    // Get available rooms (enabled rooms - time slot availability should be checked separately)
-    // Note: This method returns all enabled rooms. Time slot availability should be checked
-    // using isRoomAvailableForTime() or getAvailableRooms() with time parameters
     public List<Room> getAvailableRooms() {
         List<Room> allRooms = roomCSV.findAll();
         List<Room> availableRooms = new ArrayList<>();
@@ -125,8 +122,6 @@ public class RoomService {
     }
     
     // Book a room
-    // Note: This method now allows multiple bookings per room at different times
-    // Time conflict checking is done in ReservationSystem before calling this method
     public boolean bookRoom(UUID roomId, String bookingId, UUID userId, String date, String startTime, String endTime) {
         Room room = roomCSV.findById(roomId);
         
@@ -135,7 +130,6 @@ public class RoomService {
             return false;
         }
         
-        // Check if room is enabled (but allow booking even if already reserved for different time)
         if (!room.getStatus().equals("ENABLED")) {
             System.out.println("Room is not enabled for booking.");
             return false;
@@ -178,6 +172,9 @@ public class RoomService {
             System.out.println("Room is not in use. Cannot check out.");
             return false;
         }
+        
+        // Reset occupancy when checking out
+        room.resetOccupancy();
         
         room.checkOut();
         roomCSV.update(room);
@@ -317,4 +314,36 @@ public class RoomService {
         }
         return filteredRooms;
     }
+    public boolean checkInWithOccupancy(UUID roomId, int numberOfPeople) {
+        Room room = roomCSV.findById(roomId);
+        
+        if (room == null) {
+            System.out.println("Room not found.");
+            return false;
+        }
+        
+        if (!room.getCondition().equals("Reserved")) {
+            System.out.println("Room is not in Reserved state. Cannot check in.");
+            return false;
+        }
+        
+        // Check if room has capacity for the people
+        if (!room.hasCapacityFor(numberOfPeople)) {
+            System.out.println("Cannot check in. Room capacity: " + room.getCapacity() 
+                              + ", Current occupancy: " + room.getCurrentOccupancy()
+                              + ", Trying to add: " + numberOfPeople);
+            return false;
+        }
+        
+        // Add people to the room
+        if (!room.checkInPeople(numberOfPeople)) {
+            return false;
+        }
+        
+        // Change state to InUse
+        room.checkIn();
+        roomCSV.update(room);
+        return true;
+    }
+    
 }

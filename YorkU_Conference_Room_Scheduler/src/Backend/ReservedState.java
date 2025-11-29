@@ -29,7 +29,6 @@ public class ReservedState implements RoomState {
     public void checkIn(RoomContext context) {
         context.setState(InUseState.getInstance());
         System.out.println("Checked in to room " + context.getRoomId() + ". Room is now in use.");
-        // TODO: Additional check-in logic can be added here (modular for future implementation)
     }
     
     @Override
@@ -37,12 +36,10 @@ public class ReservedState implements RoomState {
         context.clearBookingInfo();
         context.setState(AvailableState.getInstance());
         System.out.println("Booking cancelled for room " + context.getRoomId() + ". Room is now available.");
-        // TODO: Refund logic can be added here (modular for future implementation)
     }
     
     @Override
     public void extendBooking(RoomContext context, int additionalHours) {
-        // TODO: Extend booking time logic
         System.out.println("Booking extended by " + additionalHours + " hours for room " + context.getRoomId());
     }
     
@@ -50,6 +47,5 @@ public class ReservedState implements RoomState {
     public void triggerNoShow(RoomContext context) {
         context.setState(NoShowState.getInstance());
         System.out.println("No-show triggered for room " + context.getRoomId());
-        // TODO: Deposit forfeiture logic can be added here (modular for future implementation)
     }
 }
