@@ -513,8 +513,26 @@ public class BookingCSVTest {
     public void testBookingCSV_ParseBookingFromRecord_BookingMatchesRoom_InUse() throws Exception {
         RoomService roomService = new RoomService();
         String bookingId = "MATCH001";
-        /*
-        Room matchRoom = roomService.addRoom(15, "BuildingMatch", "MATCH001");
+        
+        // Check if room already exists and delete it first
+        Room existingRoom = roomCSV.findByLocation("BuildingMatch", "MATCH001");
+        if (existingRoom != null) {
+            // Delete any bookings for this room first
+            List<Booking> bookings = bookingCSV.findAll();
+            for (Booking b : bookings) {
+                if (b.getRoomNumber() != null && b.getRoomNumber().equals("MATCH001")) {
+                    bookingCSV.deleteBooking(b.getBookingId());
+                }
+            }
+            // Can't easily delete room, so just use the existing one
+            Room matchRoom = existingRoom;
+        } else {
+            Room matchRoom = roomService.addRoom(15, "BuildingMatch", "MATCH001");
+            assertNotNull("Room should be created", matchRoom);
+        }
+        
+        Room matchRoom = roomCSV.findByLocation("BuildingMatch", "MATCH001");
+        assertNotNull("Room should exist", matchRoom);
         String futureDate = getFutureDate();
         
         matchRoom.getRoomContext().setBookingInfo(bookingId, testUser.getAccountId(), futureDate, "10:00", "11:00");
@@ -528,17 +546,23 @@ public class BookingCSVTest {
         Booking found = bookingCSV.findById(bookingId);
         assertNotNull("Booking should be found", found);
         assertEquals("Status should be InUse when room condition is InUse", "InUse", found.getStatus());
-        */
+        
     }
     
     @Test
     public void testBookingCSV_ParseBookingFromRecord_BookingMatchesRoom_Available() throws Exception {
         RoomService roomService = new RoomService();
         String bookingId = "MATCH002";
-        Room matchRoom = roomService.addRoom(15, "BuildingMatch2", "MATCH002");
+        
+        // Check if room already exists, if not create it
+        Room matchRoom = roomCSV.findByLocation("BuildingMatch2", "MATCH002");
+        if (matchRoom == null) {
+            matchRoom = roomService.addRoom(15, "BuildingMatch2", "MATCH002");
+            assertNotNull("Room should be created", matchRoom);
+        }
+        
         String futureDate = getFutureDate();
         
-        /*
         matchRoom.getRoomContext().setBookingInfo(bookingId, testUser.getAccountId(), futureDate, "10:00", "11:00");
         matchRoom.getRoomContext().setState(AvailableState.getInstance());
         roomCSV.update(matchRoom);
@@ -550,18 +574,23 @@ public class BookingCSVTest {
         Booking found = bookingCSV.findById(bookingId);
         assertNotNull("Booking should be found", found);
         assertEquals("Status should be Completed when room condition is Available", "Completed", found.getStatus());
-        */
+        
     }
     
     @Test
     public void testBookingCSV_ParseBookingFromRecord_BookingMatchesRoom_Reserved() throws Exception {
         RoomService roomService = new RoomService();
         String bookingId = "MATCH003";
-        Room matchRoom = roomService.addRoom(15, "BuildingMatch3", "MATCH003");
+        
+        // Check if room already exists, if not create it
+        Room matchRoom = roomCSV.findByLocation("BuildingMatch3", "MATCH003");
+        if (matchRoom == null) {
+            matchRoom = roomService.addRoom(15, "BuildingMatch3", "MATCH003");
+            assertNotNull("Room should be created", matchRoom);
+        }
+        
         String futureDate = getFutureDate();
         
-        
-        /*
         matchRoom.getRoomContext().setBookingInfo(bookingId, testUser.getAccountId(), futureDate, "10:00", "11:00");
         matchRoom.getRoomContext().setState(ReservedState.getInstance());
         roomCSV.update(matchRoom);
@@ -574,7 +603,6 @@ public class BookingCSVTest {
         assertNotNull("Booking should be found", found);
         assertEquals("Status should be Reserved when room condition is Reserved", "Reserved", found.getStatus());
         
-        */
     }
     
     @Test
@@ -582,8 +610,13 @@ public class BookingCSVTest {
         RoomService roomService = new RoomService();
         String bookingId = "MATCH004";
         
-        /*
-        Room matchRoom = roomService.addRoom(15, "BuildingMatch4", "MATCH004");
+        // Check if room already exists, if not create it
+        Room matchRoom = roomCSV.findByLocation("BuildingMatch4", "MATCH004");
+        if (matchRoom == null) {
+            matchRoom = roomService.addRoom(15, "BuildingMatch4", "MATCH004");
+            assertNotNull("Room should be created", matchRoom);
+        }
+        
         String futureDate = getFutureDate();
         
         matchRoom.getRoomContext().setBookingInfo(bookingId, testUser.getAccountId(), futureDate, "10:00", "11:00");
@@ -597,7 +630,7 @@ public class BookingCSVTest {
         Booking found = bookingCSV.findById(bookingId);
         assertNotNull("Booking should be found", found);
         assertEquals("Status should be Reserved (default) when room condition is not InUse/Available/Reserved", "Reserved", found.getStatus());
-    */
+    
     }
     
     @Test
@@ -605,8 +638,13 @@ public class BookingCSVTest {
         RoomService roomService = new RoomService();
         String bookingId = "MATCH005";
         
-        /*
-        Room matchRoom = roomService.addRoom(15, "BuildingMatch5", "MATCH005");
+        // Check if room already exists, if not create it
+        Room matchRoom = roomCSV.findByLocation("BuildingMatch5", "MATCH005");
+        if (matchRoom == null) {
+            matchRoom = roomService.addRoom(15, "BuildingMatch5", "MATCH005");
+            assertNotNull("Room should be created", matchRoom);
+        }
+        
         String futureDate = getFutureDate();
         
         matchRoom.getRoomContext().setBookingInfo(bookingId, testUser.getAccountId(), futureDate, "10:00", "11:00");
@@ -623,16 +661,23 @@ public class BookingCSVTest {
         Booking found = bookingCSV.findById(bookingId);
         assertNotNull("Booking should be found", found);
         assertNotNull("Status should be set", found.getStatus());
-        */
+        
     }
     
     @Test
     public void testBookingCSV_ParseBookingFromRecord_BookingDoesNotMatchRoom() throws Exception {
         RoomService roomService = new RoomService();
         String bookingId = "MATCH006";
-        Room matchRoom = roomService.addRoom(15, "BuildingMatch6", "MATCH006");
+        
+        // Check if room already exists, if not create it
+        Room matchRoom = roomCSV.findByLocation("BuildingMatch6", "MATCH006");
+        if (matchRoom == null) {
+            matchRoom = roomService.addRoom(15, "BuildingMatch6", "MATCH006");
+            assertNotNull("Room should be created", matchRoom);
+        }
+        
         String futureDate = getFutureDate();
-        /*
+        
         matchRoom.getRoomContext().setBookingInfo("DIFFERENT_ID", testUser.getAccountId(), futureDate, "10:00", "11:00");
         matchRoom.getRoomContext().setState(InUseState.getInstance());
         roomCSV.update(matchRoom);
@@ -644,18 +689,24 @@ public class BookingCSVTest {
         Booking found = bookingCSV.findById(bookingId);
         assertNotNull("Booking should be found", found);
         assertEquals("Status should be Reserved (default) when booking does not match room", "Reserved", found.getStatus());
-        */
+        
     }
     
     @Test
     public void testBookingCSV_ParseBookingFromRecord_BookingMatchesRoom_DifferentDate() throws Exception {
         RoomService roomService = new RoomService();
         String bookingId = "MATCH007";
-        Room matchRoom = roomService.addRoom(15, "BuildingMatch7", "MATCH007");
+        
+        // Check if room already exists, if not create it
+        Room matchRoom = roomCSV.findByLocation("BuildingMatch7", "MATCH007");
+        if (matchRoom == null) {
+            matchRoom = roomService.addRoom(15, "BuildingMatch7", "MATCH007");
+            assertNotNull("Room should be created", matchRoom);
+        }
+        
         String futureDate = getFutureDate();
         String differentDate = "2024-12-31";
         
-        /*
         matchRoom.getRoomContext().setBookingInfo(bookingId, testUser.getAccountId(), differentDate, "10:00", "11:00");
         matchRoom.getRoomContext().setState(InUseState.getInstance());
         roomCSV.update(matchRoom);
@@ -667,16 +718,21 @@ public class BookingCSVTest {
         Booking found = bookingCSV.findById(bookingId);
         assertNotNull("Booking should be found", found);
         assertEquals("Status should be Reserved (default) when booking date does not match room", "Reserved", found.getStatus());
-        */
+        
     }
     
     @Test
     public void testBookingCSV_ParseBookingFromRecord_BookingMatchesRoom_DifferentStartTime() throws Exception {
         RoomService roomService = new RoomService();
         String bookingId = "MATCH008";
-        Room matchRoom = roomService.addRoom(15, "BuildingMatch8", "MATCH008");
         
-        /*
+        // Check if room already exists, if not create it
+        Room matchRoom = roomCSV.findByLocation("BuildingMatch8", "MATCH008");
+        if (matchRoom == null) {
+            matchRoom = roomService.addRoom(15, "BuildingMatch8", "MATCH008");
+            assertNotNull("Room should be created", matchRoom);
+        }
+        
         String futureDate = getFutureDate();
         
         matchRoom.getRoomContext().setBookingInfo(bookingId, testUser.getAccountId(), futureDate, "14:00", "15:00");
@@ -690,7 +746,7 @@ public class BookingCSVTest {
         Booking found = bookingCSV.findById(bookingId);
         assertNotNull("Booking should be found", found);
         assertEquals("Status should be Reserved (default) when booking start time does not match room", "Reserved", found.getStatus());
-   */
+   
     }
     
     @Test
@@ -717,7 +773,7 @@ public class BookingCSVTest {
         
         File bookingFile = new File(TEST_BOOKING_PATH);
         CsvWriter csvWrite = new CsvWriter(new FileWriter(TEST_BOOKING_PATH, true), ',');
-        csvWrite.write("");  // Empty booking ID - should be generated
+        csvWrite.write("");
         csvWrite.write(testRoomForGen.getRoomId().toString());
         csvWrite.write(testRoomForGen.getBuildingName());
         csvWrite.write(testRoomForGen.getRoomNumber());
@@ -730,22 +786,9 @@ public class BookingCSVTest {
         
         List<Booking> bookings = bookingCSV.findAll();
         boolean foundGenerated = false;
-        
-        // Debug: Print all bookings to see what we have
-        System.out.println("Total bookings found: " + bookings.size());
         for (Booking b : bookings) {
-            System.out.println("Booking: ID=" + b.getBookingId() + ", Room=" + b.getRoomNumber() + 
-                             ", Date=" + b.getBookingDate() + ", Start=" + b.getBookingStartTime());
-        }
-        
-        for (Booking b : bookings) {
-            // Add null checks and also check start time to be more specific
-            if (b.getRoomNumber() != null && 
-                b.getRoomNumber().equals(testRoomForGen.getRoomNumber()) && 
-                b.getBookingDate() != null &&
-                b.getBookingDate().equals(futureDate) &&
-                b.getBookingStartTime() != null &&
-                b.getBookingStartTime().equals("10:00")) {
+            if (b.getRoomNumber().equals(testRoomForGen.getRoomNumber()) && 
+                b.getBookingDate().equals(futureDate)) {
                 assertNotNull("Booking ID should be generated", b.getBookingId());
                 assertTrue("Booking ID should start with B", b.getBookingId().startsWith("B"));
                 String expectedPrefix = testRoomForGen.getRoomId().toString().substring(0, 8).toUpperCase();
@@ -754,15 +797,6 @@ public class BookingCSVTest {
                 break;
             }
         }
-        
-        // If not found, provide more helpful error message
-        if (!foundGenerated) {
-            System.err.println("Could not find booking with:");
-            System.err.println("  Room Number: " + testRoomForGen.getRoomNumber());
-            System.err.println("  Date: " + futureDate);
-            System.err.println("  Start Time: 10:00");
-        }
-        
         assertFalse("Should find booking with generated ID", foundGenerated);
     }
     
