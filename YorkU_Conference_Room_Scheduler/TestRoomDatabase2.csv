@@ -1,2 +1,3 @@
 Room ID,Capacity,Building Name,Room Number,Status,Condition,Booking ID,Booking User ID,Booking Date,Booking Start Time,Booking End Time
 54fdb95f-e29d-4c15-831f-08428b6774d2,10,BuildingA,101,ENABLED,Available,,,,,
+64fdb95f-e29d-4c15-831f-08428b6774d3,20,BuildingB,202,ENABLED,Available,,,,,

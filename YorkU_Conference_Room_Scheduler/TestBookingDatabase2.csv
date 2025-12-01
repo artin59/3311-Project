@@ -1,1 +1,4 @@
-BookingID,RoomID,Building Name,Room Number,Booking UserID,Booking Date,Booking Start Time,Booking End Time
+BookingID,RoomID,Building Name
+TEST015,784f29cf-14c2-4bd7-9f0d-0f6a6e255557,BuildingA
+TEST016,784f29cf-14c2-4bd7-9f0d-0f6a6e255557,BuildingA,101,58a41421-6f02-4838-982c-231738fbdd4b,2024-01-25,10:00,11:00
+Invalid line with unclosed quotes "test
