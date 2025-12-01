@@ -61,7 +61,13 @@ public class EditBookingCommand implements Command {
         originalDate = booking.getBookingDate();
         originalStartTime = booking.getBookingStartTime();
         originalEndTime = booking.getBookingEndTime();
-        originalCost = booking.getTotalCost();
+        
+        // Calculate original cost using the same pricing policy to ensure consistency
+        // This ensures we compare apples to apples when calculating price difference
+        int originalHours = calculateHours(originalStartTime, originalEndTime);
+        PricingPolicy policy = pricingFactory.createPolicy(booking.getUser());
+        double originalRate = policy.calculateRate(booking.getUser());
+        originalCost = originalHours * originalRate;  // Calculate using same policy as new cost
         
         // Check if booking is in pre-start state (REQ8 requirement)
         if (!BookingTimeUtil.isPreStartState(booking)) {
@@ -122,20 +128,26 @@ public class EditBookingCommand implements Command {
         }
         
         // Recalculate hours and price (REQ8)
-        int newHours = calculateHours(newStartTime != null ? newStartTime : booking.getBookingStartTime(),
-                                      newEndTime != null ? newEndTime : booking.getBookingEndTime());
+        // Use the booking's current times (which have been updated above)
+        int newHours = calculateHours(booking.getBookingStartTime(), booking.getBookingEndTime());
+        
         booking.setHours(newHours);
         
         // Recalculate rate using pricing strategy (REQ8)
         // Use Strategy pattern to get appropriate pricing strategy for user type
-        PricingPolicy policy = pricingFactory.createPolicy(booking.getUser());
-        double newRate = policy.calculateRate(booking.getUser());
+        PricingPolicy policy1 = pricingFactory.createPolicy(booking.getUser());
+        double newRate = policy1.calculateRate(booking.getUser());
         booking.setRate(newRate); // Update rate first
         booking.setHours(newHours); // This will recalculate totalCost based on new rate and hours
         double newTotalCost = booking.getTotalCost();
         
         // Calculate price difference
         double priceDifference = newTotalCost - originalCost;
+        
+        // Debug output
+        System.out.println("EditBookingCommand: Original cost: " + originalCost);
+        System.out.println("EditBookingCommand: New total cost: " + newTotalCost);
+        System.out.println("EditBookingCommand: Price difference: " + priceDifference);
         
         // Adjust payment (REQ8)
         if (priceDifference > 0) {

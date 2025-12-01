@@ -116,6 +116,9 @@ public class BookingCSV {
     }
     
     private Room findRoomByNumber(String roomNumber) {
+        if (roomNumber == null) {
+            return null;  // Return null if room number is null
+        }
         RoomService roomService = new RoomService();
         List<Room> allRooms = roomService.getAllRooms();
         for (Room room : allRooms) {
@@ -911,10 +914,11 @@ public class BookingCSV {
                 System.out.println("parseBookingFromRecord: Missing Booking UserID");
                 return null;
             }
-            if (roomNumber == null || roomNumber.trim().isEmpty()) {
-                System.out.println("parseBookingFromRecord: Missing Room Number");
-                return null;
-            }
+            // Allow null/empty room numbers - don't return null for this
+            // if (roomNumber == null || roomNumber.trim().isEmpty()) {
+            //     System.out.println("parseBookingFromRecord: Missing Room Number");
+            //     return null;
+            // }
             
             // Get user from database by ID
             UserCSV userCSV = UserCSV.getInstance();
@@ -1094,8 +1098,11 @@ public class BookingCSV {
             
             System.out.println("parseBookingFromRecord: Using BookingID: " + bookingId);
             
+            // Handle null/empty room number - use empty string or null
+            String finalRoomNumber = (roomNumber != null && !roomNumber.trim().isEmpty()) ? roomNumber : null;
+            
             Booking booking = new Booking(bookingId, user, hours, rate, 
-                                         roomNumber, bookingDate, bookingStartTime, bookingEndTime);
+                                         finalRoomNumber, bookingDate, bookingStartTime, bookingEndTime);
             booking.setStatus(status);
             return booking;
         } catch (Exception e) {
