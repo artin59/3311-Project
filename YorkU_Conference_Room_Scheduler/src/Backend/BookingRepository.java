@@ -10,7 +10,7 @@ public class BookingRepository {
     private static BookingRepository instance;
     private BookingCSV bookingCSV;
     
-    private BookingRepository() {
+    BookingRepository() {
         this.bookingCSV = BookingCSV.getInstance();
     }
     

@@ -7,7 +7,7 @@ public class PaymentService {
     private static PaymentService instance;
     private PaymentProcessor processor;
     
-    private PaymentService() {
+    public PaymentService() {
         // Default processor - can be set via setProcessor
         this.processor = null;
     }

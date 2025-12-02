@@ -73,7 +73,7 @@ public class RoomContext {
     
     // Booking info methods
     public void setBookingInfo(String bookingId2, UUID userId, String date, String startTime, String endTime) {
-        this.bookingId = bookingId;
+        this.bookingId = bookingId2;  // Fixed: use bookingId2 parameter instead of bookingId field
         this.bookingUserId = userId;
         this.bookingDate = date;
         this.bookingStartTime = startTime;

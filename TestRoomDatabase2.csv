@@ -1,0 +1,2 @@
+RoomID,Capacity,BuildingName,RoomNumber,Status,Condition,CurrentOccupancy,BookingID,UserID,Date,StartTime,EndTime
+54fdb95f-e29d-4c15-831f-08428b6774d2,10,BuildingA,101,ENABLED,OPEN,,,,,,

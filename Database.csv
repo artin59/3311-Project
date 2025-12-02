@@ -1,8 +1,1327 @@
 ID,Type,Org ID,Email,Password,Date Created
-91e1dd67-7516-4a93-a864-af842eeacb0e,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Sun Nov 23 18:32:31 EST 2025
-c6ab9434-86d5-468a-be65-c20b12e957b2,Student,219457969,test@email.com,Art1234567$,Sun Nov 23 18:32:44 EST 2025
-c9469c1b-1a23-4a8f-811b-9b6774f741f9,Student,219457969,test@gmail.com,Art1234567$,Sun Nov 23 18:32:44 EST 2025
-98ca307f-4f09-4eb9-a8ba-283e7c8adb59,Admin,123456789,staff@gmail.com,Staff1234$,Sun Nov 23 18:32:44 EST 2025
-775f43ad-9803-4641-9a9f-a9b1eac0d33d,Student,132456789,artin@my.yorku.ca,Artin1234$,Sun Nov 23 18:50:15 EST 2025
-a14fcaaf-cd4f-40e6-aa2d-9ff7b126a3bd,Student,111111111,andy@my.yorku.ca,Andy1234$,Sun Nov 23 18:53:24 EST 2025
-b8943df6-2413-41aa-afaf-39ddda6fb8eb,Admin,123456789,admin@gmail.com,Admin1234$,Sun Nov 23 19:30:51 EST 2025
+296f874c-f713-41a9-b2ad-f06fdca3e6c1,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ee472b1b-58bb-44c4-a2a7-5b6e03df9e80,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ad8bb23f-7f9b-4cfc-9de4-ebdb473a14f5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+935727dc-9629-4f9b-9085-c7e701dc59d1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+80a87a94-8f27-4412-8f68-8ba5c08126eb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+eac1515c-8c9a-4b79-986d-6255e21ad2fe,Student,10101010,update1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+58d30809-8cb5-40c6-8cd9-12bc58780ea1,Student,20202020,update2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+48846a43-f07b-433a-8a16-6682dfec98b5,Student,99999999,updateemail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+16fa717b-500b-4ac9-a170-4a3abe668dfc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+216fdf5d-03fe-4f5f-8353-9f06bd3673b2,Student,88888888,update@yorku.ca,oldpassword,Mon Dec 01 19:34:14 EST 2025
+97ec6b13-8a89-47d5-a577-edf713755e28,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bc15a8ee-4ef9-4451-b7c1-b0be56edb6fe,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+767b4f18-75f9-43e2-a36a-029d26b7d07c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6a360fcc-cbde-4d65-91a8-6148717a829a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+882717e9-4bf2-49e9-98c0-47b8a7912af7,Faculty,40404040,updatetypecase@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+78b52156-bfba-4c89-9156-4968a43afb89,Student,12345678,roombooking@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d619a59a-f4e2-4dc5-9ff8-ae23f84da299,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b04a5cb8-ccab-4672-9dfe-d2e11c806930,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+de904316-b723-4ec7-a4f7-46d4c1829a3f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c36635a8-2394-4418-ae01-b0447b06cb76,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+44e358fe-a090-4c35-a7b6-4696f91ce684,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3cd6bcc6-6832-4a1b-90e4-543618c6ef6d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6172be2f-4138-4a32-8963-7e7a0d66c5e3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f8efc2d4-1e9a-488d-bce3-7b9952eb2df5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bce0f8d5-942d-4ba2-b00b-4f58d5406f2c,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+bbd96fc3-0c27-40b3-9980-1361d2080870,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2df585ec-22a0-42bb-aa61-7de7ccaa673c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+495f609a-2a82-4e7c-b9ad-1191f5f70b9c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bcc5d267-096e-4c03-81e9-683ee93cb650,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a26bc094-44fe-4622-90b6-585b15fb6167,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8955370e-61d6-4e15-a0a6-978980af9f15,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8fb72b6a-1b51-4ed2-9cf6-568e61ce94ef,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+1db66937-d6c5-4e09-bead-0ffb512afcff,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+60ded77e-ae5a-4d9b-af8f-b27c163becb8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+21e78e31-50da-4633-988d-1f763c70e04d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0ed89561-a60a-4f41-967d-1ad749e7c284,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9c256937-2abf-4b39-997d-9c1ee728e5ca,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c0d1a410-bfc3-49fb-93ac-fe9ec7d1d12d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2e0108cf-1246-4f71-905a-366d98324c76,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7002e341-ffc1-4c48-bc37-4e3674537227,Student,12345678,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5935385e-d8aa-4f33-81ec-72d4d3157a0c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4be2a5dd-3117-4464-8458-5a2a5ea77c76,Student,12345678,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ee207ae8-bc77-4161-9d57-0856fea3048e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b6a8b00e-cbf1-4ac2-822f-42b49e7d406b,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a1eb024b-0ac0-4ad3-8aea-1fcbeb96ddfe,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d8b99b83-f0d9-4798-bf8f-c1cab27ae537,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a98049c0-b59d-443b-aef6-abee909a2584,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4d9cc986-605b-45f6-af42-c58b0550f7a8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1b4884aa-674c-44c1-b31b-6bb7b56c3934,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1ea52c48-7ea7-4972-b4c3-ef18c0ab3dda,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ef96250f-8623-4106-91a2-f2bd84d42335,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2885522c-1164-4f90-a08c-7811afb79460,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d67602c1-68aa-4f9a-b2b0-8cb31c21503e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+58acd2f1-38bf-49e4-a8a3-6d8ec782a1ac,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1ebc144a-227d-4f65-8dc7-75d582c7385e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d25eab3d-804e-4aea-a67d-d8c1a4fcc47f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+29e6bce6-6a6b-432c-a766-6e1734c554fa,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a1b75845-0131-4039-b844-ba90afed9338,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+00142e0b-99e7-42c7-b58a-5f5a80f77143,Student,12345678,checkinuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9f24ab47-8e07-4993-84f4-1500dbc0f080,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8fd44c30-948e-4112-ad56-b654f85b042a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f313b3ba-9d62-4953-863d-03a569a6620b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+29c70840-cc1b-40ab-a7cc-b9ceb288c1ee,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3a9f65eb-644f-4c00-af63-988f8c254f68,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e8e75fe3-f164-41e7-8397-60d390f32719,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7e7edeae-39eb-42aa-b0dd-0e2d476c0146,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+75a3e350-7806-48f5-9c5f-d3c26f21d56e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7b0a1cc4-88ae-4b77-acf5-e24e83c1b7dd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+00dd72d0-69f1-4434-a6a2-fd984f0f37a5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cba93631-745b-458f-b94a-84cdaadff189,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+568720f0-4410-485b-ab5b-5ddc042e6b0a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0f7fae13-93ec-49b9-9102-744a29e95549,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6c0b0361-2fd4-4e49-a9d0-42c25e24ee43,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4d14afbb-f4dc-4b24-8404-649859b7ce45,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ff22655d-3719-4296-b8ad-2a0ffaa4cd84,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+852d9c24-f814-4089-a1bd-334e0058fe01,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4343a768-f6e0-449b-9a24-31cae7c0c16f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b4916f88-6321-469b-8cd6-8c496eb15937,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6c49b2c4-7caf-4e39-a9e9-84b066baf8be,Student,12345678,noroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2944d459-5b16-49ee-b4eb-1dc4a47f6ea0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9b954143-17d9-458d-8f21-e57ab0e8456e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0044920f-2a50-4039-99f0-f1de270a6dcc,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+e278d7a7-c2ef-4284-8b7d-c1b0ab2f0a9f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+06e009ed-8a5c-418e-ad6a-d4b41d21bd3b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+09d138be-2048-455c-ad8c-53ce105491f0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f9d97cd5-0d66-4364-9dbe-9bd487c7d2b0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+613c0527-9fbe-4795-a34a-97d0368a3d1e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a17e4800-a594-4789-8dce-b99447d0eaeb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+74f65aeb-9476-4c01-934f-b661f101bc00,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+70cb18b2-7b16-429f-9267-22c4f6035f4d,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+6f0258d3-69b2-417e-962a-9dbe39030aae,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+832d72d8-bd5c-4953-936e-ec3a0dafc7c2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+701b4562-4048-4efe-a2cd-8856acd8cbd4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cd8c99a7-32e8-4876-9edf-61cec12934b4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+daddde7a-09f1-40d9-96c6-1af9de6b28f0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+fac77526-8ec5-49a9-8177-40efeb159253,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ac6a5467-a6ac-44b2-a810-7f443f3efa53,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1201e6e8-85ce-4865-ba55-0854a9c66d06,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+863644aa-d6dc-4dc6-a07e-ea2315344250,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+51ffca99-2b50-4513-a71b-620c22df6897,Student,12345678,disabledroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e8a4f82b-3bf6-4d0e-b394-31326505fe10,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+244b69e1-bcf9-46d8-aca2-7b2e25afb1f9,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+560ab036-29b6-4e2d-9939-35c9a5f8d0ce,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8295db80-3710-4fba-8f15-01c3c4245cc5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c69f67ba-a0d8-4d0b-9246-b4bd8fc823e2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ef09aaec-5c95-4f89-842a-60075ed7fcd2,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+7e2e0b63-65be-472b-b59d-5ea3d5d0876c,Student,12345678,bookfail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d26e09ce-5faf-4921-bd43-0fbb35e0466c,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+cbb006e2-f0a6-4e83-8959-45059587ce35,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+532be40b-c09b-4121-a0e6-c45794d4368a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e388738d-6ec6-4a18-879b-6e89083ec4c9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9e3bc3e5-e462-4376-8468-66d5fbb760e3,Student,12345678,idgen@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+326249f6-4d68-43f9-8424-38115a8090a1,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+e65cdf99-230b-4192-b95e-647536fdc910,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7d3a4f10-b337-4a7c-9dea-8acb5de5f6c3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+07657211-ab90-4d58-a8d9-409ce5866fce,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+41377660-7837-42e1-b5a1-c71189402b81,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+67b2fd78-abb3-4fae-b726-31f0c4b0d956,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b5c4c02f-d9e0-4239-b827-14eafa4ce539,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+035b14f6-8567-43ee-b6fc-7556fff7887e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+dcb657bb-68dd-4943-8bd4-83dbf3ee2e0a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+940a11a1-b2ab-407d-ad49-7fe842ae9495,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6f4dee09-1b43-4146-bb4c-2e746a12e72f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8164b1d8-5cfb-4995-8219-6768e98ef0d3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6059263f-4b92-49b8-a51e-cf315ac838c7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+97faa6b5-0e76-4906-b0f6-25dffe217bc2,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+0a829396-8c2c-4012-9bf6-ae9f08bcf105,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9a9af09c-5673-4353-a619-735fa4900559,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+38566a89-5faf-4888-86d6-5fd0627c1cea,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1cd07ab7-d62d-45ec-aba6-4f73194002ca,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ffd3227a-605a-4702-a0e5-cd5a5a7e70ce,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9f7e56fe-b37f-44d5-85a8-a85fb4491062,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c09a7aad-608f-4f50-928c-8032f68e43f8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6ed47489-bd6d-4adb-8cc5-4bbecf1910eb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e7391f31-9b31-49c8-9df2-41b8e177c55e,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+e1471f0e-b8c3-41b2-bdb4-310945330598,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bbcd7a23-8460-4ff5-bf32-2d05d50c78e9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+677dd938-3449-40c5-b798-044ae092b1f6,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+a7f4e45f-3d48-4eb9-9ed4-1f449b0e6a1d,Student,12345678,typemismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+50fbf403-15ea-4eb7-ba36-6a4b923bebb6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ee3d47c1-8fb2-45a5-9420-8297aa76321a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+23a6aeed-5747-4e47-be97-c5165245df5b,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+c8de636c-2f50-44fc-9b47-6bcd60adf420,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4847f84d-45c8-4999-badc-a26d405c1716,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e0013527-35be-42a8-9c28-4226fbec52a3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+de59374f-36ff-4d84-9cbf-7c5348b180a3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+ead9350d-6a6e-4810-979b-f7b501b8baf1,Student,22222222,caseinsensitive@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9eb27949-6b6d-49ee-a8ac-3396a8b1ad07,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+d590a6b2-1a00-405d-92d1-d7ab217615ba,Student,12345678,idgen@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3a2fdaef-ff05-4a21-a4fe-407cfcc7f9b8,Student,12345678,finduser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+6af251f3-1bd9-43e1-9e78-ab09f1b48922,Staff,STAFF001,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c4583c34-dc0b-4859-89f2-4136d7b8a519,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+e72d1ab7-3840-49cf-9366-88b07046a5d2,Faculty,,findbyfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+c6fb3868-0d9e-43cb-bd07-4f1bfaa9d9eb,Student,12345678,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+02b55d95-1631-4a49-a17c-1a39837c37b9,External Partner,,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+81757a2b-99c7-43cd-a461-470ce657f4d1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+e5ddfc9c-a841-41ef-80d7-664c5100863e,Staff,STAFF001,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a1060937-af3c-4eec-9017-5297084f3ae1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+15a0f025-f4b3-4bea-9c1f-9d6e12bc6851,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+6d1b53f6-62c8-4a23-a361-dea8176879dc,Staff,STAFF001,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d57481fb-f9fb-4160-b0bd-786e46e18af6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8e9cff65-5694-4275-aa39-f84b8ede68df,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+71e773bf-43ad-4f71-9ffd-611d0ba90252,External Partner,,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+bac8fcbc-16c3-452c-975f-7ba3fe6555c2,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+20affe11-9569-43c6-934a-9349fa27c813,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3d19c5ea-5fde-4677-a081-a6210018d74f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2cb224d3-8ad1-4620-b00d-9cfcc6ff62a9,Student,12345678,noroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+03e72c4a-1d71-401d-a3c2-97748d530203,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0c258b93-bc59-49ac-9def-0809bd0a2cf0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6ecdae26-5142-443c-a50a-a5a62528b544,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7eb33d57-2a16-49ed-901d-31f6a5f332b2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3393d3cf-e0cb-42b8-866d-b69386abeef4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0295f08c-db58-4f9c-8689-10330e414bec,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+81ccb98d-0358-4142-b7b2-28d00d7dd94f,External Partner,,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+534bde35-288d-4dec-ad39-132855c50746,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b62d60ce-5697-4b71-af2c-c1f59097cdd3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e047be27-5b98-41d1-826b-35eac542fe25,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+84a42e2b-7e26-4998-b9fc-686d3a5ca2e5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1ad001a5-a2b1-4f7a-9aad-d34946b56148,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+23a5cfad-7895-4e31-a70c-7cde1d62e5fb,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+5762d849-92ba-44a8-a832-0b378707a16e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+522b1e21-ff71-4255-90c9-27c5545e8662,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d54f9d00-a287-4f98-addf-cf6175b7eb25,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+fcf5c851-ab90-45f3-bea1-004fbc769808,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+26f8b0fe-3d9f-441a-ab89-8c81020c1d9c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b3bf9135-9bf9-4ff6-bea1-0da2885b70bd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+05c40e68-be15-44da-9687-20e3d6c5782d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9fecf6d5-98e4-4744-bfcf-3aaf5b0ce4f0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+822f8719-f45d-4bfd-9dcb-23fc7ed07d00,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+13ee7721-4408-48d9-a68b-2c2795662438,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3cbb6878-0b06-48e4-a016-1ce7058b0a63,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+85b66ae8-145f-43f7-a64d-9309317d3228,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d4b4a002-db54-45d6-b016-b9bb0075684f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8a3a99ff-4532-49d1-b512-7de00e943343,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2d769123-8f83-4156-8a51-cf9b929e614b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7e498bc8-aa31-432c-86ec-d098e81b5acb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+028cd4da-e750-4b31-b455-aaf0a09f273a,Student,12345678,roombooking@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+84aceb0a-ed2e-4bed-aed5-d2c22468f9ab,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+755de619-072c-4bb2-9bf9-cd684fb935df,External Partner,,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+77950e84-f2d8-4789-bdb3-1a9b9bc235d5,External Partner,,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c3354b42-6c6b-45ed-bbaa-fb570ad9a3b6,External Partner,,findbypartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d307f096-27c1-44fa-b371-9f13ccb6c14f,External Partner,,findpartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+f2bbc137-f2c1-4359-9bbe-12bb8ceec9f6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+13a037a7-3576-49f7-968e-05c3552404e6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+91e598da-1461-4d66-a968-d877a23a20ac,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+e5e0228d-ff02-4273-9d2f-4186fd905233,Student,10101010,update1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b6456f2d-96c8-43ef-af7f-ec5b671e6773,Student,20202020,update2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+ff3f5931-bf9c-45ed-b41c-e91fdd84e59a,Student,99999999,updateemail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7bafaf7c-eac3-412c-9341-a855b43d2708,Student,,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+b00200aa-1723-41d1-bbb1-c3dd186a2127,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c6974bdb-cc24-4e90-b570-9e9bfee9047e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+172b7ea5-7b56-4518-8888-c4aff10b2d6a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9079cde8-7be2-41e9-b3aa-7ff6ef468651,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+92e317ae-9b5f-4c9b-a507-a50e7e22aa75,Student,88888888,update@yorku.ca,oldpassword,Mon Dec 01 19:34:14 EST 2025
+d2b568e9-30f1-4f94-90df-5935a2f5ba6d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f76dbc4d-441f-4eda-8041-8334aeb84b7b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+dc0bc020-eaae-4ece-b78b-eabe5807804f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+fd0afa30-6bce-4456-9191-9faa033635d0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+574553f5-f504-42c1-8d08-7c20ae4afe80,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+23d719d9-9ea9-4781-bb30-5c6e92be84dc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1c722b9b-1e7c-4b56-85e8-5c7d03d905c7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1453193f-dd37-4a87-93f6-e8e6e033550f,Student,,nullroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d5f19c46-ad71-4e41-ad9a-ead00de14487,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ac86eb94-02fc-410d-9542-fe90349fd6b7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0ca8daba-0bea-4f2f-a9c2-ceceda8be093,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8b1570a1-305c-47ff-81c2-7e6c95f67cf1,Student,,idgen@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6aa0ecdb-8ad4-41ef-966b-56931664a7e8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+5b68aa37-adf8-459e-bcde-0fbc0ed59998,External Partner,,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+421011ff-2d30-479a-b547-145fced4ac99,Student,,finduser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f208c45c-a308-46bf-ab19-78a63c2e1b5d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4b1e91ba-d845-4789-bc56-aa0565a293d7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+296f1d11-11ac-4156-b708-80058476d244,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+07a2c345-541f-4514-b272-a06e7b0a3ef6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1244b15e-b511-4342-8dec-1b58a3cb5f2a,Student,,rateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c9a7e954-ab95-46af-8310-0cea752bbed6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bbe42d54-26b2-4e42-b69e-5cedc4756a15,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f76c5af9-9e38-41d2-a121-9ab93d03ddfa,Student,,emptyroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ae67512c-74f9-4a26-be46-242987cfc471,Student,,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5fac93a8-5820-4a0d-93dc-869cda844fc8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4f712206-d1d4-4be5-b5be-2efc79934de7,External Partner,,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+cd18ed46-cfb7-40bc-8c8a-bbf430082b05,External Partner,,findbypartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+97a9e6b3-5764-459c-adb4-24fdaf9466c4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+21488a1a-8ef0-4f32-ae25-27bc8769ecbd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+4e36222e-0474-41e9-a958-c61a06865dde,External Partner,,findpartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+9f16be63-a834-4edc-aa8d-50925fb434be,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+b49627ce-3d14-4a77-9a3f-8250e9759845,Student,,exists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+f9ee0f5d-df31-4e83-9ed9-ee05fa01688b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+e61793c1-6985-449a-a99a-0a7e0af5aebc,Student,77777777,allstudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+535da1a6-81b9-407b-bce5-8e98f666ee9d,Admin,-,alladmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+e006bf0d-e202-40e3-85bd-c139706a2112,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0d0578cc-0acb-4d63-beb1-44da57b0eeff,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a036e144-5418-4ed4-a629-1a328d06d407,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+32279930-4ee8-4632-a550-92b579ee6118,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9e4a6148-bef5-430c-8521-d90460698c4c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cc1dc061-779a-4751-949c-acb6f308d0df,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+73118f52-a910-4ff9-8744-f0ceaff1d2e3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ed9c9e2a-4ce6-40a5-999d-854db87a0161,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e85065ca-fba4-4290-bde2-32ca43ed8bf0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+63ad676c-3a59-48a5-a3de-7e99e685a3d5,External Partner,,updatetype1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a1c590b6-4cf1-4725-8c0e-3d78c68cf57c,Student,60606060,updatetype2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b1332519-d2c1-445a-b8ce-afe45d453760,Student,,typemismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+94759ce3-e189-4a22-a7b5-fa5c0d9b4bd4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+18df7124-ee45-48ae-8889-f9ddb1ebd195,Student,,caseexists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+25b46136-5271-4107-b9f8-88ca17dd89de,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+2c22db66-c9b6-40ea-9176-31e332235053,Student,12345678,test@yorku.ca,pas,Mon Dec 01 19:34:14 EST 2025
+73042df4-760c-49d6-83ab-925b9db0b688,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+076a93c5-04cd-402e-ac49-84c3d2e4ac9e,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+a25b9270-199d-4a6e-8139-22c697816a3c,Student,99999999,updateemail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7069eb83-b870-4792-b022-2fc1d192e652,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+463ab294-d729-4d59-8055-0ab0f5027dfe,Student,,typemismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+9829350e-8954-4102-84bc-9c55fb88d066,Student,88888888,update@yorku.ca,oldpassword,Mon Dec 01 19:34:14 EST 2025
+f241dfd4-4848-48ee-a052-8c790b3265f2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ea20d062-3058-4658-97a8-adb2d8de51c8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+40372894-fbe5-480d-b35b-a1bbcf5ed1ce,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d5aea627-d7ed-449a-8321-55643d8b03f5,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+468f93d4-40bb-442a-877a-2bec3e4b3992,Staff,,ratestaff@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c12aa431-8815-41cb-a1fd-20b7b91dbbde,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bc3697a0-a74f-485b-87ba-664ec1af554a,Student,,caseexists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8d150143-77e7-4b58-b51f-937ad5ce8daa,Faculty,,ratefaculty@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+ba97688d-0660-4766-ab0e-01228bf1f15c,Staff,,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+b2e07891-d78f-472b-a11f-8822780f2011,Faculty,,findbyfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d1352407-bb99-4601-8675-d9ef54054a4c,Student,,caseinsensitive@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d87940a2-dc94-41bb-9fe1-35b723346ef2,Student,,findbystudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+57b2058d-7e01-495a-a057-75b5a922b6fe,Faculty,,faculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+28a47157-c817-429b-9268-68eff50874e1,Student,,student@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e67c366b-ff89-4c5c-835e-42976e4632b1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+5c7c0913-ab9c-4c02-be60-8dc3b44bf352,Faculty,,findfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+9d24837a-fd94-4b67-b510-b53c15285cde,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a391b314-f42f-4323-a319-b52d5d575dda,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+5b4a2282-b1a9-4574-a445-f482b300e0c5,Student,10101010,update1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0de61d95-68e4-460e-bd6c-2ae1a34a79e1,Student,20202020,update2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c6034e96-34a5-4bae-b546-2b734d9744af,Student,,loginuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cca5396f-7975-437b-97b6-8214b005173a,Student,99999999,updateemail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+144ede80-debc-4dd2-9f82-b47a74868a61,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+e2d18b99-6600-4c15-9f61-2dc00a971055,Student,88888888,update@yorku.ca,oldpassword,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+8db3a430-571d-4656-a112-54b93e4eeb5a,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+5dd8fbb5-f640-4f83-8d67-86af1a9a8520,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2b241476-aeb3-4c3e-bcfe-a8e46b478c43,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f25088aa-9f51-43d9-b2cc-f295558ef892,Staff,,ratestaff@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+710a65cd-9ef3-4da9-9bac-428cd2af949d,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+8a736bf9-e687-4bd4-b268-87dfa64a2508,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c8637f03-a3d8-49e7-8916-a62fa4df5b18,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e6f69922-cd53-44b0-8e89-97fd101c5bb7,Staff,,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9f2ac930-cead-45c2-90c1-9f214b1b4239,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+47c7aa7c-aa3c-4029-a199-2309725db1d2,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+aa60f298-e460-49a4-af74-fd7fb5fc8d03,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+211b2ca8-77cb-4b53-a9ab-dcceba0e448e,Student,12345678,nullroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+99953a89-d6c1-48d1-934e-dd3ef98a54a8,Student,12345678,idgen@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+72b66863-ad76-4842-b5e9-627629203faa,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ad185ae7-d8ac-4444-aee6-a2256dd00dbc,Student,12345678,finduser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+af358eae-feff-4b1d-94a2-399345f3dfb9,Student,12345678,nullroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9ad380db-3f87-4f8b-b8a7-cb26d41065d8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+02287f21-9ac6-4825-a20d-dbc0d7c61248,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+60f5ceab-868c-4cd5-9a1a-35c66bc848b1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3b8b1951-dde7-4854-9ea6-42ce62752dd6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+db80e43e-8698-4ddc-b07a-dda70ba9f722,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a3fc15f5-ed9c-47af-92bd-f983921f50f0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+40031643-bcfd-41d3-a2e9-ada4e6e35acc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+616f948b-e835-4f8f-bd56-c49d31afae36,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a47b4a69-7acf-427c-8590-cffa8bcd780a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c1f83a7b-2803-4e62-88df-001b075365b0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1fbb313e-a368-4f44-bcd3-aaa9a44540f5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+441d7e30-ddcb-4190-a8d4-71a38c10736c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ab3f3c0c-2d8e-49ad-9763-41b938c2f740,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8aab5544-ba21-43d5-a991-d61a7bf8cbf5,Student,12345678,idgen@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6dda1d73-d209-4a07-a009-fe326101020e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7f482f5a-1136-40a7-a3ec-95a73a9fef88,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+24b22677-bc14-4f31-a381-334040ac8199,Admin,-,writeadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+c5f8bc3e-3fa9-4c44-a090-e0297ee2f9b3,Student,12345678,rateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+295b77e3-ba99-4103-840f-423c1005e6fe,Student,12345678,emptyroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+10b45157-40d7-46c5-88f2-2b72ac8f9c7f,Staff,STAFF001,ratestaff@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3e4d39db-8f87-468e-a9d2-f7afd48b3253,Student,12345678,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+bb8761dd-adb3-42dc-aa74-c4fb6228754b,Student,33333333,exists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6cda39ee-f7ac-4e4f-9d1c-6aefe2beef13,Admin,-,adminlogin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46bf64a7-94c5-4256-8230-b872789d04a8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+52ac7566-5119-4818-af98-1df23c572bf6,Student,12345678,finduser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8186f2f1-4447-41b8-9a7a-93c654518e40,Student,12345678,typemismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+bdc4cb28-702b-4cec-b701-ce83c55f02dc,Admin,-,admin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+8e4551d3-b161-4231-aa92-8dc5f3dab112,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7a80f8ca-9989-4d91-82fc-d08aad11ebe7,Faculty,FAC001,ratefaculty@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ab5e490e-a8a6-4802-b4d7-dcb52aee7b4d,Student,12345678,rateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2d6ae41e-c27d-402b-930e-35bb3466809a,Student,44444444,caseexists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+741b3cf6-8d95-449d-88df-7c6fc62c4e09,Student,12345678,emptyroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+39f91bd8-9900-4fd1-ae97-0b16852ae433,Faculty,FAC001,ratefaculty@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+22846030-ee6d-4cae-b7d0-127fe75e8d06,Student,12345678,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f14ab3ff-a820-474e-913e-4fa8f61e0944,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6a666ee4-52e3-447b-8846-e28b5794e37d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+42e67ebf-151c-4e2e-a4af-bd42f38e9ff1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3c3772ef-8a8b-4f50-9572-6071c341dee9,Faculty,FAC001,ratefaculty@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+1afbc24b-2981-4217-a97d-973998b982d8,Student,33333333,exists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+f3c7a1ef-9397-43f9-8afd-c54559544ff3,Student,22222222,caseinsensitive@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+94767045-7dc7-4c4f-aabf-56acdce03588,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+83ac0a7a-72f1-42a2-9ce0-10ec71c06946,Faculty,FAC001,ratefaculty@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+951ce6f1-a4a0-4473-bf31-bd19ad58ff91,Student,11111111,findbystudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+6813a013-8bcf-43ff-aeae-5adebce87db4,Student,12345678,student@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+00e8af06-dd50-4c31-8478-a7c7fb8b2176,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7d6c80f7-e03d-43ef-b350-5dc30c0ab55a,Staff,STAFF001,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c0acec51-d8d6-43f8-bbe0-15d01ef1891f,External Partner,ORG001,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+ead3a7b8-0be1-4e4b-b093-a573f46f2a49,External Partner,ORG001,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+2efa9330-93f0-46ea-a393-6bee05bb4199,Student,12345678,typemismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+50e3253b-9136-4481-b4a3-9ea46a210da8,Student,44444444,caseexists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6161ac6e-50d2-4f32-9205-1da11f6fc74f,Student,12345678,loginuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+44a908e4-e947-481c-a62a-cfb1f84579b2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+99424bb1-27b8-4a70-a6f6-44cd220751ec,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d6e4ee9e-712f-44d1-8431-a3986e8e59a9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0e080417-6063-4e73-ae12-ade4ccc171f3,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+703cca32-0f72-4f7a-9c07-603720fff7fe,Admin,-,findbyadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+7400afc8-77eb-4136-be82-4009bf59e3db,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+83e67630-b815-4a59-a997-0cd396cd2b44,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+1926e37b-06fb-441c-9118-3176c571a96d,Student,22222222,caseinsensitive@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8aec7c7c-5217-4dde-9b04-0d20be7fc156,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d790ce61-634c-46c4-aaf2-a9c8fcd3a9e7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a9ff2f1a-4317-497d-9dbd-bcbccdc50c56,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c9818534-cd16-41f7-9ba0-e69bf999be0c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+61aacda5-694a-4c24-b3e3-8dd6ec83de02,External Partner,ORG003,findbypartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+5c2288ae-4e1b-40f9-8f7e-e4bd0de03b57,Faculty,FAC002,findbyfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+a89c04aa-5970-4597-ab18-5b423f869bee,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+b0ae6420-e2fe-4077-90be-c42b2d64089e,Student,11111111,findbystudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+4d4d6674-5f84-4dd2-aced-fbb71ff60502,Faculty,FAC001,faculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+19611bca-de0e-4124-b670-136066aef587,Student,12345678,noroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d0876252-5c53-4157-80b3-ac3dad40a735,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+2ee3fd9f-b6f1-423b-8ace-9c3fa2568f90,Student,12345678,student@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+305d7382-2e88-4256-9e3b-c99ed342aec8,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+a1f109f1-cdd8-45ba-aad3-133f543adc5d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e5455e94-1a7c-4618-97fc-9e36cf76b788,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+703b6c0e-617b-4c1b-90c8-65ea21a0a4ac,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3f47aff5-026f-4614-a274-0a8214635b00,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f2a393a3-0095-4541-84a4-0ccd4779d5cf,Student,12345678,loginuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b3aaf8c4-0ed0-410c-b621-f512c6034d9d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7346095c-8596-48ec-be35-4812879d2348,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+584f06f1-fdbc-430a-ad17-f389456b5b78,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+79862766-bb70-42c0-9af3-a5f4f0601a69,Staff,STAFF003,findbystaff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+0e440a01-54af-4ff7-a698-81f1ad8dda01,Staff,STAFF001,staff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+80a65ce9-a749-4acc-b47f-08cd9ce96ed9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6ae9bb9b-eb5e-4ac4-b5e5-754b552d6d22,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5dfa18b4-352b-40b6-8806-9637080bde1a,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2018ff34-1f8d-4e11-a66a-d747170636ae,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9f33bcf3-ffc7-4b79-9b09-ff64fc2622ab,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+49dad1b4-5f49-431b-ba7a-3e04b9b1bd91,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+408bc9e4-43d1-4e90-98c0-37c2b828d567,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3aa90b2d-97f6-48e8-bdca-1aa8ab4267a0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+49b8aaad-dc55-40b8-a98a-b5551e436df9,Student,12345678,noroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e4405043-6216-44db-b47a-dd2b7f4819e5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+eda1f436-cd66-45f4-a336-798e498b23cb,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+9d32e19f-774d-4490-87bd-83a63e9a643d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5431e846-ea7b-42ed-8c61-0bd459e60cac,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0e609112-84d1-44c0-aa8c-1e2cd6c66f1c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a2783c4a-bbc7-4f21-8404-7ed5895e7ef5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c67efa62-c083-45a5-89e9-66c976d61768,Staff,STAFF001,ratestaff@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+909f6593-016e-4dcf-9b4b-00705135eb5e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f572ff1c-2224-45c0-8b74-1b1c0f78a633,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e964cb6b-dec2-4cc8-86e0-c25ca415890d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9b711a4e-abf4-4f74-a2a0-ebb274f3213f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ab80fb4c-688e-4b73-9686-1b11c911d63b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a512d17a-180c-44f9-8b95-560379e21b63,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8744ff47-f10f-4ff2-b089-c9483c62a84e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2b134e33-3993-4d3a-9ef5-d20334082b42,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e3636dc4-a843-4c84-91c7-88fd3e8d443d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cde2ff42-3856-4618-bacd-834f10999d80,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+02d410cc-d11a-45e9-b70f-5608dd3ddd0f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b79ae953-5884-46cc-9a04-e853b82a5a5b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e35fbe42-9dc9-45e1-9268-d24f85cf62f1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3e0396da-b598-4e5f-947c-b7dae45c5ea8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d5c6945f-44c7-4fc2-bf5b-844d70deb1cc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8c634e12-5330-4456-9cdc-6e66362594d4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+eff4d711-d06e-4026-a315-c2949d6c7ce2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+293efff4-ab10-4f33-a961-a528aabc3444,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9809afdf-0c9b-44bd-82ec-1dbfdbbda8fe,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0279ff1f-1f14-4f77-8225-fc63b90eb947,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0b8d99e0-507d-4dbf-a6c8-76f09df16c94,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a6c28c4b-3be9-48a5-bf34-c9be3f3def34,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ac630047-b2e6-498a-8e65-176ef8c16804,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+95bd4fbc-c985-4632-b101-9c149d2893a0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1b53addf-471b-4465-9fd1-58c38d53054e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bc3d0e0c-92bd-4805-9ce8-8f2ae7062633,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+64c8d1ba-25d2-4b7d-83da-42d8e4610896,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+14b15680-c07b-44ac-8f34-b3ea9eeb221f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+338f02bd-0e54-4032-b704-3d35f5d9dd77,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+35a81dfd-f3c8-44a4-b9c2-93540a684ed3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+65685d42-9098-466f-9710-1aaafd2eb9f3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+071fa4fe-293d-47b8-b939-fb1ae58739d8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a85312d2-02dc-47dc-80f3-e2de36549b18,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c68a5122-de66-444f-ae49-35912886332f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9d5616ef-6edf-4bad-adc5-74b641b366d7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b626f12c-227e-4ac0-9851-59aeff3cb993,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d49f0a3e-6790-4e83-81b9-05ef5fbddc8f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1bf8dfbe-acaf-4d96-8970-c9109563e762,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e46abbfc-ec5b-4bef-8e1c-488d04eabf1e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7b2d83c0-009a-4c04-b90f-fc10959c556a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2f4cdbf6-9ed0-436f-94ce-4801d7c05a34,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+12cd23ec-6524-4237-9399-0939fda5ed5b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2834f043-0de2-429f-9dae-7e628f88d533,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c5de2ea0-9f05-4b22-8753-f3924c4d239b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+acd06690-a7a0-4a66-aac0-05fa3cb40cbd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0eed97f1-1da4-484a-8312-b50da85c67eb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a2cbe09f-64d8-428d-9ab0-ee83cee55bb1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8b42bec0-be4f-472d-b9a0-07f4a98b67dd,Student,12345678,rateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6cc6fde3-0f03-4ff3-b144-11a35aade410,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+71c22001-34a5-4098-b97b-d21d7d20da39,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e6574485-ae37-4183-8b0a-078924d45c6d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+656b40a8-f016-4703-a9f1-0f9dae55e1c6,External Partner,ORG001,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+aead3ea8-0bfb-4f64-be96-89c51f852b56,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+29119a0d-56a2-42d8-a740-a77f069e9ba4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1ba1fc58-ac4a-46d6-bad1-480f2b8fcf2e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+42c9d604-396c-47ed-ba05-f79b545bc80e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+104be6fe-3a7f-43af-a880-97255e10e70d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7ce45779-e006-43e8-b3d4-12d81d4cfa56,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d4b32695-5e03-44ca-867e-6ec826796a8f,Student,12345678,notfoundroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+fbf7c42b-cd2f-476a-9689-fa07e3ad4517,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+127e5a1d-b180-4d1e-8047-c7dfe07e2e73,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a8343ec5-9687-4077-a6c6-86a7fe9656b7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+3d2d5992-301c-4010-9374-9f8c61118b76,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0e8a4b82-e2f1-4e41-bea5-f857fa94e824,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3fa2d832-cc67-421a-b603-61cdaa8bde13,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4f67a822-b4cd-4b38-8bab-dd5fd73e7f65,External Partner,ORG001,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+0b449f07-8199-4754-9fbe-eca79318864e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c0aad71b-4fde-46d6-a74c-d898d6a3386d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0e55aacc-77b1-4dff-ba79-cc2def488bf2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c83ed6f8-4f48-4a7e-b80a-867adac76c77,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1ac3f97a-0ff9-464b-81d1-f7710ed27f47,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7b939757-856b-4e67-a167-834147dc88c6,External Partner,ORG001,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+e7578a12-bc62-41e5-b945-2a0c30deb4e9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+962bd7ee-b63a-4621-8347-bdfb445938c4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7153e07e-9400-4e09-9f83-bbb2452b7edb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+920d3e5c-6751-4891-b6e3-e8000213b957,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+feeefe5a-d44e-48cb-a949-0178dcfbf86b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+eb22312c-14ac-46dd-91b6-d891b366c0ec,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+efce0c9c-7adf-4666-9931-82dc6a61bccf,Student,12345678,notfoundroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c0dc776d-656d-4070-8962-b9b3eb6a82b6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+27f0c65d-5543-49d2-a26d-e79f57ed68c6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+674807ad-c2e1-4e8d-ad4c-844e275ceda8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6a98d128-8545-43b2-8a1b-d7e8e9e15a46,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8a4ea907-ae94-4098-a7de-1a2b8eb98552,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d389a059-2b56-40d6-9279-5ac92ba6cf9a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cbb355b9-506b-466d-9422-31dc1479dfd9,Student,12345678,rateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+214159ba-598d-4a5a-b787-5f15226ed70f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+41254fdb-5cbe-414d-ad4c-c8b65be0136d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0cdb1f48-0670-472e-a280-38af4148b869,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2ba7401a-8f74-442a-8501-162afe903336,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ada44660-aa08-4173-a977-adc3a642728f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+82d16f04-c415-4178-9551-b83538aa78c7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+8ace0c8d-7c81-4f8c-a75f-fd23fb0b2e20,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+b9105e67-0c6c-452c-a83c-f5a13eea6420,Student,12345678,nullroom@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+d7971d26-d80a-4425-a177-19285efddce4,Student,12345678,idgen@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+cc9e6b60-2c64-4997-a3b7-f83b0e090705,Admin,-,writeadmin@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+eed5da9a-c1ac-4ae9-8d1d-1f5cd1562781,Staff,STAFF001,ratestaff@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+2eda9a00-8cab-4f96-971b-61a3dc43631b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+80c215f1-7316-4b71-9fe5-2e8183bba32e,Admin,-,adminlogin@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+b0a532ad-f642-46e3-852b-8c5c3d996065,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+005125db-eda2-4de7-bc8e-87b9ad894c76,Student,12345678,finduser@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+302d9ecc-1b7c-4288-aeb5-ebaaaf7bb8c5,Admin,-,admin@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+e805cc59-4756-47a7-ae49-d055cc1f6679,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4a317a3e-88eb-449e-ad52-7bddac67eff5,Faculty,FAC001,ratefaculty@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+1457fcdd-294a-4785-9c0a-9ef0ce5723c9,Student,12345678,rateuser@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+d5a36176-8b60-4a11-9545-17a0985093be,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+03a5f2ba-67bb-40d3-9804-da177cda4d1b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+fc5b3cb4-dc22-484c-afe9-38f9e0c2fe10,Student,12345678,emptyroom@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+ca8dd21c-f408-4f90-b2ba-485df39da1cc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4c1b6ae9-0f3d-4dc1-be5f-cc27d9fd59bc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2689da4b-55f0-44a9-9698-9db80af1dbf3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+53aa8511-b2e4-4641-8c93-d810b7fd355c,Student,12345678,bookinguser@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+8fb0f353-3844-4a23-9e1a-4ed1151d04c7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+414cde11-d8b5-44be-8f86-9aa3f18affca,Student,33333333,exists@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+9cadac75-f5e4-44e8-8475-a8fa8fa85262,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+356d2fdd-6b39-486d-afdf-548d90a69000,Staff,STAFF001,writeaccount@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+415870d2-d3d5-4e9e-bc95-8ecdff44279e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bd47e982-6f63-465a-9954-6cec00f6cd57,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+852a8d02-ec3f-4401-a5ad-40b347374747,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+301c8813-9c54-42d3-a8c5-9da16709df14,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+210d73e9-3a2a-4758-995f-d7e102ce226b,External Partner,ORG001,partner@external.com,,Mon Dec 01 19:34:14 EST 2025
+a37a76b0-af21-41b4-8afd-3b26ae3950cd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5d5ee544-f666-4585-a140-8fbf2aec4676,External Partner,ORG001,ratepartner@external.com,,Mon Dec 01 19:34:14 EST 2025
+7f3f461b-1237-4d04-917a-f41f800e777d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a2cec126-4682-4cb7-b9c7-0e2879330292,Student,12345678,typemismatch@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+3497022b-f6d0-4b69-ac26-b049a2ff0a3e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+33526fc8-6aa5-4b05-ac46-c9bceab37212,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ce9ca5b1-e2a8-47d4-bc91-8bbccdb4f5a5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9ce9db02-28b2-409b-b596-2251fba225aa,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7f154576-0de6-424d-bd47-2b61dfc36a81,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+0bf9258f-9443-4490-9a5c-41cd35d86297,Student,44444444,caseexists@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+503464b1-f877-409b-bdc1-3fe6cbaf37c5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c0ce7baa-13b4-4ac2-b0e9-37c95887a2f8,Admin,-,findbyadmin@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+952d16a4-d2ec-4152-a5f9-82608eb7b409,Student,22222222,caseinsensitive@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7f5da6ae-a218-4431-818e-897e72899085,External Partner,ORG003,findbypartner@external.com,,Mon Dec 01 19:34:14 EST 2025
+0a354d04-2722-46be-8f87-b230124ab20b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7646af65-9287-411f-986a-a2a47d621e5c,Faculty,FAC002,findbyfaculty@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+e150fe12-9fd7-4766-ae82-c437d4b1c5f7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+719c1615-39be-4303-9b5b-1290aa16085f,Student,11111111,findbystudent@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+28c8df7c-3bb3-46c2-ba75-59bf7196b189,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+e4ebb2ed-9035-4ad5-9576-0213ab57b652,Faculty,FAC001,faculty@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+3d742d07-e573-4361-827f-54d632279dc0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c624ba68-c219-4f53-a606-58bb31e94eff,Student,12345678,student@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+f9f3c3a2-0fe3-4f13-b465-f2a6b5417635,Student,12345678,loginuser@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+6cea46bc-b754-46f2-a0a9-113180eb4f10,Staff,STAFF003,findbystaff@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+661ff77b-5bd1-4614-8681-50cd80d9bc23,Staff,STAFF001,staff@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+1d243594-e80d-47ea-b75d-476e7cd1989e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+366534b4-7297-47ce-8295-b932bc653164,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b83ee4e7-a883-4a5f-a228-5857c382684d,Student,12345678,updateuser@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+233bc37f-476c-44c3-be61-b95b30a39ee1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9660e606-1850-4dc9-8f75-e6dea7b57481,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a728f6dc-c46e-4d25-a69a-3fd9eebadb6b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+1a6a2add-fbc4-4906-a215-0753ad45fc72,Admin,-,writeadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+b498bb43-64db-47f2-b7c3-7a7734a78098,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c3c46984-2717-4240-bcd9-6e23156da559,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f803def0-bf07-4d88-ab87-fc13d3f80db8,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+93011465-42bd-40a7-8dca-918176019ddd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+74fe94ea-41ad-4edf-addc-2bfd83b25bb6,Admin,-,adminlogin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+ddeda35c-3971-427f-891b-fbd8b963f2de,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+65e2abfa-1bca-4e94-99f4-dc57be4eeae9,Admin,-,admin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+86555f9a-a412-434f-9afc-31f858983026,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+c0428f13-0b86-4da9-b4b7-df7f566464d4,Student,12345678,noroom@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+dd0bb5c4-fc51-4e66-a03e-b189b94880f4,Student,12345678,cancel@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+712f9826-8217-4a65-afce-da4623b4ec48,Student,12345678,disabledroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+3d25a997-d9df-4050-8534-efa933e3eeb6,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+8dc3f598-35d6-481f-883d-859371749be0,Student,44444444,caseexists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7ee25234-c571-4601-b332-386e55523aad,Student,12345678,bookfail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6de0552e-de42-460b-ace7-44c829814445,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+ec760aa8-f30a-4381-9378-011f2d382c7e,Admin,-,findbyadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+cd1df44d-dc08-4d53-b092-f17af60a4296,Admin,-,findadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+6c72d78b-716b-43d3-9173-f460e54ea7eb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+8441268d-9abc-4b47-97f1-aeab5c0a2bfe,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+7d71a5aa-901f-4d4b-acd0-2806dbd019fc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+9b044aae-6e2d-4741-a1c7-43ec434f2743,Student,77777777,allstudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3c7c0f36-bc5c-4bc0-80fe-fbc826a9dd61,Admin,-,alladmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+8d2ef2c0-de93-4f57-9e69-d87fa4f55d70,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cef9fab9-794a-455f-81ab-71e074743572,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+a5320b18-d56a-4edd-87ec-3aa9cf31b889,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+63653e7f-67c7-470b-9476-23a6ca698a20,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2bb47f97-9364-4012-ba83-de6a82228216,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+8d8a78d5-4953-4759-9b4d-87be8a2dfb8b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b4738cab-09a4-47e5-9eb0-7bb9ec828667,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+2e18384e-e01d-4abb-879d-344fa108fc30,Student,55555555,all1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+154bdc25-60d6-466e-823e-93ebdd7923fe,Student,66666666,all2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c20aa2f8-d622-4c7b-8df1-746ed74a355b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+654d48c2-fb62-45f8-9188-00dbb39f29c2,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+a27aa8ee-068a-4865-b736-956ecb8fe42d,Student,10101010,update1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4fbbd91b-5e59-40b5-8b52-4606707b2666,Student,20202020,update2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ab471d30-e09b-4491-a099-3e6a9f89ed7a,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+3f13644f-e168-4ddd-8a6a-1e855f5a50ea,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+6ae5de40-1e4e-4f43-a883-d83f80978b59,Student,99999999,updateemail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+39ed61b1-ce5c-454b-998a-d677f84a8313,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+e569490d-1830-48e9-87af-3b4d27d45746,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+dc7161cb-0ce6-4ffd-b072-16b8de3f9965,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7c5d5c90-1784-490c-af44-4747b79d87fc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+437a7b43-4758-4c41-a456-d3a601c5083b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2639cc36-e91f-4d22-bbec-d874b6b3d591,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+6048638a-57af-4e1d-b978-df1b663b052a,Student,88888888,update@yorku.ca,oldpassword,Mon Dec 01 19:34:14 EST 2025
+eae09698-1bb4-4761-86ee-102c7d786f2a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5f3d1336-9fda-45c4-ac11-d672fae863e8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+42e826b7-6e87-4ee4-a098-5e17b7443ed3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+929777a8-fd55-49fb-937b-53aa9f8ac773,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+ec3c955e-3d51-4745-b034-c5857345929c,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+f6680994-0a20-4564-be0b-9579d8e858f6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+42539782-3be5-4c7e-979e-ab2d15762ec3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+dd0d5fdc-be6e-4d39-8e44-605ef12e3dd2,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+496f775e-589d-403f-80ee-2910775fbc4d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6a667d19-6e14-4986-be2f-92aa4897de4e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+ca476fb3-2a34-445b-a383-c95be0285fcb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f48b0bcd-7b2b-4b61-a470-95758fe2a5ad,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+c599be46-4a28-47fa-bd8b-7015827d7c58,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5c252062-f24f-4faa-a06f-0c4e21a734a8,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+ce0dbcd8-1c2b-4a11-8a4f-974173a5f608,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f62c1e1f-5e61-428d-b841-92c17e950a3d,Student,12345678,test@yorku.ca,,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+5fcc183e-5c3a-4637-b4e3-c0f5cad642c9,Student,10101010,update1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+07d95818-a82f-4ca2-93d0-4244c465a1a4,Student,20202020,update2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d69f7007-0c5d-4989-98c5-63f816d029e6,Student,11111111,findbystudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+2a46fcb8-43b2-4724-adfe-fbdb35f3cb44,Faculty,FAC001,findfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+a41c35fb-1d8d-4303-a6f6-c0f01966dfd7,Admin,-,admin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+da12975d-af2c-4fc8-8b78-3bd8db565c2a,Staff,STAFF001,staff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+b2a07eae-cffc-4535-8bff-a73b4e5a0cde,Student,55555555,all1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+08705a79-ed82-4639-9e61-92a89be1e85f,Student,66666666,all2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+b6c88bd7-9bce-47f8-9fcd-ee12f3986b04,Student,77777777,allstudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0ee1f65f-b915-4698-8355-4d993bef70ae,Admin,-,alladmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+2d6f7847-6598-4704-858e-3573d6e1362d,Student,99999999,updateemail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+07255e6b-935a-405e-94fd-faae7e304f83,Faculty,FAC002,findbyfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+62abd3b7-08ae-4913-b5a9-651ad5a245d7,Staff,STAFF001,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+cdb6d84c-1d0a-4be6-8be2-845505686cec,External Partner,50505050,updatetype1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b430afb3-c40a-407a-999a-65497e1e104b,Student,60606060,updatetype2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+e7e45353-6f0c-4647-8128-f453ea7678dc,Staff,30303030,updatetype@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+aafe5e32-d0d3-44b8-980d-e019dd757428,Admin,-,writeadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+4c49818d-26e6-42ce-ba80-44605599fbdb,External Partner,ORG001,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+a8421f11-19e5-4e14-bb03-9cf113d2fab9,Student,33333333,exists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d2306168-6fe6-4ac5-8d4a-7f497255010a,Student,12345678,student@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+98c9a9dd-8390-43c3-a53e-df7abbc503b7,Student,44444444,caseexists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+17874bb4-1f8f-416a-9e75-927abd44773f,External Partner,ORG003,findbypartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+1f24933b-770e-42c3-b286-cb87b26c6b52,Faculty,FAC001,faculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+aa9fbe5c-42dc-4b4a-a0f8-b601bfc5d3e5,External Partner,ORG002,findpartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+01014a3e-1adb-4e87-b31f-f3a56a49a984,Faculty,40404040,updatetypecase@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+238a5ba8-2772-4ffe-b14f-11bc570bbd38,Student,22222222,caseinsensitive@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+54524855-165b-4aed-8971-a0b6173247d8,Admin,-,findbyadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d046934c-7ed4-4dfb-aab5-ac137c9035d6,Staff,STAFF003,findbystaff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+afea8242-c716-4eb5-b1b7-f69406b4c548,Student,87654321,findstudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+85a55509-ae68-41ee-8a90-6c040d337ede,Student,12345678,finddbuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+436b995b-f36f-479a-a7cc-ba249447a6c3,Student,12345678,casecheckin@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2640dce4-e889-423d-a423-b214c17f2ef6,External Partner,ORG001,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+71e62878-52d6-4c03-9991-7e828b566002,Student,12345678,checkinuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+aff88f96-63d7-43b6-a696-91f4702d2b4f,Student,12345678,loginuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+42b9640c-7247-4312-9078-88b887b7acc2,Student,12345678,idgen@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8ed0db6b-8f8b-4fec-bce6-b4773eb573f6,Staff,STAFF001,ratestaff@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2e517663-35c4-4a9c-86aa-d1d4a65808c6,Student,12345678,nullroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6d09c2ea-2ea2-4b17-be05-e76996f4737d,Student,12345678,finduser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a9a3a25b-7902-474c-b439-3467fc4c43bd,Student,12345678,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2ee31eb3-8d95-4e9e-94f2-9978ddf53b15,Admin,-,adminlogin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+f51976b1-a113-4bd9-b09b-513af18e5fd0,Student,12345678,noroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+73972b73-eac8-4b20-a9e3-a3a8b7b4cda3,Student,12345678,roombooking@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e247d7d4-d8cc-4e7d-8533-d914b8ba365c,Student,12345678,rateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+29844f9b-e9bd-4cf4-ab6c-805559978181,Student,12345678,conflictuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+36f79456-5da6-4873-aa1c-bd969a126b19,Student,12345678,roomstate@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e06abc80-9a02-493d-8e01-025345b7c4dc,Student,12345678,emptyroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e2b2b8cf-9e62-4256-95d1-fd35d06d9aba,Student,12345678,disabledroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b237a4f5-b665-4860-acaa-047a9eaf13b2,Faculty,FAC001,ratefaculty@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8706cdaf-dd6a-4a2d-9a14-fd4f522ac46f,Student,12345678,emailmismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cac77e02-0d6d-43f8-9066-e88483f25c11,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6b87e566-f71a-4319-b577-8f3544f80cbb,Student,12345678,typemismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b2db3d28-9f47-462e-ad4d-07aa14827be9,Student,12345678,bookfail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+04ee5725-5c7d-4fd7-9d97-8217f7387180,Student,12345678,notfoundroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3259a66f-4237-4e2e-bc2f-93f192270a04,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a606d974-75cf-4ab9-82bc-15e671e5474e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5ce3763c-eca0-46cf-a99c-9f2b7e21c2d5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+80044d65-ddde-4c42-b49d-249cb5113c2c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6ab65133-36ba-4a9e-9955-1073b63be77e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+51a68242-448a-469a-b788-92da7ed2d59e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c861d0df-b1c6-43ab-80f9-9e2562a0fe8e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3b21b20b-5c66-4823-b4ec-830acbb56e69,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8acd17e1-7e1c-44b6-a4d1-9dc59f24dca3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+21c8ca25-c01e-4f17-8f15-77cf8de70274,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+44ba304b-df18-43cf-8542-81e7b1581e5f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5015092b-8d09-438e-a229-dc9e0f313831,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+809fcb0a-761f-4c06-bbcf-b0462bb58f44,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+17785a1b-7bee-48e8-9483-d4bac1181322,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3a8bab9c-8c61-459f-a28e-ac7df838f1f0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+00f2f8a5-690a-4c95-961a-026edb3e3a88,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3a446e96-b6bb-4fd1-8c35-6b618c27864d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+39351379-3074-4529-a7cc-896b6c01e025,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9cc04474-a594-4985-99e9-00abe3356317,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e31f722f-dc16-4ac3-91fd-12f96952af34,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+433a19d3-1a17-484f-91d3-a413607e98d0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+34fbfa1c-b149-4fda-a25d-43a0f5fdc4fb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5731e207-4d83-40bc-913f-8c428359742c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d41bb72b-dec5-4ace-aa73-1ad30f2f66b8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d1ed16a0-c1b5-4b0a-be62-da2ddb8028a2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b2e39a19-a393-4e82-a02a-d5efeef834e9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6e4771f5-16fa-4e97-b7a1-2c6dd2b1b567,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1c1cdc0c-d0d4-4691-ba86-ccdec954480b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1d0c467c-d976-45c4-aed6-bd4688521415,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5363f785-c831-4d5a-817e-a39089347823,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+dcf36841-5f5a-44c2-8e7f-5a8f7cd3a96d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3af4bd67-dfec-4533-a72e-0f962168ee3d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f98c6058-5bbc-4a36-aa75-9148c6600857,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ac7b31d1-e899-44d3-a9bc-76df4294b22a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6cad8824-3e4d-47b0-ad19-6baaee5cebbf,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5657c6ac-a1e3-41b6-b468-e1be3476ee1f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+aca7d2f8-b655-4452-a27a-3b71b5713385,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+02c74d95-734e-4413-a5f5-7ed5b46e3ffe,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d4ddbd4d-f545-46f5-aa26-577f1bc4c5fd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4587c52c-69e6-4ecb-b315-0f46c0512c46,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+24ef87ae-29ec-425f-b771-7b42d1af91fe,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f27d368c-c4ee-4148-8e50-f520c36ea9c5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f816055e-8ce0-4814-958d-4f9633e773bb,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+18551c2c-c7a5-4b60-8a56-debef1a5c030,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+2fc78297-6f7f-40c4-848b-607ce91c9e55,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+8f253b9d-ad6c-4240-8e2a-24fdeeed0c00,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+def75385-7143-4183-8ae8-4756d22cee5f,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+9adf6036-ff46-4905-a339-df96f016394e,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+c3ee1de9-bc2d-44f1-b8ae-6f003801ee7b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8bff8d96-30ba-4797-9807-ea7593993016,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ed840339-4605-43b9-ba88-e5cb374d5d78,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+dbec19c2-8bbc-46d1-8ac0-b4851bd964c8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f22e7054-d830-486f-82d6-b2d5d3563bbd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f1787d70-c2a8-4f64-9d23-3a65c6f4bb96,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+850be41a-adf9-4e7c-b508-d102e31f5ba1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e3b654e9-557c-45c1-bc5f-8be2d9d56149,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7e0b3c57-1f0e-4255-8101-cf4e8e375b36,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4ff3e93a-a2f0-4e30-859a-73003398bd4b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+32f463d5-2c22-4ecb-8665-c6c84e7e8e10,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f4b419f8-6df6-48f1-96b3-3732fb263d02,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7f535713-f41c-4cf3-9e81-ad309898e5dc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a6db1c86-2723-4285-97a3-97504b95b0e7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e71e9186-43b0-4e6a-b02e-9c07506d8d5d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2f253847-8b21-4a13-9492-2f3a9eeece97,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+428dc0e5-6d62-4783-9fa5-8c223ea427af,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0023d562-7821-437a-9334-985bd05784eb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d25922a3-f8b9-46c6-ba2a-6097d6b7b03c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+002ca05e-84de-4724-b4c0-eb2efe895a6b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+fe2bca6d-7f16-430d-b056-47f28435c517,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1b0bec49-3a5a-44a4-9c40-2520151b59de,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+24c240d2-0112-42ab-ab0b-04fa642ac474,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ef87f9e4-bacb-429e-96b5-f8852c7f017c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+49e80c87-02c6-4499-afc4-b8fbc3a7fe70,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d5ed9f6a-2153-47cd-a7bd-f812899897c2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ca77c7ff-5364-48aa-9ddb-9958174255c4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f266be0e-13dc-44ab-9bcf-9f779aca82d1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f1470800-c309-4f65-98fa-bdfef90ce5a1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ea1d6f89-486a-4ce6-89d0-4c82cd1b9966,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+62c7823d-ce81-4168-b018-f9016e0eff5c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1986f61e-0733-4bed-a189-0e4f5f3de1c0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4f4cd490-fcb5-493b-b2e8-9dfea0444253,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+250652aa-29f2-49e6-af5f-91b892832895,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+28f44214-8545-4b42-a564-5c5256970b88,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4233e682-2d77-413c-9376-6df31cad0af6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+061dec7f-d42b-4fa7-9a9d-cf345b9123b8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+47beaea0-1071-4978-8964-1c557245082c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+eecc5caa-e3a2-41cf-bbe7-e72a0aff6876,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9fd603fe-be2b-4247-8abd-813fe659dde4,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+f6f1f4ad-cfdd-4593-8e01-4810ddc8fcba,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+d9e70d14-66b3-4cdd-a9f6-0b0f456f3604,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+2c6ea370-21d1-4f8b-8483-eadacc5d22b4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+41b546b4-3610-46f2-92b1-f8c53b630d60,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+58ff6c99-f026-44cf-9a24-ba705ea72e46,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+82b4032a-6f26-4967-97a7-4aef5bc68c21,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2e13d64e-1616-4254-9cb1-60cc81b62f57,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a02b9ad3-d689-480a-9161-b534b1c4826c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2a735d39-4307-4496-9514-ee40eef9056b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+56352136-32f1-4042-81d3-1c0a98e96b56,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+60bafccb-d18b-4ae8-bf87-aabe275755ff,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b765df55-b9a5-4315-87e2-441fa0e66737,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+168d4892-9371-42e3-8a29-0a2092c2d464,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d3872625-2711-469c-ab35-c997ac6b6940,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2674aa61-75fe-4969-92ce-0d4df2da6924,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+df5b3d10-ca9a-4720-b40c-5c3335109ab7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+30bf7084-e9f4-42bd-862c-bba9259824fd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+346822db-a6a9-4a01-a7cc-f8534050aaf7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+52b6ce93-5d1d-4966-b24a-87f8cabb8e9a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d49337c3-2756-4009-ba06-380e2ee1e400,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1cf986a3-1055-45d0-ac47-b86c522c13d4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6935d583-7deb-42bf-a3fd-83853afbb0d4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cd0dfae8-639b-4bde-9a84-85332f2ff3b2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f0ed5b55-da0f-44e4-ad80-2034624bc3d7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+71c28472-aac6-4ef2-a55e-6468571b0375,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4a3056f2-467e-426f-9003-a5d412ceea49,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+99cf617f-93c2-475d-b88d-d27480aa9ee6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+51ae65df-7048-4046-b8b9-a081c00b91cb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c96acdff-c553-4147-a30d-df2cdd47d5f8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0cbdad29-7439-4885-ae2c-96443b05135e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+94750cbb-a850-44f0-9d39-c9da130b6407,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+78457a1d-3fd0-4af4-bccd-38fb2831c071,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f26330b2-03e4-4baa-adbb-e2fc940c08a0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b2cf5bcf-ea6c-4343-80d3-2a1d9620585d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+829e3c92-386a-45af-8814-a017f1b0982b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+de3edfd7-ad46-4290-b97e-5e985571461a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a62668f1-9e8a-424e-9067-a6e2556b2f6a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f8c29cdc-4265-4428-85a5-c8eaa9052146,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ac5562db-79b1-43cb-964c-223812c48c28,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+71bca0f0-de2f-4163-bbdc-520faeb45e3e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a8c5b9bd-944a-44cd-83d2-5a8d088fa003,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+244c02dd-76e9-4e6c-bffa-abb287bddbfb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+08edd0b2-2aea-43a1-8968-766a82550db9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+eeb16f4a-dd31-4e9e-938e-a5293686a517,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+61c0c8bc-8871-4f66-93ca-f4738fed522e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c57bea5a-5f3e-4dce-b3bc-64b1f999a5da,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+30b5228d-a9b6-4853-9e3c-62b0a36e8992,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+051c27f4-9b97-4225-87ae-6f75eaca93ce,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+88030837-3d33-4dff-8e4d-dd25d3de07e9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d0652a9e-88a9-4679-878a-843b5bdd00dc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5216019f-afb1-44c1-a5ab-d75a2463ebbc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b40bb96d-62cc-4d6e-afef-8b4dc7a355bf,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+fd7f7167-c20b-4f02-92cb-65dedd6303f0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6e64000d-af48-414a-8c11-98ffc2a94ee5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+584ac42a-538b-4349-a9fe-1b261ba64036,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3c1dce89-ca86-406c-945f-979088ed6f4e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0ca4119d-227d-430e-9050-9dccfe1f36e8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+270ebe69-d945-4099-b66a-cbae959a8959,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+168f4a08-c317-435d-8fc0-102f7e083236,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+da38abc5-456f-48f6-af6c-4bea2675dfc8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4f287aff-a394-46c5-847d-f6c511ee7a7a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+1775dd88-fbf7-490d-8864-860b77d07679,Admin,-,findadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+18dab0a1-ecdd-4587-9e66-f3808ae36c8e,Staff,STAFF002,findstaff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+8202e214-8c4d-4547-a973-28424e5fd22c,Student,88888888,update@yorku.ca,oldpassword,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+cb386b52-af25-4ee1-acbd-28b603d4a4af,Student,10101010,update1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+42690bd6-1b67-4973-b985-7cabf3e338e7,Student,20202020,update2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+81271887-9cb6-4bbc-9aec-a5818724f442,Student,11111111,findbystudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+89ec9b44-29b8-4968-a703-4e797cf23b54,Faculty,FAC001,findfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+fe678f75-e105-4227-9c26-1b0b8ea5d562,Admin,-,admin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+3e0c5d0a-c3e0-44f4-8fec-138b094362b2,Staff,STAFF001,staff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7fc44de4-0834-48ba-86ca-056c672df8e6,Student,55555555,all1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cda4819c-a982-4f88-b417-8260a7920b6d,Student,66666666,all2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+f7134866-d0ca-48f4-a78a-01c15b0aaa62,Student,77777777,allstudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+79c6136d-b706-4862-8353-db65bb39f8e9,Admin,-,alladmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+547d5d6e-83e8-4ea3-aaae-1aeefe2e41ad,Student,99999999,updateemail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+ccc8e0e7-ef3e-4b0e-ab1e-ce32709db7f3,Faculty,FAC002,findbyfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+b73c5a3b-6184-4eb1-8853-e72750db7596,Staff,STAFF001,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+96636ffe-f3a7-4321-8d48-0b38f02a029f,External Partner,50505050,updatetype1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a15023d3-b9d0-4ad9-b983-d5f2d595c28e,Student,60606060,updatetype2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7adb78e3-7728-43ce-9c04-42ccaed75157,Staff,30303030,updatetype@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+ed42c5c1-84f2-4006-8809-4e45c047f076,Admin,-,writeadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+634c9d04-63ca-47b5-a7a2-f259f06efe1a,External Partner,ORG001,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+9839aeea-ee56-44bd-a104-8be1f1a26680,Student,33333333,exists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+862b9429-4398-4607-ab3e-1de3d0667145,Student,12345678,student@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+9641f9a5-752e-4444-acbc-642e0cfdb34d,Student,44444444,caseexists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+31f824c3-b8fc-45d3-9fc1-ae1d0483d10e,External Partner,ORG003,findbypartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d1fd3102-536a-4c4a-a075-7b193d616d13,Faculty,FAC001,faculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+553a1d0a-9af6-4922-b71a-cec573180429,External Partner,ORG002,findpartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+60a9a934-db18-410f-9dcd-6afd9d7817ca,Faculty,40404040,updatetypecase@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d25ac390-96ea-4d01-8692-883eb3f1a249,Student,22222222,caseinsensitive@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+5f3ba88c-f8aa-435c-8f9a-e1ebddc5b440,Admin,-,findbyadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+53117b73-64c1-4184-a80c-8759a7255d69,Staff,STAFF003,findbystaff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+78f80efa-82f2-45bc-a01e-589a26eaed44,Student,87654321,findstudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+83203f96-7f7a-48d7-99e6-dafa11a4cdeb,Student,12345678,finddbuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e9a4f552-a955-4344-ad2f-6b67307d4cb9,Student,12345678,casecheckin@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a0d2ef82-0aa6-496d-9a50-1a9f6e20c519,External Partner,ORG001,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+efd11250-bec4-4021-bb3f-c02e180a51a8,Student,12345678,checkinuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d90324ab-3583-4c9b-a74a-f4adcd7fcbb0,Student,12345678,loginuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+77902e9b-8a01-49a5-89b2-c5c1d39ccafd,Student,12345678,idgen@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c6c26637-7bd7-4129-a1dc-58b83c13e716,Staff,STAFF001,ratestaff@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+345375bf-1948-4b5d-b50d-d19cc27e3bd8,Student,12345678,nullroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+96fb6278-68fe-4237-99fd-af11a351ec7a,Student,12345678,finduser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f55b9172-f9e9-49a2-b66b-b123000b4963,Student,12345678,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0fb551f0-ada1-4777-93aa-bdbed59a1b94,Admin,-,adminlogin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+0b20901a-7b39-4f91-a84d-665331099130,Student,12345678,noroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+284011af-7667-4ba0-9a89-e0e33f17b3be,Student,12345678,roombooking@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e4f85fb6-3f7d-47d1-a346-d884fd083493,Student,12345678,rateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9465a887-8dc4-4719-ae0c-0fd5999ef343,Student,12345678,conflictuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0cd174f0-9652-44bf-8d64-1cbc9502ba3d,Student,12345678,roomstate@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b102e14a-f5eb-45c3-ade3-8afc0cfabb93,Student,12345678,emptyroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a2d82d0c-22ad-4a46-b9cc-89b4529d4b89,Student,12345678,disabledroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2ee67491-8cc8-4817-83ae-0037f1ad3ca5,Faculty,FAC001,ratefaculty@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+08846644-aba3-4c64-8cf0-20a26b80ef68,Student,12345678,emailmismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e8079e33-8b99-431b-a8b9-33d78bcfb877,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+17810b97-a786-46a9-a0d7-dfe0ce95231d,Student,12345678,typemismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b6566c5e-e946-4165-a70e-4ba0bc41029c,Student,12345678,bookfail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4aa4bf9d-862b-40b0-a1a1-13782ca76c58,Student,12345678,notfoundroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3561f2e2-9d0d-493c-bef3-637c19ae5163,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+038327ba-bd92-4f80-ac23-04c79c1fe65c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f47b631b-fef1-48be-bdb5-d89c1a2986f2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2b7e4805-f21b-4bc4-ae99-47d7c340b6b7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+588bca0d-2f64-40c3-b7c1-1d588fce957c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4572d0fb-b386-437e-ada9-2c61a9f0b294,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+45e3bc39-80f9-49c8-b8e6-d3283cf37b1c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f0ec4a61-5430-4c58-9a92-71c4a0f77730,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5c5d37a0-d5ff-4695-b624-a192dd72c6d8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+541ef3a3-cce1-46fb-97e4-41ebf6a80cfb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+384f39d3-e908-45a6-ba19-8cb1588ef3a0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+13b1bc28-ef6d-4111-862a-f668bab31253,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7882ae9f-ac65-4f68-a52b-eab6fc5ad9d8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+28b9f113-0c2b-47d0-b5ad-3d70619aeae4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+18dc48f8-343e-4f8e-9555-7b92b5682e01,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c320e0a5-8693-486b-8ff8-43d190c007d5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+aef9b4ca-87de-4738-930f-fec13b6c19d2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bac5ee59-7be3-410c-a670-885aa226ea19,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d7ca9e96-ee7a-4337-95fb-ca3de3d53c20,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+59887b5e-ee95-428a-8c27-d0f37033d0a4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4bbf4bcf-2911-4c5d-97e8-7ffa9e4fc8f7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f6e10d4f-7af4-48fa-8d58-c2a1a08f4fe2,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+320f580f-275d-4ecf-b29b-2aeaf46b085e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8fe99431-a066-4201-961f-e97da46c69cd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5d88d8b6-8530-4bc4-85a2-dfa144dae754,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b10aaa6e-5c64-45b6-8b36-1e4e69717dc7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+18dd8afa-c298-4e0f-a1fa-4440e76d30f6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+32256fe1-3148-46a8-80bb-e9d9cd9d35b1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+de396687-88a5-4c94-8e05-b81493454bfc,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d162285e-48a2-4dad-b8ce-6f20f328e896,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2be4df20-6f98-49d6-b963-9a1a0b738eae,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+92e3f209-f5ad-4759-a9e8-422e29fe0dd7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+bcd85de3-b396-4856-adf1-73ff1c1a8d8d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3c7c8c62-e76e-447b-bc9f-6b090894c89b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d9a2cf2b-6077-450b-b8ab-1f80a0525f50,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+da96d3d0-48a7-4deb-b12b-4be9a1d2e279,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f3c41b3f-30b2-49e7-8873-3a442a2f5168,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e185c1ef-99be-40b8-bb58-dd434b3b2c83,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3150ffd8-0667-4d0f-a3ea-61eaeb58a7db,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f04a3840-4b64-4850-8785-f306d7b1bf6e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+95c94c08-4fec-4669-b615-958e5a38ef26,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c68caa05-bf61-423a-a6b3-b4aef23caf8d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+439f9e43-33b2-4bb1-9038-da3e5d40a4d8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7fbbcf54-6a3b-412c-9ccf-f5e2c47a3dc5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+915dd3a8-68f4-45ec-acd8-d71e47a18bd4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8e8060d1-0660-48b2-863f-21ad7aecbb7b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+248110a3-dc43-42b2-a27f-6cd3dff30ec7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9cdb7a74-475c-4ae5-8abf-f5724a552402,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+eaf43023-6351-44ba-a82a-98177cc25e91,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8cd111c3-cbf7-45dc-bc07-3211058e4442,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7b445634-322d-441b-b91f-472a8dacc177,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6bd4915e-2934-4470-a417-cc730d151656,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+31c1cb03-3723-4067-9dc3-f417f8747c8d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8fcc8b60-ac03-42b1-b8a3-1ce02358b7bb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+22733e31-437e-4712-bf74-04bd282f056f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c2e1ff46-61b5-4249-a20c-0a097814c7b1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b6740ec3-25ef-435e-8bb6-ed24fd58fb44,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cc5abf08-777d-4b1d-8ae0-a456437ff9ad,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+10ee0627-5f1d-4309-a87f-a36f9325ecda,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6d0b5826-56b4-46ac-8b43-b41cc4c4a9c7,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+e4bc6b8d-195f-4cc5-8786-cfc20562527b,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+55ad81c9-ab57-4b61-abf8-2da4a2c237c8,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+da1c9dc4-a1f3-4328-acc0-2d2b2040d435,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+298a31ba-23dd-4415-a02d-035f3eeab288,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+9e6298b6-51ea-4c1a-8164-9c2d371204fa,Student,12345678,test@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+f87c86e4-8e60-4708-8615-ec6e7ba02025,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6f1d0cc4-e9ab-408f-b8c7-a93eb78319e9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+78228624-392d-498f-a995-6b8242b1300a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+212e3e59-fb1a-485b-95c3-7843a10f4d44,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+38d11cef-10c2-461b-ab00-37c9203e83d8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ab9174ce-e1d1-4a09-bd22-d1b9de9cf970,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ee57f9a1-1979-4b2c-8e77-66ffbb866948,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+77e1b389-25e5-4bc0-abfb-61209ee4a19d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2090277c-3f6e-4ae6-a7d8-5623d2b3652a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ab062895-8825-4f19-ba51-ffa4eb119a7d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2fbec1f9-a154-4137-ba22-81749ffa9436,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+73b13a83-bbcb-4656-a3c3-fce791307398,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+912a036d-f246-43da-ad1e-73885c399f66,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3b446baa-7c42-4ad8-af7f-1d09cc9a486a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+77878ce5-c9b4-42da-a80e-0daa790693eb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f621c3c4-3b9a-4899-917c-8c8ef5209729,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+acec76a1-8da1-4bc9-8895-51cbc6acaaa7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+832c34d8-fbed-47a6-a4d8-991d0953aa0e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9fd73cff-e918-4b97-a81b-6c8aab06d691,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+72372880-21a0-4096-b2f2-b3f1fafa70f7,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2d04777f-5ffe-4812-848d-34a6594c081c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3d10b250-09f6-4457-95b8-411dab885996,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e6fb02b3-69f2-49f0-8d62-3bbdc05895b3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ff5e1c69-e96b-4afe-ac30-6c19a29251af,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+796cda8e-ba12-4f76-aebf-b3e98c272764,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1c01c69e-5e43-4fc6-a216-fbc6f4509322,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+749a89c7-d8d2-43aa-bb6f-799d5b71fbfd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+15295f5e-7bf8-4630-a7ca-ad69c6c32920,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+96307a8f-41a8-4dbf-a477-39f56301ef7a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+62090d73-0b96-49cc-894b-b39cd75c1f04,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b8b4d10c-7210-4b8a-9e9f-ae1ff0435af1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f2135479-a4c7-4c16-8b2a-c6fdf8c715bb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d9701df5-08d4-4104-9700-11b52b2519a4,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+fad84f5a-276f-42c3-b1e9-25b94fb2c8aa,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e7800c08-e70a-4fb8-b34d-f7ee65de49da,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c06ac370-ce02-4521-9c1e-e17d54b8ab38,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a1caaece-fa3a-4818-8c6c-ef3ff59731ee,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+53d8cd12-1c8f-40ff-a3c6-c311f3167267,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b0320ad9-25af-4ccd-bafe-8bd0b99631ef,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6637ba69-ce4e-495f-ba77-08af5bb88a55,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+a463aea5-ab0c-40ac-8e14-693e323cdaa2,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+1a160e2a-9748-4bca-8fd3-ac8f1a14d2bc,Student,12345678,cancel@yorku.ca,pass,Mon Dec 01 19:34:14 EST 2025
+78a69398-b80b-4d1d-a3fa-db4b2be2d3dd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4e80ac03-1f42-4e4c-a0f0-96e15f2878b1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0615808f-afff-4af2-bf5c-e41da1f350d0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+60164920-5d32-4027-8fcf-b351fe032288,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+39381108-eb51-4cef-a647-d1e06b097972,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2abd0496-8372-45ac-a35a-e2ec55823c54,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6451be4a-ff2a-4704-9bc1-90d87176fedb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+dbdf1785-cbcc-4cc5-beed-5d0d1e8bcb34,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4f2cfb0b-1d0d-499d-9e64-fbdd6857cb2e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6b4c067b-ae95-483a-af58-88e94c494de1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+adbd4f2a-dec5-437b-802d-228f0f032ecd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2ae6a118-4696-44f7-a219-5c2d608dd252,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b4e5d44a-d463-4260-ad67-f59061e83440,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c4df5af2-61d8-439b-b477-8aef927c114e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7c3abce3-2318-48cc-8a8f-f1a895030235,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e4310d29-20d8-4a29-b82d-c8f2dabcf888,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1aa54c7e-f29a-498a-995b-494932c6d39c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e0409a77-d3ea-4434-b7e1-a5619fe44760,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cee49354-9721-4807-9c5c-aa5d4d39e7f3,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2df09aad-6caa-4ca6-aaef-238d98066f4d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5d200a7d-fa7a-43a8-89de-ff9811731856,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+36c31d99-264b-42d0-ad27-5008feae03d8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+51f50c71-9098-4151-ac4f-58e035cd4dc5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+38b9e74b-d70d-4856-94ba-039d155c8efe,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a8dfb5b3-7a5e-4934-97a1-0003aeac8487,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+64c4518a-05fb-44cf-86fc-76573496326c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3534cbd9-cf0a-4e37-acf7-8c10262d9030,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d1d967bb-4523-43fc-a4df-4af3a2722f2a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d0faee4a-814b-4181-8418-1a32912d5c8c,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+40127be3-aeac-47fb-a273-ce31a4894d30,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+88208985-a1e8-4c85-ad16-4344f6b727e5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c116bf4f-0760-4c09-8294-9a50c1016488,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+017f1095-ac33-4c9f-9dc7-861c5c1e7188,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+71e4ae8e-dd4e-43d8-b31f-f17fde7cef2a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+dca0fd40-b5c2-474d-a7b4-981176ece6ff,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+2bb65cee-9d82-45ec-a80b-c26a18f66554,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a00198e8-0365-4422-afac-53c5eaf634f1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b655ff5c-5511-4305-b4f5-febc85c3584a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3894fd99-72de-446c-a5f3-369f346277c1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+d23f5352-b138-4a3e-8be3-53e63aac3f27,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cb3e6573-7e39-4dec-818a-b3fed11aac21,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+14f2bfc4-ab0d-4923-af38-f9d98466a4be,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+465fb156-5de6-486b-aef0-670b52f93598,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+5b65041f-4d64-44ed-bc0e-069a1c9a43c1,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cdd01f61-b1e4-451a-9075-b9537fa73619,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+04cab4b9-f711-4c27-a444-8f0aa1b882d9,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+aa63b567-852a-493c-a9de-4cb3018091ad,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+130ac303-b579-4bfe-9b46-1b76ddca4184,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f9505c50-7ffc-4e1a-9655-652f02b01c59,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6fb6c1e0-1a23-4d12-a98d-c9a56065a2e5,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+444f011f-6df8-4222-aa1f-fda5e2f08760,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+14bd65d1-6b5f-4d0d-91bc-a7258e5fe7e6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+60835972-80d2-4b0f-996c-8c2c2b8f66f6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b8675abf-1f22-4455-aca8-2ca77f7cad96,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f84ca106-e837-4666-8d09-0eec51a3fdf8,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+8ab5209e-eeeb-4089-aa2a-880258550483,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+90f45249-9dcc-4d41-81ad-7ff85796750d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e4b9738e-0ee2-4f95-a81a-a78f521d1062,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+74ec7f93-5f96-47d1-adf2-30d031e9612a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+0ecb81cb-00b4-4462-9503-26dedeb1e019,Admin,-,findadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+73f9f834-ef27-4a86-a0ff-455c2da2c52d,Staff,STAFF002,findstaff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c43434b8-ec71-4667-aec8-c2665ad5806a,Student,88888888,update@yorku.ca,oldpassword,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+3abefb67-625d-4dfc-89f2-6b445938e710,Student,10101010,update1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+48db4bb2-63ee-49e5-a36b-ee50b3782d55,Student,20202020,update2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+9c7019b4-b5ed-4d50-833f-219a0b042c91,Student,11111111,findbystudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+e050423d-ea38-4540-aca1-bdd62d57cba4,Faculty,FAC001,findfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+2be62d64-7477-4824-a5a2-d1341dba55ef,Admin,-,admin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+f95d98e9-c8bd-4fc6-97b8-7bc81b45d0c4,Staff,STAFF001,staff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+fe71d425-6c69-4798-8368-58a73921d394,Student,55555555,all1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4d76238b-69cc-4c08-be58-285d2505dcb4,Student,66666666,all2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+8c8214d0-e1fe-4689-a0d9-bdbdc783d022,Student,77777777,allstudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f26e48de-acb8-4bea-9fe8-91c6a54a72c4,Admin,-,alladmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+00d25c68-22ae-4a10-b24b-0829c75957a6,Student,99999999,updateemail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+bc372dac-a196-4081-949c-64a62e49a783,Faculty,FAC002,findbyfaculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+dcbb3fab-f8c6-43f7-b8ca-ef2ed5a59564,Staff,STAFF001,writeaccount@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+ca0b72c6-571e-4da3-9dfa-bdbfa709a831,External Partner,50505050,updatetype1@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1647ab3e-837b-4a4b-8257-386c678a8d2f,Student,60606060,updatetype2@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+0202b1fc-b49f-4eea-8727-8d44aecf40ce,Staff,30303030,updatetype@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+d7b1b9f6-2c7f-48a5-a4ca-fc03b7f370fb,Admin,-,writeadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c2c2012c-2b5c-40cd-87b4-0727c165b66e,External Partner,ORG001,partner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+2403ed93-f3cb-453e-bbe8-61b6e810c08f,Student,33333333,exists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+1f55cae1-7e8e-4d4b-bbd5-7592e6ba72de,Student,12345678,student@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+982521ce-2893-4276-ab52-9ce97b9cc0c4,Student,44444444,caseexists@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+3ee5134a-055a-4621-a4f4-18763ce084a8,External Partner,ORG003,findbypartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+7c660063-1a96-4c9c-a707-88a97e7e4307,Faculty,FAC001,faculty@yorku.ca,facultypass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+c2137665-bf75-482f-bc25-92569af992d9,External Partner,ORG002,findpartner@external.com,partnerpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+167fd469-f1a0-458d-b04e-c5162e3059c1,Faculty,40404040,updatetypecase@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+294cc54f-440c-4a61-a7f3-e63c2f74312f,Student,22222222,caseinsensitive@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+5572d34e-132d-431d-a0db-fa9688bc35ab,Admin,-,findbyadmin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+58504c7c-fb87-4b48-9dd4-770dc485f5db,Staff,STAFF003,findbystaff@yorku.ca,staffpass,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+46e227a4-e152-4d0d-bd7c-d3e6962b738f,Chief Event Coordinator,-,chief@gmail.com,Chief1234$,Mon Dec 01 19:34:14 EST 2025
+61dfab5f-70ba-4eae-811d-154c57d04661,Student,87654321,findstudent@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+46530ae9-4325-4737-a30d-9fadc742391f,Student,12345678,finddbuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ebd0b551-6ad0-4089-a608-5dd9b0e1f573,Student,12345678,casecheckin@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cf1b518b-00b0-4141-b249-314f8c51885c,External Partner,ORG001,ratepartner@external.com,password123,Mon Dec 01 19:34:14 EST 2025
+e00cfaf2-80e0-4be6-9e23-438c9038031b,Student,12345678,checkinuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+12752705-07a8-4e92-bcce-29fc73922f67,Student,12345678,loginuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4f8f59af-68c6-44b9-9d5f-8e9a8136960e,Student,12345678,idgen@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+728edea9-d251-4805-9e3b-62f8332f27b4,Staff,STAFF001,ratestaff@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cf4528d7-a25f-4904-bbc3-2677f4fc5e2d,Student,12345678,nullroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c2129eac-2289-421d-8822-9cb513dc2b3c,Student,12345678,finduser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+75fdcd57-586d-4969-a080-c5f22785e7c2,Student,12345678,bookinguser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+07eb694c-f1cd-4745-8a41-50b63b132cc7,Admin,-,adminlogin@yorku.ca,adminpass,Mon Dec 01 19:34:14 EST 2025
+0a053c4f-20ee-4d5c-9366-a644145731b0,Student,12345678,noroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ea8ceaef-d069-4371-970e-444e1f852d24,Student,12345678,roombooking@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e311018f-8526-489a-aafb-d804a13b9179,Student,12345678,rateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9090a590-6420-4f88-a248-e9206b43da4e,Student,12345678,conflictuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f38aaa90-d2b5-4f6d-92f0-3c292f187a50,Student,12345678,roomstate@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b5df91d4-b053-440c-90a5-9de7a0d4bbc6,Student,12345678,emptyroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+e35c3071-7ab0-4fa4-87fb-3e201f3caa16,Student,12345678,disabledroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cfc9a0d5-699a-4688-8e10-2303a0dddc4a,Faculty,FAC001,ratefaculty@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+369e51b3-9e0b-448c-a1af-b44148834691,Student,12345678,emailmismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0c76f20b-196d-48cd-9649-7a7d9f523565,Student,12345678,updateuser@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+f0528353-d3fd-4da3-9398-5832580e2e00,Student,12345678,typemismatch@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+67e9ecfd-f48b-4a27-bf78-437ae6ed311f,Student,12345678,bookfail@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b69c580f-f647-4690-8794-fc828a180831,Student,12345678,notfoundroom@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+35adbd17-e6a9-4455-b23f-5cfb154c804d,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+56ad1a5a-69a6-43d8-b5d4-a1b8f7ce7c07,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+b1615e6f-ec59-4c5c-baf4-45562b20148f,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+0260c6df-1396-4be7-9437-1e6a78ab27ff,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9fc70648-3e7a-45f1-ad9b-71f8ddce5838,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+1bd55a84-7f8d-4c0b-9998-2bd53d61942a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cda45713-059c-4101-86c1-874eb334adec,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+9d78f1a9-29dc-4ebe-8951-fced65550a1a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3a7dbe31-263c-4c3b-962b-4ebf30408b6e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3279aeeb-5dce-4e99-aeaf-51dafb931333,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+c1979728-81f5-43fc-aa71-7cdb6facc987,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7f8c3fc6-b1a8-464b-b6c9-951fcd5e42ec,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+70cf3487-5ece-4ef7-b4af-51e04ae0cc9a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+16752bf0-2b44-438b-b924-03bafabf977e,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4d62f83b-a640-42e9-a54e-673e6e5543fb,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+aeef0b1a-9200-4c43-bcdb-8bbd90cf3a22,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+cbada0a7-2469-49a7-be56-52ed3d9ed11b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+3331c71b-67c4-41fa-9ba6-eba7ca21d42a,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4a3bf24b-dbdf-4172-848c-001727b384cd,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+de1512c0-9372-48f3-8d8b-2db2bc21ff65,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+4dc92698-5a5f-4d92-93ca-b05bea7ba021,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+6af2dda2-cef7-49ab-99a9-1867a4805496,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+7c644361-a5a8-42f7-8509-e0ab0f9af23b,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+a55db60d-9fa2-47da-bf3e-e9a4f2a86da0,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
+ed3205c5-bef8-4617-b305-a6e5a95ce8f6,Student,12345678,test@yorku.ca,password123,Mon Dec 01 19:34:14 EST 2025
