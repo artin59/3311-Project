@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">AppUI</a> &gt; <span class="el_source">LoginWindow.java</span></div><h1>LoginWindow.java</h1><pre class="source lang-java linenums">package AppUI;
+
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+public class LoginWindow {
+	
+	private JPanel loginPane;
+
+    private JTextField txtBoxEmail;
+    private JPasswordField txtBoxPassword;
+    private JButton btnLogin;
+    private JButton btnRegister;
+
+	private JButton backToIntro;
+	
+<span class="nc" id="L23">	public LoginWindow() {</span>
+<span class="nc" id="L24">		buildWindow();</span>
+<span class="nc" id="L25">	}</span>
+	
+	public void buildWindow() {
+		// =====================================================
+		// 1. Base panel setup
+		// =====================================================
+<span class="nc" id="L31">		loginPane = new JPanel();</span>
+<span class="nc" id="L32">		loginPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="nc" id="L33">		loginPane.setLayout(null);</span>
+
+		// =====================================================
+		// 2. Header
+		// =====================================================
+<span class="nc" id="L38">		JLabel titleLabel = new JLabel(&quot;YorkU Conference Scheduler&quot;);</span>
+<span class="nc" id="L39">		titleLabel.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 35));</span>
+<span class="nc" id="L40">		titleLabel.setBounds(90, 55, 550, 40);</span>
+<span class="nc" id="L41">		loginPane.add(titleLabel);</span>
+
+		// =====================================================
+		// 3. Email &amp; Password Labels
+		// =====================================================
+
+<span class="nc" id="L47">		JLabel lblEmail = new JLabel(&quot;Email:&quot;);</span>
+<span class="nc" id="L48">		lblEmail.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 21));</span>
+<span class="nc" id="L49">		lblEmail.setBounds(170, 130, 80, 25);</span>
+<span class="nc" id="L50">		loginPane.add(lblEmail);</span>
+
+<span class="nc" id="L52">		JLabel lblPassword = new JLabel(&quot;Password:&quot;);</span>
+<span class="nc" id="L53">		lblPassword.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 21));</span>
+<span class="nc" id="L54">		lblPassword.setBounds(140, 180, 110, 25);</span>
+<span class="nc" id="L55">		loginPane.add(lblPassword);</span>
+
+		// =====================================================
+		// 4. Email &amp; Password Text Fields
+		// =====================================================
+<span class="nc" id="L60">		txtBoxEmail = new JTextField();</span>
+<span class="nc" id="L61">		txtBoxEmail.setBounds(250, 130, 290, 28);</span>
+<span class="nc" id="L62">		txtBoxEmail.setColumns(10);</span>
+<span class="nc" id="L63">		loginPane.add(txtBoxEmail);</span>
+
+<span class="nc" id="L65">		txtBoxPassword = new JPasswordField();</span>
+<span class="nc" id="L66">		txtBoxPassword.setBounds(250, 180, 290, 28);</span>
+<span class="nc" id="L67">		loginPane.add(txtBoxPassword);</span>
+
+		// =====================================================
+		// 5. Buttons (Login, Register)
+		// =====================================================
+
+		// --- Login ---
+<span class="nc" id="L74">		btnLogin = new JButton(&quot;Login&quot;);</span>
+<span class="nc" id="L75">		btnLogin.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.PLAIN, 27));</span>
+<span class="nc" id="L76">		btnLogin.setBounds(360, 240, 180, 40);</span>
+<span class="nc" id="L77">		loginPane.add(btnLogin);</span>
+
+		// --- Register ---
+<span class="nc" id="L80">		btnRegister = new JButton(&quot;Register&quot;);</span>
+<span class="nc" id="L81">		btnRegister.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.PLAIN, 27));</span>
+<span class="nc" id="L82">		btnRegister.setBounds(150, 240, 180, 40);</span>
+<span class="nc" id="L83">		loginPane.add(btnRegister);</span>
+		
+	    // Back to Intro
+<span class="nc" id="L86">	    backToIntro = new JButton(&quot;Back&quot;);</span>
+<span class="nc" id="L87">	    backToIntro.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 14));</span>
+<span class="nc" id="L88">	    backToIntro.setBounds(20, 10, 80, 23);</span>
+<span class="nc" id="L89">	    loginPane.add(backToIntro);</span>
+<span class="nc" id="L90">	}</span>
+
+
+	public JPanel getPane() {
+<span class="nc" id="L94">		return loginPane;</span>
+	}
+
+
+	public JTextField getTxtBoxEmail() {
+<span class="nc" id="L99">		return txtBoxEmail;</span>
+	}
+
+
+	public JPasswordField getTxtBoxPassword() {
+<span class="nc" id="L104">		return txtBoxPassword;</span>
+	}
+
+
+	public JButton getBtnLogin() {
+<span class="nc" id="L109">		return btnLogin;</span>
+	}
+
+
+	public JButton getBtnRegister() {
+<span class="nc" id="L114">		return btnRegister;</span>
+	}
+
+
+	public JButton getBtnBackToIntro() {
+<span class="nc" id="L119">		return backToIntro;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

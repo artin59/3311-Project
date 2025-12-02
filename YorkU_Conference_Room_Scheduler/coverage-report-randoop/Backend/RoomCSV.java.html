@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoomCSV.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">RoomCSV.java</span></div><h1>RoomCSV.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
+
+public class RoomCSV {
+    
+<span class="fc" id="L14">    private static RoomCSV instance = new RoomCSV();</span>
+<span class="fc" id="L15">    private final String PATH = &quot;../RoomDatabase.csv&quot;;</span>
+    
+<span class="fc" id="L17">    private RoomCSV() {</span>
+        try {
+<span class="fc" id="L19">            File file = new File(PATH);</span>
+            
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">            if (!file.exists()) {</span>
+                // Create directory if it doesn't exist
+<span class="nc" id="L23">                file.getParentFile().mkdirs();</span>
+                
+<span class="nc" id="L25">                CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, false), ',');</span>
+<span class="nc" id="L26">                csvWrite.write(&quot;Room ID&quot;);</span>
+<span class="nc" id="L27">                csvWrite.write(&quot;Capacity&quot;);</span>
+<span class="nc" id="L28">                csvWrite.write(&quot;Building Name&quot;);</span>
+<span class="nc" id="L29">                csvWrite.write(&quot;Room Number&quot;);</span>
+<span class="nc" id="L30">                csvWrite.write(&quot;Status&quot;);</span>
+<span class="nc" id="L31">                csvWrite.write(&quot;Condition&quot;);</span>
+<span class="nc" id="L32">                csvWrite.write(&quot;Booking ID&quot;);</span>
+<span class="nc" id="L33">                csvWrite.write(&quot;Booking User ID&quot;);</span>
+<span class="nc" id="L34">                csvWrite.write(&quot;Booking Date&quot;);</span>
+<span class="nc" id="L35">                csvWrite.write(&quot;Booking Start Time&quot;);</span>
+<span class="nc" id="L36">                csvWrite.write(&quot;Booking End Time&quot;);</span>
+<span class="nc" id="L37">                csvWrite.endRecord();</span>
+<span class="nc" id="L38">                csvWrite.close();</span>
+            }
+<span class="nc" id="L40">        } catch (Exception e) {</span>
+<span class="nc" id="L41">            e.printStackTrace();</span>
+<span class="fc" id="L42">        }</span>
+<span class="fc" id="L43">    }</span>
+    
+    public static RoomCSV getInstance() {
+<span class="fc" id="L46">        return instance;</span>
+    }
+    
+    public void write(Room room) {
+        try {
+<span class="fc" id="L51">            CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, true), ',');</span>
+<span class="fc" id="L52">            csvWrite.write(String.valueOf(room.getRoomId()));</span>
+<span class="fc" id="L53">            csvWrite.write(String.valueOf(room.getCapacity()));</span>
+<span class="fc" id="L54">            csvWrite.write(room.getBuildingName());</span>
+<span class="fc" id="L55">            csvWrite.write(room.getRoomNumber());</span>
+<span class="fc" id="L56">            csvWrite.write(room.getStatus());</span>
+<span class="fc" id="L57">            csvWrite.write(room.getCondition());</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">            csvWrite.write(room.getBookingId() != null ? room.getBookingId() : &quot;&quot;);</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">            csvWrite.write(room.getBookingUserId() != null ? String.valueOf(room.getBookingUserId()) : &quot;&quot;);</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">            csvWrite.write(room.getBookingDate() != null ? room.getBookingDate() : &quot;&quot;);</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            csvWrite.write(room.getBookingStartTime() != null ? room.getBookingStartTime() : &quot;&quot;);</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            csvWrite.write(room.getBookingEndTime() != null ? room.getBookingEndTime() : &quot;&quot;);</span>
+<span class="fc" id="L63">            csvWrite.endRecord();</span>
+<span class="fc" id="L64">            csvWrite.close();</span>
+<span class="nc" id="L65">        } catch (Exception e) {</span>
+<span class="nc" id="L66">            e.printStackTrace();</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">    }</span>
+    
+    public Room findById(UUID roomId) {
+        try {
+<span class="fc" id="L72">            CsvReader csvRead = new CsvReader(PATH);</span>
+<span class="fc" id="L73">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">                if (csvRead.get(&quot;Room ID&quot;).equals(String.valueOf(roomId))) {</span>
+<span class="fc" id="L77">                    Room room = parseRoomFromRecord(csvRead);</span>
+<span class="fc" id="L78">                    csvRead.close();</span>
+<span class="fc" id="L79">                    return room;</span>
+                }
+            }
+<span class="fc" id="L82">            csvRead.close();</span>
+<span class="nc" id="L83">        } catch (Exception e) {</span>
+<span class="nc" id="L84">            e.printStackTrace();</span>
+<span class="fc" id="L85">        }</span>
+<span class="fc" id="L86">        return null;</span>
+    }
+    
+    public Room findByLocation(String buildingName, String roomNumber) {
+        try {
+<span class="fc" id="L91">            CsvReader csvRead = new CsvReader(PATH);</span>
+<span class="fc" id="L92">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">                if (csvRead.get(&quot;Building Name&quot;).equalsIgnoreCase(buildingName) &amp;&amp;</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                    csvRead.get(&quot;Room Number&quot;).equalsIgnoreCase(roomNumber)) {</span>
+<span class="fc" id="L97">                    Room room = parseRoomFromRecord(csvRead);</span>
+<span class="fc" id="L98">                    csvRead.close();</span>
+<span class="fc" id="L99">                    return room;</span>
+                }
+            }
+<span class="fc" id="L102">            csvRead.close();</span>
+<span class="nc" id="L103">        } catch (Exception e) {</span>
+<span class="nc" id="L104">            e.printStackTrace();</span>
+<span class="fc" id="L105">        }</span>
+<span class="fc" id="L106">        return null;</span>
+    }
+    
+    public List&lt;Room&gt; findAll() {
+<span class="fc" id="L110">        List&lt;Room&gt; rooms = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="fc" id="L112">            CsvReader csvRead = new CsvReader(PATH);</span>
+<span class="fc" id="L113">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L116">                Room room = parseRoomFromRecord(csvRead);</span>
+<span class="fc" id="L117">                rooms.add(room);</span>
+<span class="fc" id="L118">            }</span>
+<span class="fc" id="L119">            csvRead.close();</span>
+<span class="nc" id="L120">        } catch (Exception e) {</span>
+<span class="nc" id="L121">            e.printStackTrace();</span>
+<span class="fc" id="L122">        }</span>
+<span class="fc" id="L123">        return rooms;</span>
+    }
+    
+    public boolean roomExists(String buildingName, String roomNumber) {
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        return findByLocation(buildingName, roomNumber) != null;</span>
+    }
+    
+    public void update(Room updatedRoom) {
+<span class="fc" id="L131">        List&lt;Room&gt; allRooms = findAll();</span>
+        
+        try {
+            // Rewrite entire file with headers
+<span class="fc" id="L135">            CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, false), ',');</span>
+<span class="fc" id="L136">            csvWrite.write(&quot;Room ID&quot;);</span>
+<span class="fc" id="L137">            csvWrite.write(&quot;Capacity&quot;);</span>
+<span class="fc" id="L138">            csvWrite.write(&quot;Building Name&quot;);</span>
+<span class="fc" id="L139">            csvWrite.write(&quot;Room Number&quot;);</span>
+<span class="fc" id="L140">            csvWrite.write(&quot;Status&quot;);</span>
+<span class="fc" id="L141">            csvWrite.write(&quot;Condition&quot;);</span>
+<span class="fc" id="L142">            csvWrite.write(&quot;Booking ID&quot;);</span>
+<span class="fc" id="L143">            csvWrite.write(&quot;Booking User ID&quot;);</span>
+<span class="fc" id="L144">            csvWrite.write(&quot;Booking Date&quot;);</span>
+<span class="fc" id="L145">            csvWrite.write(&quot;Booking Start Time&quot;);</span>
+<span class="fc" id="L146">            csvWrite.write(&quot;Booking End Time&quot;);</span>
+<span class="fc" id="L147">            csvWrite.endRecord();</span>
+            
+<span class="fc bfc" id="L149" title="All 2 branches covered.">            for (Room room : allRooms) {</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">                if (room.getRoomId().equals(updatedRoom.getRoomId())) {</span>
+                    // Write updated room
+<span class="nc" id="L152">                    writeRoomRecord(csvWrite, updatedRoom);</span>
+                } else {
+                    // Write existing room
+<span class="fc" id="L155">                    writeRoomRecord(csvWrite, room);</span>
+                }
+<span class="fc" id="L157">            }</span>
+<span class="fc" id="L158">            csvWrite.close();</span>
+<span class="nc" id="L159">        } catch (Exception e) {</span>
+<span class="nc" id="L160">            e.printStackTrace();</span>
+<span class="fc" id="L161">        }</span>
+<span class="fc" id="L162">    }</span>
+    
+    public void delete(UUID roomId) {
+<span class="fc" id="L165">        List&lt;Room&gt; allRooms = findAll();</span>
+        
+        try {
+<span class="fc" id="L168">            CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, false), ',');</span>
+<span class="fc" id="L169">            csvWrite.write(&quot;Room ID&quot;);</span>
+<span class="fc" id="L170">            csvWrite.write(&quot;Capacity&quot;);</span>
+<span class="fc" id="L171">            csvWrite.write(&quot;Building Name&quot;);</span>
+<span class="fc" id="L172">            csvWrite.write(&quot;Room Number&quot;);</span>
+<span class="fc" id="L173">            csvWrite.write(&quot;Status&quot;);</span>
+<span class="fc" id="L174">            csvWrite.write(&quot;Condition&quot;);</span>
+<span class="fc" id="L175">            csvWrite.write(&quot;Booking ID&quot;);</span>
+<span class="fc" id="L176">            csvWrite.write(&quot;Booking User ID&quot;);</span>
+<span class="fc" id="L177">            csvWrite.write(&quot;Booking Date&quot;);</span>
+<span class="fc" id="L178">            csvWrite.write(&quot;Booking Start Time&quot;);</span>
+<span class="fc" id="L179">            csvWrite.write(&quot;Booking End Time&quot;);</span>
+<span class="fc" id="L180">            csvWrite.endRecord();</span>
+            
+<span class="fc bfc" id="L182" title="All 2 branches covered.">            for (Room room : allRooms) {</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">                if (!room.getRoomId().equals(roomId)) {</span>
+<span class="fc" id="L184">                    writeRoomRecord(csvWrite, room);</span>
+                }
+<span class="fc" id="L186">            }</span>
+<span class="fc" id="L187">            csvWrite.close();</span>
+<span class="nc" id="L188">        } catch (Exception e) {</span>
+<span class="nc" id="L189">            e.printStackTrace();</span>
+<span class="fc" id="L190">        }</span>
+<span class="fc" id="L191">    }</span>
+    
+    private Room parseRoomFromRecord(CsvReader csvRead) throws Exception {
+<span class="fc" id="L194">        UUID roomId = UUID.fromString(csvRead.get(&quot;Room ID&quot;));</span>
+<span class="fc" id="L195">        int capacity = Integer.parseInt(csvRead.get(&quot;Capacity&quot;));</span>
+<span class="fc" id="L196">        String buildingName = csvRead.get(&quot;Building Name&quot;);</span>
+<span class="fc" id="L197">        String roomNumber = csvRead.get(&quot;Room Number&quot;);</span>
+<span class="fc" id="L198">        String status = csvRead.get(&quot;Status&quot;);</span>
+<span class="fc" id="L199">        String condition = csvRead.get(&quot;Condition&quot;);</span>
+        
+        // Try to read Booking ID (may not exist in old CSV files)
+<span class="fc" id="L202">        String bookingId = null;</span>
+        try {
+<span class="fc" id="L204">            bookingId = csvRead.get(&quot;Booking ID&quot;);</span>
+<span class="pc bpc" id="L205" title="2 of 4 branches missed.">            if (bookingId != null &amp;&amp; bookingId.trim().isEmpty()) {</span>
+<span class="fc" id="L206">                bookingId = null;</span>
+            }
+<span class="nc" id="L208">        } catch (Exception e) {</span>
+            // Column doesn't exist in old CSV files, leave as null
+<span class="fc" id="L210">        }</span>
+        
+<span class="fc" id="L212">        String bookingUserIdStr = csvRead.get(&quot;Booking User ID&quot;);</span>
+<span class="pc bpc" id="L213" title="1 of 4 branches missed.">        UUID bookingUserId = (bookingUserIdStr != null &amp;&amp; !bookingUserIdStr.isEmpty()) </span>
+<span class="fc" id="L214">                             ? UUID.fromString(bookingUserIdStr) : null;</span>
+        
+<span class="fc" id="L216">        String bookingDate = csvRead.get(&quot;Booking Date&quot;);</span>
+<span class="pc bpc" id="L217" title="1 of 4 branches missed.">        bookingDate = (bookingDate != null &amp;&amp; !bookingDate.isEmpty()) ? bookingDate : null;</span>
+        
+<span class="fc" id="L219">        String bookingStartTime = csvRead.get(&quot;Booking Start Time&quot;);</span>
+<span class="pc bpc" id="L220" title="1 of 4 branches missed.">        bookingStartTime = (bookingStartTime != null &amp;&amp; !bookingStartTime.isEmpty()) ? bookingStartTime : null;</span>
+        
+<span class="fc" id="L222">        String bookingEndTime = csvRead.get(&quot;Booking End Time&quot;);</span>
+<span class="pc bpc" id="L223" title="1 of 4 branches missed.">        bookingEndTime = (bookingEndTime != null &amp;&amp; !bookingEndTime.isEmpty()) ? bookingEndTime : null;</span>
+        
+<span class="fc" id="L225">        return new Room(roomId, capacity, buildingName, roomNumber, status, condition,</span>
+                        bookingId, bookingUserId, bookingDate, bookingStartTime, bookingEndTime);
+    }
+    
+    private void writeRoomRecord(CsvWriter csvWrite, Room room) throws Exception {
+<span class="fc" id="L230">        csvWrite.write(String.valueOf(room.getRoomId()));</span>
+<span class="fc" id="L231">        csvWrite.write(String.valueOf(room.getCapacity()));</span>
+<span class="fc" id="L232">        csvWrite.write(room.getBuildingName());</span>
+<span class="fc" id="L233">        csvWrite.write(room.getRoomNumber());</span>
+<span class="fc" id="L234">        csvWrite.write(room.getStatus());</span>
+<span class="fc" id="L235">        csvWrite.write(room.getCondition());</span>
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">        csvWrite.write(room.getBookingId() != null ? room.getBookingId() : &quot;&quot;);</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        csvWrite.write(room.getBookingUserId() != null ? String.valueOf(room.getBookingUserId()) : &quot;&quot;);</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">        csvWrite.write(room.getBookingDate() != null ? room.getBookingDate() : &quot;&quot;);</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">        csvWrite.write(room.getBookingStartTime() != null ? room.getBookingStartTime() : &quot;&quot;);</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">        csvWrite.write(room.getBookingEndTime() != null ? room.getBookingEndTime() : &quot;&quot;);</span>
+<span class="fc" id="L241">        csvWrite.endRecord();</span>
+<span class="fc" id="L242">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

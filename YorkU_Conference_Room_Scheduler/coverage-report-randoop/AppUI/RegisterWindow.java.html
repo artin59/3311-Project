@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegisterWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">AppUI</a> &gt; <span class="el_source">RegisterWindow.java</span></div><h1>RegisterWindow.java</h1><pre class="source lang-java linenums">package AppUI;
+
+
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+public class RegisterWindow {
+	
+	private JPanel registerPane;
+	private JTextField txtBoxEmail;
+	private JPasswordField txtBoxPassword;
+	private JComboBox&lt;String&gt; accountTypeComboBox;
+	private JPasswordField txtBoxOrgID;
+	private JButton btnRegister;
+	private JButton btnBackToLogin;
+
+
+	
+<span class="nc" id="L26">	public RegisterWindow() {</span>
+<span class="nc" id="L27">		buildWindow();</span>
+<span class="nc" id="L28">	}</span>
+	
+	public void buildWindow() {
+		// =====================================================
+		// 1. Base panel setup
+		// =====================================================
+<span class="nc" id="L34">		registerPane = new JPanel();</span>
+<span class="nc" id="L35">		registerPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="nc" id="L36">		registerPane.setLayout(null);</span>
+
+		// =====================================================
+		// 2. Title
+		// =====================================================
+
+<span class="nc" id="L42">		JLabel titleLabel = new JLabel(&quot;Register Account&quot;);</span>
+<span class="nc" id="L43">		titleLabel.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 35));</span>
+<span class="nc" id="L44">		titleLabel.setBounds(200, 50, 350, 40);</span>
+<span class="nc" id="L45">		registerPane.add(titleLabel);</span>
+
+		// =====================================================
+		// 3. Labels (Email, Password, Account Type, Org ID)
+		// =====================================================
+
+<span class="nc" id="L51">		JLabel lblEmail = new JLabel(&quot;Email:&quot;);</span>
+<span class="nc" id="L52">		lblEmail.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 21));</span>
+<span class="nc" id="L53">		lblEmail.setBounds(170, 120, 80, 25);</span>
+<span class="nc" id="L54">		registerPane.add(lblEmail);</span>
+
+<span class="nc" id="L56">		JLabel lblPassword = new JLabel(&quot;Password:&quot;);</span>
+<span class="nc" id="L57">		lblPassword.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 21));</span>
+<span class="nc" id="L58">		lblPassword.setBounds(140, 160, 110, 25);</span>
+<span class="nc" id="L59">		registerPane.add(lblPassword);</span>
+
+<span class="nc" id="L61">		JLabel lblAccountType = new JLabel(&quot;Account Type:&quot;);</span>
+<span class="nc" id="L62">		lblAccountType.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 21));</span>
+<span class="nc" id="L63">		lblAccountType.setBounds(110, 200, 150, 25);</span>
+<span class="nc" id="L64">		registerPane.add(lblAccountType);</span>
+
+<span class="nc" id="L66">		JLabel lblOrganizationID = new JLabel(&quot;Organization ID:&quot;);</span>
+<span class="nc" id="L67">		lblOrganizationID.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 21));</span>
+<span class="nc" id="L68">		lblOrganizationID.setBounds(90, 240, 170, 25);</span>
+<span class="nc" id="L69">		registerPane.add(lblOrganizationID);</span>
+
+		// =====================================================
+		// 4. Input Fields (Email, Password, Account Type, Org ID)
+		// =====================================================
+
+<span class="nc" id="L75">		txtBoxEmail = new JTextField();</span>
+<span class="nc" id="L76">		txtBoxEmail.setBounds(250, 120, 290, 28);</span>
+<span class="nc" id="L77">		txtBoxEmail.setColumns(10);</span>
+<span class="nc" id="L78">		registerPane.add(txtBoxEmail);</span>
+
+<span class="nc" id="L80">		txtBoxPassword = new JPasswordField();</span>
+<span class="nc" id="L81">		txtBoxPassword.setBounds(250, 160, 290, 28);</span>
+<span class="nc" id="L82">		registerPane.add(txtBoxPassword);</span>
+
+<span class="nc" id="L84">		accountTypeComboBox = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L85">		accountTypeComboBox.setBounds(250, 200, 290, 28);</span>
+<span class="nc" id="L86">		accountTypeComboBox.addItem(&quot;(Select Account Type)&quot;);</span>
+<span class="nc" id="L87">		accountTypeComboBox.addItem(&quot;Student&quot;);</span>
+<span class="nc" id="L88">		accountTypeComboBox.addItem(&quot;Faculty&quot;);</span>
+<span class="nc" id="L89">		accountTypeComboBox.addItem(&quot;Staff&quot;);</span>
+<span class="nc" id="L90">		accountTypeComboBox.addItem(&quot;External Partner&quot;);</span>
+<span class="nc" id="L91">		registerPane.add(accountTypeComboBox);</span>
+
+<span class="nc" id="L93">		txtBoxOrgID = new JPasswordField();</span>
+<span class="nc" id="L94">		txtBoxOrgID.setBounds(250, 240, 290, 28);</span>
+<span class="nc" id="L95">		registerPane.add(txtBoxOrgID);</span>
+
+		// =====================================================
+		// 5. Buttons (Register + Back)
+		// =====================================================
+
+<span class="nc" id="L101">		btnRegister = new JButton(&quot;Register&quot;);</span>
+<span class="nc" id="L102">		btnRegister.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.PLAIN, 27));</span>
+<span class="nc" id="L103">		btnRegister.setBounds(210, 290, 280, 40);</span>
+<span class="nc" id="L104">		registerPane.add(btnRegister);</span>
+
+		// Back button
+<span class="nc" id="L107">		btnBackToLogin = new JButton(&quot;Back&quot;);</span>
+<span class="nc" id="L108">		btnBackToLogin.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 14));</span>
+<span class="nc" id="L109">		btnBackToLogin.setBounds(20, 10, 80, 23);</span>
+<span class="nc" id="L110">		registerPane.add(btnBackToLogin);</span>
+		
+<span class="nc" id="L112">	}</span>
+
+
+	public JPanel getPane() {
+<span class="nc" id="L116">		return registerPane;</span>
+	}
+
+	public JTextField getTxtBoxEmail() {
+<span class="nc" id="L120">		return txtBoxEmail;</span>
+	}
+
+	public JPasswordField getTxtBoxPassword() {
+<span class="nc" id="L124">		return txtBoxPassword;</span>
+	}
+
+	public JComboBox&lt;String&gt; getAccountTypeComboBox() {
+<span class="nc" id="L128">		return accountTypeComboBox;</span>
+	}
+
+	public JPasswordField getTxtBoxOrgID() {
+<span class="nc" id="L132">		return txtBoxOrgID;</span>
+	}
+
+	public JButton getBtnRegister() {
+<span class="nc" id="L136">		return btnRegister;</span>
+	}
+
+	public JButton getBtnBackToLogin() {
+<span class="nc" id="L140">		return btnBackToLogin;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

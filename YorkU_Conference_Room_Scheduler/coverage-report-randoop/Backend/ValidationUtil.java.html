@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValidationUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">ValidationUtil.java</span></div><h1>ValidationUtil.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+<span class="fc" id="L8">public class ValidationUtil {</span>
+
+<span class="fc" id="L10">    private static final Pattern EMAIL_PATTERN = Pattern.compile(&quot;^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$&quot;);</span>
+<span class="fc" id="L11">    private static final Pattern STUDENT_EMAIL_PATTERN = Pattern.compile(&quot;^[A-Za-z0-9+_.-]+@my\\.yorku\\.ca$&quot;);</span>
+    private static final int MIN_PASSWORD_LENGTH = 8;
+    private static final int ORG_ID_LENGTH = 9;
+    
+    // Predefined valid student IDs
+<span class="fc" id="L16">    private static final Set&lt;String&gt; VALID_STUDENT_IDS = new HashSet&lt;&gt;(Arrays.asList(</span>
+        &quot;123456789&quot;,
+        &quot;987654321&quot;,
+        &quot;111111111&quot;,
+        &quot;222222222&quot;,
+        &quot;333333333&quot;
+    ));
+
+    public static boolean isValidEmail(String email) {
+<span class="pc bpc" id="L25" title="2 of 4 branches missed.">        if (email == null || email.trim().isEmpty()) {</span>
+<span class="nc" id="L26">            return false;</span>
+        }
+<span class="fc" id="L28">        return EMAIL_PATTERN.matcher(email).matches();</span>
+    }
+
+    // Validate email based on account type
+    public static boolean isValidEmail(String email, String accountType) {
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">        if (email == null || email.trim().isEmpty()) {</span>
+<span class="fc" id="L34">            return false;</span>
+        }
+        
+        // General email format check first
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        if (!EMAIL_PATTERN.matcher(email).matches()) {</span>
+<span class="fc" id="L39">            return false;</span>
+        }
+        
+        // Student emails must be @my.yorku.ca
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        if (accountType != null &amp;&amp; accountType.equals(&quot;Student&quot;)) {</span>
+<span class="nc" id="L44">            return STUDENT_EMAIL_PATTERN.matcher(email).matches();</span>
+        }
+        
+        // Other account types can use any valid email
+<span class="nc" id="L48">        return true;</span>
+    }
+
+    public static boolean isValidPassword(String password) {
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">        if (password == null || password.length() &lt; MIN_PASSWORD_LENGTH) {</span>
+<span class="fc" id="L53">            return false;</span>
+        }
+
+<span class="fc" id="L56">        boolean hasUppercase = false;</span>
+<span class="fc" id="L57">        boolean hasLowercase = false;</span>
+<span class="fc" id="L58">        boolean hasDigit = false;</span>
+<span class="fc" id="L59">        boolean hasSpecial = false;</span>
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        for (char c : password.toCharArray()) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (Character.isUpperCase(c)) {</span>
+<span class="fc" id="L63">                hasUppercase = true;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            } else if (Character.isLowerCase(c)) {</span>
+<span class="fc" id="L65">                hasLowercase = true;</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            } else if (Character.isDigit(c)) {</span>
+<span class="fc" id="L67">                hasDigit = true;</span>
+            } else {
+<span class="fc" id="L69">                hasSpecial = true;</span>
+            }
+        }
+
+<span class="pc bpc" id="L73" title="2 of 8 branches missed.">        return hasUppercase &amp;&amp; hasLowercase &amp;&amp; hasDigit &amp;&amp; hasSpecial;</span>
+    }
+
+    public static boolean isValidOrgId(String orgId) {
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (orgId == null) {</span>
+<span class="nc" id="L78">            return false;</span>
+        }
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        return orgId.length() == ORG_ID_LENGTH;</span>
+    }
+    
+    // Validate Org ID based on account type
+    public static boolean isValidOrgId(String orgId, String accountType) {
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (orgId == null) {</span>
+<span class="nc" id="L86">            return false;</span>
+        }
+        
+        // Check length first
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (orgId.length() != ORG_ID_LENGTH) {</span>
+<span class="fc" id="L91">            return false;</span>
+        }
+        
+        // Students must use one of the predefined IDs
+<span class="pc bpc" id="L95" title="2 of 4 branches missed.">        if (accountType != null &amp;&amp; accountType.equals(&quot;Student&quot;)) {</span>
+<span class="nc" id="L96">            return VALID_STUDENT_IDS.contains(orgId);</span>
+        }
+        
+        // Other account types just need correct length
+<span class="fc" id="L100">        return true;</span>
+    }
+
+    public static String getPasswordRequirements() {
+<span class="fc" id="L104">        return &quot;Password must be at least 8 characters and contain uppercase, lowercase, number, and special character.&quot;;</span>
+    }
+
+    public static String getOrgIdRequirements() {
+<span class="fc" id="L108">        return &quot;Organization ID must be exactly 9 characters.&quot;;</span>
+    }
+    
+    public static String getOrgIdRequirements(String accountType) {
+<span class="pc bpc" id="L112" title="2 of 4 branches missed.">        if (accountType != null &amp;&amp; accountType.equals(&quot;Student&quot;)) {</span>
+<span class="nc" id="L113">            return &quot;Student ID must be one of the valid registered student IDs.&quot;;</span>
+        }
+<span class="fc" id="L115">        return &quot;Organization ID must be exactly 9 characters.&quot;;</span>
+    }
+
+    public static String getEmailRequirements() {
+<span class="fc" id="L119">        return &quot;Please enter a valid email address.&quot;;</span>
+    }
+    
+    public static String getEmailRequirements(String accountType) {
+<span class="pc bpc" id="L123" title="2 of 4 branches missed.">        if (accountType != null &amp;&amp; accountType.equals(&quot;Student&quot;)) {</span>
+<span class="nc" id="L124">            return &quot;Student email must be in the format: username@my.yorku.ca&quot;;</span>
+        }
+<span class="fc" id="L126">        return &quot;Please enter a valid email address.&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

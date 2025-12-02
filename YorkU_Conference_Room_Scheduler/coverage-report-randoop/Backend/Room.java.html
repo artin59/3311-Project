@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Room.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">Room.java</span></div><h1>Room.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.UUID;
+
+public class Room {
+    
+    private UUID roomId;
+    private int capacity;
+    private String buildingName;
+    private String roomNumber;
+    private String status; // ENABLED, DISABLED
+    private RoomContext roomContext; // State pattern context
+    
+    private int currentOccupancy;
+    
+    
+<span class="fc" id="L17">    public Room(int capacity, String buildingName, String roomNumber) {</span>
+<span class="fc" id="L18">        this.roomId = UUID.randomUUID();</span>
+<span class="fc" id="L19">        this.capacity = capacity;</span>
+<span class="fc" id="L20">        this.buildingName = buildingName;</span>
+<span class="fc" id="L21">        this.roomNumber = roomNumber;</span>
+<span class="fc" id="L22">        this.status = &quot;ENABLED&quot;;</span>
+<span class="fc" id="L23">        this.roomContext = new RoomContext(roomId);</span>
+<span class="fc" id="L24">        this.currentOccupancy = 0;</span>
+
+<span class="fc" id="L26">    }</span>
+    
+    // Constructor for loading from CSV
+    public Room(UUID roomId, int capacity, String buildingName, String roomNumber, 
+<span class="fc" id="L30">                String status, String stateName) {</span>
+<span class="fc" id="L31">        this.roomId = roomId;</span>
+<span class="fc" id="L32">        this.capacity = capacity;</span>
+<span class="fc" id="L33">        this.buildingName = buildingName;</span>
+<span class="fc" id="L34">        this.roomNumber = roomNumber;</span>
+<span class="fc" id="L35">        this.status = status;</span>
+<span class="fc" id="L36">        this.roomContext = new RoomContext(roomId, parseState(stateName));</span>
+<span class="fc" id="L37">        this.currentOccupancy = 0;</span>
+
+<span class="fc" id="L39">    }</span>
+    
+    // Constructor with booking info (for loading from CSV)
+    public Room(UUID roomId, int capacity, String buildingName, String roomNumber,
+                String status, String stateName, String bookingId, UUID bookingUserId, 
+                String bookingDate, String bookingStartTime, String bookingEndTime) {
+<span class="fc" id="L45">        this(roomId, capacity, buildingName, roomNumber, status, stateName);</span>
+<span class="fc" id="L46">        this.currentOccupancy = 0;</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (bookingUserId != null) {</span>
+<span class="fc" id="L49">            this.roomContext.setBookingInfo(bookingId, bookingUserId, bookingDate, bookingStartTime, bookingEndTime);</span>
+        }
+<span class="fc" id="L51">    }</span>
+    
+    private RoomState parseState(String stateName) {
+<span class="pc bpc" id="L54" title="1 of 6 branches missed.">        switch (stateName) {</span>
+            case &quot;Available&quot;:
+<span class="fc" id="L56">                return AvailableState.getInstance();</span>
+            case &quot;Reserved&quot;:
+<span class="fc" id="L58">                return ReservedState.getInstance();</span>
+            case &quot;InUse&quot;:
+<span class="fc" id="L60">                return InUseState.getInstance();</span>
+            case &quot;Maintenance&quot;:
+<span class="fc" id="L62">                return MaintenanceState.getInstance();</span>
+            case &quot;NoShow&quot;:
+<span class="nc" id="L64">                return NoShowState.getInstance();</span>
+            default:
+<span class="fc" id="L66">                return AvailableState.getInstance();</span>
+        }
+    }
+    
+    // Check if room can be booked (must be enabled AND in Available state)
+    public boolean isBookable() {
+<span class="pc bpc" id="L72" title="1 of 4 branches missed.">        return status.equals(&quot;ENABLED&quot;) &amp;&amp; roomContext.canBook();</span>
+    }
+    
+    // Admin actions
+    public void enable() {
+<span class="fc" id="L77">        this.status = &quot;ENABLED&quot;;</span>
+<span class="fc" id="L78">        System.out.println(&quot;Room &quot; + roomId + &quot; has been enabled.&quot;);</span>
+<span class="fc" id="L79">    }</span>
+    
+    public void disable() {
+<span class="fc" id="L82">        this.status = &quot;DISABLED&quot;;</span>
+<span class="fc" id="L83">        System.out.println(&quot;Room &quot; + roomId + &quot; has been disabled.&quot;);</span>
+<span class="fc" id="L84">    }</span>
+    
+    // Delegate state actions to context
+    public void book(String bookingId, UUID userId, String date, String startTime, String endTime) {
+        // Check if room is enabled (but allow booking even if already reserved for different time)
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (!status.equals(&quot;ENABLED&quot;)) {</span>
+<span class="fc" id="L90">            System.out.println(&quot;Room &quot; + roomId + &quot; is not enabled for booking.&quot;);</span>
+<span class="fc" id="L91">            return;</span>
+        }
+        // Set booking info and state to Reserved for this booking
+        // Multiple bookings can exist for the same room at different times
+<span class="fc" id="L95">        roomContext.setBookingInfo(bookingId, userId, date, startTime, endTime);</span>
+<span class="fc" id="L96">        roomContext.setState(ReservedState.getInstance());</span>
+<span class="fc" id="L97">        System.out.println(&quot;Room &quot; + roomId + &quot; booked successfully for &quot; + date + &quot; &quot; + startTime + &quot;-&quot; + endTime);</span>
+<span class="fc" id="L98">    }</span>
+    
+    public void checkIn() {
+<span class="fc" id="L101">        roomContext.checkIn();</span>
+<span class="fc" id="L102">    }</span>
+    
+    public void checkOut() {
+<span class="fc" id="L105">        roomContext.checkOut();</span>
+<span class="fc" id="L106">    }</span>
+    
+    public void cancelBooking() {
+<span class="fc" id="L109">        roomContext.cancelBooking();</span>
+<span class="fc" id="L110">    }</span>
+    
+    public void extendBooking(int additionalHours) {
+<span class="fc" id="L113">        roomContext.extendBooking(additionalHours);</span>
+<span class="fc" id="L114">    }</span>
+    
+    public void setMaintenance() {
+<span class="fc" id="L117">        roomContext.setMaintenance();</span>
+<span class="fc" id="L118">    }</span>
+    
+    public void clearMaintenance() {
+<span class="fc" id="L121">        roomContext.clearMaintenance();</span>
+<span class="fc" id="L122">    }</span>
+    
+    // Getters
+    public UUID getRoomId() {
+<span class="fc" id="L126">        return roomId;</span>
+    }
+    
+    public int getCapacity() {
+<span class="fc" id="L130">        return capacity;</span>
+    }
+    
+    public String getBuildingName() {
+<span class="fc" id="L134">        return buildingName;</span>
+    }
+    
+    public String getRoomNumber() {
+<span class="fc" id="L138">        return roomNumber;</span>
+    }
+    
+    public String getStatus() {
+<span class="fc" id="L142">        return status;</span>
+    }
+    
+    public String getCondition() {
+<span class="fc" id="L146">        return roomContext.getStateName();</span>
+    }
+    
+    public RoomContext getRoomContext() {
+<span class="fc" id="L150">        return roomContext;</span>
+    }
+    
+    public String getLocation() {
+<span class="fc" id="L154">        return buildingName + &quot; - Room &quot; + roomNumber;</span>
+    }
+    
+    // Booking info getters (delegated to context)
+    public String getBookingId() {
+<span class="fc" id="L159">        return roomContext.getBookingId();</span>
+    }
+    
+    public UUID getBookingUserId() {
+<span class="fc" id="L163">        return roomContext.getBookingUserId();</span>
+    }
+    
+    public String getBookingDate() {
+<span class="fc" id="L167">        return roomContext.getBookingDate();</span>
+    }
+    
+    public String getBookingStartTime() {
+<span class="fc" id="L171">        return roomContext.getBookingStartTime();</span>
+    }
+    
+    public String getBookingEndTime() {
+<span class="fc" id="L175">        return roomContext.getBookingEndTime();</span>
+    }
+    
+    public boolean hasActiveBooking() {
+<span class="fc" id="L179">        return roomContext.hasActiveBooking();</span>
+    }
+ // Check in people to the room
+    public boolean checkInPeople(int numberOfPeople) {
+<span class="fc bfc" id="L183" title="All 2 branches covered.">        if (numberOfPeople &lt;= 0) {</span>
+<span class="fc" id="L184">            System.out.println(&quot;Number of people must be positive.&quot;);</span>
+<span class="fc" id="L185">            return false;</span>
+        }
+        
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">        if (currentOccupancy + numberOfPeople &gt; capacity) {</span>
+<span class="fc" id="L189">            System.out.println(&quot;Cannot check in &quot; + numberOfPeople + &quot; people. Would exceed capacity of &quot; </span>
+                              + capacity + &quot;. Current occupancy: &quot; + currentOccupancy);
+<span class="fc" id="L191">            return false;</span>
+        }
+        
+<span class="nc" id="L194">        currentOccupancy += numberOfPeople;</span>
+<span class="nc" id="L195">        System.out.println(numberOfPeople + &quot; people checked in. Current occupancy: &quot; </span>
+                          + currentOccupancy + &quot;/&quot; + capacity);
+<span class="nc" id="L197">        return true;</span>
+    }
+
+    // Check out people from the room
+    public void checkOutPeople(int numberOfPeople) {
+<span class="fc" id="L202">        currentOccupancy -= numberOfPeople;</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">        if (currentOccupancy &lt; 0) {</span>
+<span class="fc" id="L204">            currentOccupancy = 0;</span>
+        }
+<span class="fc" id="L206">        System.out.println(numberOfPeople + &quot; people checked out. Current occupancy: &quot; </span>
+                          + currentOccupancy + &quot;/&quot; + capacity);
+<span class="fc" id="L208">    }</span>
+
+    // Reset occupancy (called when room becomes available)
+    public void resetOccupancy() {
+<span class="fc" id="L212">        currentOccupancy = 0;</span>
+<span class="fc" id="L213">        System.out.println(&quot;Room occupancy reset.&quot;);</span>
+<span class="fc" id="L214">    }</span>
+
+    // Getter for current occupancy
+    public int getCurrentOccupancy() {
+<span class="fc" id="L218">        return currentOccupancy;</span>
+    }
+
+    // Check if room has space for more people
+    public boolean hasCapacityFor(int numberOfPeople) {
+<span class="fc bfc" id="L223" title="All 2 branches covered.">        return (currentOccupancy + numberOfPeople) &lt;= capacity;</span>
+    }
+
+    public int getRemainingCapacity() {
+<span class="fc" id="L227">        return capacity - currentOccupancy;</span>
+    }
+    @Override
+    public String toString() {
+<span class="fc" id="L231">        return &quot;Room [&quot; + getLocation() + &quot;, Capacity: &quot; + capacity + </span>
+<span class="fc" id="L232">               &quot;, Status: &quot; + status + &quot;, Condition: &quot; + getCondition() + &quot;]&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

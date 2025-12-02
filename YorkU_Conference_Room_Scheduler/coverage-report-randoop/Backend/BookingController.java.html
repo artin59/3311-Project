@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookingController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">BookingController.java</span></div><h1>BookingController.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * BookingController (Invoker) for the Command pattern
+ * REQ8: Receives commands from UI and calls execute() only if booking is in pre-start state
+ */
+public class BookingController {
+    private static BookingController instance;
+    private BookingRepository repository;
+    private PaymentService paymentService;
+    private RoomService roomService;
+    private PricingPolicyFactory pricingFactory;
+    private List&lt;BookingObserver&gt; observers;
+    
+<span class="fc" id="L18">    private BookingController() {</span>
+<span class="fc" id="L19">        this.repository = BookingRepository.getInstance();</span>
+<span class="fc" id="L20">        this.paymentService = PaymentService.getInstance();</span>
+<span class="fc" id="L21">        this.roomService = new RoomService();</span>
+<span class="fc" id="L22">        this.pricingFactory = new PricingPolicyFactory();</span>
+<span class="fc" id="L23">        this.observers = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L24">    }</span>
+    
+    public static BookingController getInstance() {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (instance == null) {</span>
+<span class="fc" id="L28">            instance = new BookingController();</span>
+        }
+<span class="fc" id="L30">        return instance;</span>
+    }
+    
+    //Add an observer to be notified of booking changes
+
+    public void addObserver(BookingObserver observer) {
+<span class="pc bpc" id="L36" title="3 of 4 branches missed.">        if (observer != null &amp;&amp; !observers.contains(observer)) {</span>
+<span class="nc" id="L37">            observers.add(observer);</span>
+        }
+<span class="fc" id="L39">    }</span>
+    
+   //Remove an observer
+    public void removeObserver(BookingObserver observer) {
+<span class="nc" id="L43">        observers.remove(observer);</span>
+<span class="nc" id="L44">    }</span>
+    
+
+  //Execute a cancel booking command
+
+    public boolean cancelBooking(String bookingId) {
+        // Check if booking can be cancelled
+<span class="fc" id="L51">        Booking booking = repository.findById(bookingId);</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if (booking == null) {</span>
+<span class="fc" id="L53">            System.err.println(&quot;BookingController: Booking not found: &quot; + bookingId);</span>
+<span class="fc" id="L54">            return false;</span>
+        }
+        
+        // Debug: Print booking details
+<span class="nc" id="L58">        System.out.println(&quot;BookingController.cancelBooking: Booking ID: &quot; + bookingId);</span>
+<span class="nc" id="L59">        System.out.println(&quot;BookingController.cancelBooking: Status: '&quot; + booking.getStatus() + &quot;'&quot;);</span>
+<span class="nc" id="L60">        System.out.println(&quot;BookingController.cancelBooking: Date: '&quot; + booking.getBookingDate() + &quot;'&quot;);</span>
+<span class="nc" id="L61">        System.out.println(&quot;BookingController.cancelBooking: StartTime: '&quot; + booking.getBookingStartTime() + &quot;'&quot;);</span>
+        
+        // Check if booking can be cancelled (hasn't been checked in yet)
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (!BookingTimeUtil.canCancelBooking(booking)) {</span>
+<span class="nc" id="L65">            System.err.println(&quot;BookingController: Booking &quot; + bookingId + </span>
+                             &quot; cannot be cancelled (may be in use or already completed).&quot;);
+<span class="nc" id="L67">            System.err.println(&quot;BookingController: Status='&quot; + booking.getStatus() + </span>
+<span class="nc" id="L68">                             &quot;', Date='&quot; + booking.getBookingDate() + </span>
+<span class="nc" id="L69">                             &quot;', StartTime='&quot; + booking.getBookingStartTime() + &quot;'&quot;);</span>
+<span class="nc" id="L70">            return false;</span>
+        }
+        
+<span class="nc" id="L73">        CancelBookingCommand command = new CancelBookingCommand(</span>
+            bookingId, repository, paymentService, roomService, observers);
+        
+<span class="nc" id="L76">        return command.execute();</span>
+    }
+    
+    //Execute an edit booking command
+    //REQ8: Only executes if booking is in pre-start state
+    public boolean editBooking(String bookingId, String newBuildingName, String newRoomNumber, 
+                              String newDate, String newStartTime, String newEndTime) {
+        // Check if booking is in pre-start state before creating command
+<span class="fc" id="L84">        Booking booking = repository.findById(bookingId);</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (booking == null) {</span>
+<span class="fc" id="L86">            System.err.println(&quot;BookingController: Booking not found: &quot; + bookingId);</span>
+<span class="fc" id="L87">            return false;</span>
+        }
+        
+        // REQ8: Only execute if booking is in pre-start state
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (!BookingTimeUtil.isPreStartState(booking)) {</span>
+<span class="nc" id="L92">            System.err.println(&quot;BookingController: Booking &quot; + bookingId + </span>
+                             &quot; is not in pre-start state. Cannot edit.&quot;);
+<span class="nc" id="L94">            return false;</span>
+        }
+        
+<span class="nc" id="L97">        EditBookingCommand command = new EditBookingCommand(</span>
+            bookingId, newBuildingName, newRoomNumber, newDate, newStartTime, newEndTime,
+            repository, pricingFactory, paymentService, roomService, observers);
+        
+<span class="nc" id="L101">        return command.execute();</span>
+    }
+    
+
+  //Execute an extend booking command
+ //REQ9: Checks booking state (InUseState or ReservedState) and ensures end time has not passed
+
+    public boolean extendBooking(String bookingId, int extraDuration) {
+        // Find the booking
+<span class="fc" id="L110">        Booking booking = repository.findById(bookingId);</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if (booking == null) {</span>
+<span class="fc" id="L112">            System.err.println(&quot;BookingController: Booking not found: &quot; + bookingId);</span>
+<span class="fc" id="L113">            return false;</span>
+        }
+        
+        // Debug: Print booking details
+<span class="nc" id="L117">        System.out.println(&quot;BookingController.extendBooking: Booking ID: &quot; + bookingId);</span>
+<span class="nc" id="L118">        System.out.println(&quot;BookingController.extendBooking: Status: '&quot; + booking.getStatus() + &quot;'&quot;);</span>
+<span class="nc" id="L119">        System.out.println(&quot;BookingController.extendBooking: Date: '&quot; + booking.getBookingDate() + &quot;'&quot;);</span>
+<span class="nc" id="L120">        System.out.println(&quot;BookingController.extendBooking: StartTime: '&quot; + booking.getBookingStartTime() + &quot;'&quot;);</span>
+<span class="nc" id="L121">        System.out.println(&quot;BookingController.extendBooking: EndTime: '&quot; + booking.getBookingEndTime() + &quot;'&quot;);</span>
+<span class="nc" id="L122">        System.out.println(&quot;BookingController.extendBooking: ExtraDuration: &quot; + extraDuration + &quot; hours&quot;);</span>
+        
+        // REQ9: Check booking's current state (InUseState or ReservedState) - case-insensitive
+<span class="nc" id="L125">        String status = booking.getStatus();</span>
+<span class="nc bnc" id="L126" title="All 6 branches missed.">        if (status == null || (!status.trim().equalsIgnoreCase(&quot;InUse&quot;) &amp;&amp; !status.trim().equalsIgnoreCase(&quot;Reserved&quot;))) {</span>
+<span class="nc" id="L127">            System.err.println(&quot;BookingController: Booking &quot; + bookingId + </span>
+                             &quot; is not in InUse or Reserved state. Current state: '&quot; + status + &quot;'&quot;);
+<span class="nc" id="L129">            return false;</span>
+        }
+        
+        // REQ9: Ensure the end time has not passed
+<span class="nc" id="L133">        String bookingDate = booking.getBookingDate();</span>
+<span class="nc" id="L134">        String bookingEndTime = booking.getBookingEndTime();</span>
+        
+<span class="nc bnc" id="L136" title="All 4 branches missed.">        if (bookingEndTime == null || bookingEndTime.trim().isEmpty()) {</span>
+<span class="nc" id="L137">            System.err.println(&quot;BookingController: Booking end time is null or empty. Cannot extend.&quot;);</span>
+<span class="nc" id="L138">            System.err.println(&quot;BookingController: Date: '&quot; + bookingDate + &quot;', EndTime: '&quot; + bookingEndTime + &quot;'&quot;);</span>
+<span class="nc" id="L139">            return false;</span>
+        }
+        
+<span class="nc bnc" id="L142" title="All 4 branches missed.">        if (bookingDate == null || bookingDate.trim().isEmpty()) {</span>
+<span class="nc" id="L143">            System.err.println(&quot;BookingController: Booking date is null or empty. Cannot extend.&quot;);</span>
+<span class="nc" id="L144">            return false;</span>
+        }
+        
+<span class="nc" id="L147">        boolean endTimePassed = BookingTimeUtil.hasEndTimePassed(bookingDate, bookingEndTime);</span>
+<span class="nc" id="L148">        System.out.println(&quot;BookingController: Checking if end time passed - Date: '&quot; + bookingDate + </span>
+                         &quot;', EndTime: '&quot; + bookingEndTime + &quot;', Passed: &quot; + endTimePassed);
+        
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (endTimePassed) {</span>
+<span class="nc" id="L152">            System.err.println(&quot;BookingController: Booking end time has already passed. Cannot extend.&quot;);</span>
+<span class="nc" id="L153">            System.err.println(&quot;BookingController: Date: '&quot; + bookingDate + </span>
+                             &quot;', EndTime: '&quot; + bookingEndTime + &quot;'&quot;);
+<span class="nc" id="L155">            return false;</span>
+        }
+        
+<span class="nc" id="L158">        ExtendBookingCommand command = new ExtendBookingCommand(</span>
+            bookingId, extraDuration, repository, pricingFactory, paymentService, roomService, observers);
+        
+<span class="nc" id="L161">        return command.execute();</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

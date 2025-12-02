@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookingTimeUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">BookingTimeUtil.java</span></div><h1>BookingTimeUtil.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Utility class for booking time operations
+ */
+<span class="fc" id="L10">public class BookingTimeUtil {</span>
+    
+    /**
+     * Check if a booking's start time has passed
+     * @param bookingDate The booking date (DD/MM/YYYY format)
+     * @param bookingStartTime The booking start time (HH:MM format)
+     * @return true if start time has passed, false otherwise
+     */
+    public static boolean hasStartTimePassed(String bookingDate, String bookingStartTime) {
+        try {
+            // Parse date (DD/MM/YYYY)
+<span class="fc" id="L21">            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L22">            LocalDate date = LocalDate.parse(bookingDate, dateFormatter);</span>
+            
+            // Parse time (HH:MM)
+<span class="nc" id="L25">            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(&quot;HH:mm&quot;);</span>
+<span class="nc" id="L26">            LocalTime startTime = LocalTime.parse(bookingStartTime, timeFormatter);</span>
+            
+            // Get current date and time
+<span class="nc" id="L29">            LocalDate now = LocalDate.now();</span>
+<span class="nc" id="L30">            LocalTime currentTime = LocalTime.now();</span>
+            
+            // Check if date has passed or if same date but time has passed
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            if (date.isBefore(now)) {</span>
+<span class="nc" id="L34">                return true; // Date has passed</span>
+<span class="nc bnc" id="L35" title="All 4 branches missed.">            } else if (date.isEqual(now) &amp;&amp; startTime.isBefore(currentTime)) {</span>
+<span class="nc" id="L36">                return true; // Same date but time has passed</span>
+            }
+            
+<span class="nc" id="L39">            return false; // Start time has not passed</span>
+<span class="fc" id="L40">        } catch (Exception e) {</span>
+<span class="fc" id="L41">            System.err.println(&quot;Error checking if start time passed: &quot; + e.getMessage());</span>
+            // If parsing fails, assume time has not passed to be safe
+<span class="fc" id="L43">            return false;</span>
+        }
+    }
+    
+    /**
+     * Check if a booking's end time has passed
+     * @param bookingDate The booking date (DD/MM/YYYY format)
+     * @param bookingEndTime The booking end time (HH:MM format)
+     * @return true if end time has passed, false otherwise
+     */
+    public static boolean hasEndTimePassed(String bookingDate, String bookingEndTime) {
+<span class="pc bpc" id="L54" title="2 of 4 branches missed.">        if (bookingEndTime == null || bookingEndTime.trim().isEmpty()) {</span>
+<span class="nc" id="L55">            System.err.println(&quot;BookingTimeUtil.hasEndTimePassed: End time is null or empty&quot;);</span>
+<span class="nc" id="L56">            return false; // No end time, assume not passed</span>
+        }
+        
+<span class="pc bpc" id="L59" title="2 of 4 branches missed.">        if (bookingDate == null || bookingDate.trim().isEmpty()) {</span>
+<span class="nc" id="L60">            System.err.println(&quot;BookingTimeUtil.hasEndTimePassed: Booking date is null or empty&quot;);</span>
+<span class="nc" id="L61">            return false; // No date, assume not passed</span>
+        }
+        
+        try {
+            // Parse date (DD/MM/YYYY)
+<span class="fc" id="L66">            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L67">            LocalDate date = LocalDate.parse(bookingDate.trim(), dateFormatter);</span>
+            
+            // Parse time (HH:MM)
+<span class="nc" id="L70">            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(&quot;HH:mm&quot;);</span>
+<span class="nc" id="L71">            LocalTime endTime = LocalTime.parse(bookingEndTime.trim(), timeFormatter);</span>
+            
+            // Get current date and time
+<span class="nc" id="L74">            LocalDate now = LocalDate.now();</span>
+<span class="nc" id="L75">            LocalTime currentTime = LocalTime.now();</span>
+            
+<span class="nc" id="L77">            System.out.println(&quot;BookingTimeUtil.hasEndTimePassed: Comparing - &quot; +</span>
+                             &quot;Booking: &quot; + date + &quot; &quot; + endTime + 
+                             &quot; vs Current: &quot; + now + &quot; &quot; + currentTime);
+            
+            // Check if date has passed or if same date but time has passed
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (date.isBefore(now)) {</span>
+<span class="nc" id="L83">                System.out.println(&quot;BookingTimeUtil.hasEndTimePassed: Date has passed&quot;);</span>
+<span class="nc" id="L84">                return true; // Date has passed</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">            } else if (date.isEqual(now) &amp;&amp; endTime.isBefore(currentTime)) {</span>
+<span class="nc" id="L86">                System.out.println(&quot;BookingTimeUtil.hasEndTimePassed: Same date but time has passed&quot;);</span>
+<span class="nc" id="L87">                return true; // Same date but time has passed</span>
+            }
+            
+<span class="nc" id="L90">            System.out.println(&quot;BookingTimeUtil.hasEndTimePassed: End time has not passed&quot;);</span>
+<span class="nc" id="L91">            return false; // End time has not passed</span>
+<span class="fc" id="L92">        } catch (Exception e) {</span>
+<span class="fc" id="L93">            System.err.println(&quot;Error checking if end time passed: &quot; + e.getMessage());</span>
+<span class="fc" id="L94">            System.err.println(&quot;BookingTimeUtil.hasEndTimePassed: Date='&quot; + bookingDate + </span>
+                             &quot;', EndTime='&quot; + bookingEndTime + &quot;'&quot;);
+<span class="fc" id="L96">            e.printStackTrace();</span>
+<span class="fc" id="L97">            return false; // On error, assume not passed to be safe</span>
+        }
+    }
+    
+    /**
+     * Check if a booking is in pre-start state
+     * (Reserved state and start time has not passed)
+     * @param booking The booking to check
+     * @return true if booking is in pre-start state, false otherwise
+     */
+    public static boolean isPreStartState(Booking booking) {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (booking == null) {</span>
+<span class="fc" id="L109">            System.err.println(&quot;BookingTimeUtil.isPreStartState: Booking is null&quot;);</span>
+<span class="fc" id="L110">            return false;</span>
+        }
+        
+<span class="fc" id="L113">        String status = booking.getStatus();</span>
+<span class="fc" id="L114">        System.out.println(&quot;BookingTimeUtil.isPreStartState: Checking booking &quot; + booking.getBookingId() + </span>
+                         &quot; with status: '&quot; + status + &quot;'&quot;);
+        
+        // Check if status is Reserved (case-insensitive check)
+<span class="pc bpc" id="L118" title="2 of 4 branches missed.">        if (status == null || !status.trim().equalsIgnoreCase(&quot;Reserved&quot;)) {</span>
+<span class="nc" id="L119">            System.err.println(&quot;BookingTimeUtil.isPreStartState: Booking status is '&quot; + status + </span>
+                             &quot;', expected 'Reserved'&quot;);
+<span class="nc" id="L121">            return false;</span>
+        }
+        
+        // Check if start time has not passed
+<span class="fc" id="L125">        String bookingDate = booking.getBookingDate();</span>
+<span class="fc" id="L126">        String bookingStartTime = booking.getBookingStartTime();</span>
+        
+<span class="pc bpc" id="L128" title="1 of 4 branches missed.">        if (bookingDate == null || bookingStartTime == null) {</span>
+<span class="fc" id="L129">            System.err.println(&quot;BookingTimeUtil.isPreStartState: Missing date or start time. &quot; +</span>
+                             &quot;Date: '&quot; + bookingDate + &quot;', StartTime: '&quot; + bookingStartTime + &quot;'&quot;);
+<span class="fc" id="L131">            return false;</span>
+        }
+        
+<span class="nc" id="L134">        boolean timePassed = hasStartTimePassed(bookingDate, bookingStartTime);</span>
+<span class="nc" id="L135">        System.out.println(&quot;BookingTimeUtil.isPreStartState: Date: '&quot; + bookingDate + </span>
+                         &quot;', StartTime: '&quot; + bookingStartTime + &quot;', TimePassed: &quot; + timePassed);
+        
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        return !timePassed;</span>
+    }
+    
+    /**
+     * Check if a booking can be cancelled
+     * More lenient than isPreStartState - allows cancellation if booking hasn't been checked in yet
+     * (status is not &quot;InUse&quot; or &quot;Completed&quot;)
+     * @param booking The booking to check
+     * @return true if booking can be cancelled, false otherwise
+     */
+    public static boolean canCancelBooking(Booking booking) {
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if (booking == null) {</span>
+<span class="nc" id="L150">            System.err.println(&quot;BookingTimeUtil.canCancelBooking: Booking is null&quot;);</span>
+<span class="nc" id="L151">            return false;</span>
+        }
+        
+<span class="fc" id="L154">        String status = booking.getStatus();</span>
+<span class="fc" id="L155">        System.out.println(&quot;BookingTimeUtil.canCancelBooking: Checking booking &quot; + booking.getBookingId() + </span>
+                         &quot; with status: '&quot; + status + &quot;'&quot;);
+        
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">        if (status == null) {</span>
+<span class="nc" id="L159">            System.err.println(&quot;BookingTimeUtil.canCancelBooking: Booking status is null&quot;);</span>
+<span class="nc" id="L160">            return false;</span>
+        }
+        
+        // Allow cancellation if booking hasn't been checked in yet
+        // Status should not be &quot;InUse&quot; or &quot;Completed&quot;
+<span class="fc" id="L165">        String normalizedStatus = status.trim();</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        if (normalizedStatus.equalsIgnoreCase(&quot;InUse&quot;)) {</span>
+<span class="nc" id="L167">            System.err.println(&quot;BookingTimeUtil.canCancelBooking: Booking is in use, cannot cancel&quot;);</span>
+<span class="nc" id="L168">            return false;</span>
+        }
+        
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (normalizedStatus.equalsIgnoreCase(&quot;Completed&quot;)) {</span>
+<span class="nc" id="L172">            System.err.println(&quot;BookingTimeUtil.canCancelBooking: Booking is completed, cannot cancel&quot;);</span>
+<span class="nc" id="L173">            return false;</span>
+        }
+        
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        if (normalizedStatus.equalsIgnoreCase(&quot;Cancelled&quot;)) {</span>
+<span class="nc" id="L177">            System.err.println(&quot;BookingTimeUtil.canCancelBooking: Booking is already cancelled&quot;);</span>
+<span class="nc" id="L178">            return false;</span>
+        }
+        
+        // Allow cancellation for Reserved, NoShow, or any other status that isn't InUse/Completed/Cancelled
+<span class="fc" id="L182">        System.out.println(&quot;BookingTimeUtil.canCancelBooking: Booking can be cancelled (status: '&quot; + status + &quot;')&quot;);</span>
+<span class="fc" id="L183">        return true;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

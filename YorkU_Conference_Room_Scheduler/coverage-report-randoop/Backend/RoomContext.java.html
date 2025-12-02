@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoomContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">RoomContext.java</span></div><h1>RoomContext.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.UUID;
+
+public class RoomContext {
+    
+    private UUID roomId;
+    private RoomState currentState;
+    
+    // Booking info (null when no active booking)
+    private String bookingId;
+    private UUID bookingUserId;
+    private String bookingStartTime;
+    private String bookingEndTime;
+    private String bookingDate;
+    
+<span class="fc" id="L17">    public RoomContext(UUID roomId) {</span>
+<span class="fc" id="L18">        this.roomId = roomId;</span>
+<span class="fc" id="L19">        this.currentState = AvailableState.getInstance();</span>
+<span class="fc" id="L20">    }</span>
+    
+<span class="fc" id="L22">    public RoomContext(UUID roomId, RoomState initialState) {</span>
+<span class="fc" id="L23">        this.roomId = roomId;</span>
+<span class="fc" id="L24">        this.currentState = initialState;</span>
+<span class="fc" id="L25">    }</span>
+    
+    // State pattern methods
+    public void setState(RoomState state) {
+<span class="fc" id="L29">        this.currentState = state;</span>
+<span class="fc" id="L30">        System.out.println(&quot;Room &quot; + roomId + &quot; state changed to: &quot; + state.getStateName());</span>
+<span class="fc" id="L31">    }</span>
+    
+    public RoomState getState() {
+<span class="fc" id="L34">        return currentState;</span>
+    }
+    
+    public String getStateName() {
+<span class="fc" id="L38">        return currentState.getStateName();</span>
+    }
+    
+    public void handle() {
+<span class="fc" id="L42">        currentState.handle(this);</span>
+<span class="fc" id="L43">    }</span>
+    
+    // Delegate methods to current state
+    public boolean canBook() {
+<span class="fc" id="L47">        return currentState.canBook();</span>
+    }
+    
+    public void checkIn() {
+<span class="fc" id="L51">        currentState.checkIn(this);</span>
+<span class="fc" id="L52">    }</span>
+    
+    public void checkOut() {
+<span class="fc" id="L55">        currentState.checkOut(this);</span>
+<span class="fc" id="L56">    }</span>
+    
+    public void cancelBooking() {
+<span class="fc" id="L59">        currentState.cancelBooking(this);</span>
+<span class="fc" id="L60">    }</span>
+    
+    public void extendBooking(int additionalHours) {
+<span class="fc" id="L63">        currentState.extendBooking(this, additionalHours);</span>
+<span class="fc" id="L64">    }</span>
+    
+    public void setMaintenance() {
+<span class="fc" id="L67">        currentState.setMaintenance(this);</span>
+<span class="fc" id="L68">    }</span>
+    
+    public void clearMaintenance() {
+<span class="fc" id="L71">        currentState.clearMaintenance(this);</span>
+<span class="fc" id="L72">    }</span>
+    
+    // Booking info methods
+    public void setBookingInfo(String bookingId2, UUID userId, String date, String startTime, String endTime) {
+<span class="fc" id="L76">        this.bookingId = bookingId;</span>
+<span class="fc" id="L77">        this.bookingUserId = userId;</span>
+<span class="fc" id="L78">        this.bookingDate = date;</span>
+<span class="fc" id="L79">        this.bookingStartTime = startTime;</span>
+<span class="fc" id="L80">        this.bookingEndTime = endTime;</span>
+<span class="fc" id="L81">    }</span>
+    
+    public void clearBookingInfo() {
+<span class="fc" id="L84">        this.bookingId = null;</span>
+<span class="fc" id="L85">        this.bookingUserId = null;</span>
+<span class="fc" id="L86">        this.bookingDate = null;</span>
+<span class="fc" id="L87">        this.bookingStartTime = null;</span>
+<span class="fc" id="L88">        this.bookingEndTime = null;</span>
+<span class="fc" id="L89">    }</span>
+    
+    // Getters
+    public UUID getRoomId() {
+<span class="fc" id="L93">        return roomId;</span>
+    }
+    
+    public String getBookingId() {
+<span class="fc" id="L97">        return bookingId;</span>
+    }
+    
+    public UUID getBookingUserId() {
+<span class="fc" id="L101">        return bookingUserId;</span>
+    }
+    
+    public String getBookingStartTime() {
+<span class="fc" id="L105">        return bookingStartTime;</span>
+    }
+    
+    public String getBookingEndTime() {
+<span class="fc" id="L109">        return bookingEndTime;</span>
+    }
+    
+    public String getBookingDate() {
+<span class="fc" id="L113">        return bookingDate;</span>
+    }
+    
+    public boolean hasActiveBooking() {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        return bookingUserId != null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

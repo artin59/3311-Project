@@ -1,0 +1,1235 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookingCSV.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">BookingCSV.java</span></div><h1>BookingCSV.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
+
+public class BookingCSV {
+    
+<span class="fc" id="L16">    private static BookingCSV instance = new BookingCSV();</span>
+    // Use the same directory as RoomDatabase.csv for consistency
+<span class="fc" id="L18">    private final String BOOKING_PATH = &quot;../BookingDatabase.csv&quot;;</span>
+<span class="fc" id="L19">    private final String ROOM_PATH = &quot;../RoomDatabase.csv&quot;;</span>
+    
+<span class="fc" id="L21">    private BookingCSV() {</span>
+        try {
+<span class="fc" id="L23">            File bookingFile = new File(BOOKING_PATH);</span>
+            
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">            if (!bookingFile.exists()) {</span>
+                // Create directory if it doesn't exist
+<span class="nc" id="L27">                bookingFile.getParentFile().mkdirs();</span>
+                
+<span class="nc" id="L29">                CsvWriter csvWrite = new CsvWriter(new FileWriter(BOOKING_PATH, false), ',');</span>
+<span class="nc" id="L30">                csvWrite.write(&quot;BookingID&quot;);</span>
+<span class="nc" id="L31">                csvWrite.write(&quot;RoomID&quot;);</span>
+<span class="nc" id="L32">                csvWrite.write(&quot;Building Name&quot;);</span>
+<span class="nc" id="L33">                csvWrite.write(&quot;Room Number&quot;);</span>
+<span class="nc" id="L34">                csvWrite.write(&quot;Booking UserID&quot;);</span>
+<span class="nc" id="L35">                csvWrite.write(&quot;Booking Date&quot;);</span>
+<span class="nc" id="L36">                csvWrite.write(&quot;Booking Start Time&quot;);</span>
+<span class="nc" id="L37">                csvWrite.write(&quot;Booking End Time&quot;);</span>
+<span class="nc" id="L38">                csvWrite.endRecord();</span>
+<span class="nc" id="L39">                csvWrite.close();</span>
+            }
+<span class="nc" id="L41">        } catch (Exception e) {</span>
+<span class="nc" id="L42">            e.printStackTrace();</span>
+<span class="fc" id="L43">        }</span>
+<span class="fc" id="L44">    }</span>
+    
+    public static BookingCSV getInstance() {
+<span class="fc" id="L47">        return instance;</span>
+    }
+    
+    public void write(Booking booking) {
+        // Only write if booking has room information
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">        if (booking.getRoomNumber() == null || booking.getRoomNumber().isEmpty()) {</span>
+<span class="fc" id="L53">            return;</span>
+        }
+        
+        try {
+            // Find room to get Room ID and Building Name
+<span class="fc" id="L58">            Room room = findRoomByNumber(booking.getRoomNumber());</span>
+            
+            // Write to BookingDatabase.csv
+<span class="fc" id="L61">            CsvWriter csvWrite = new CsvWriter(new FileWriter(BOOKING_PATH, true), ',');</span>
+            
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">            String bookingId = booking.getBookingId() != null ? booking.getBookingId() : &quot;&quot;;</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">            String roomId = room != null ? room.getRoomId().toString() : &quot;&quot;;</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            String buildingName = room != null ? room.getBuildingName() : &quot;&quot;;</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            String userId = booking.getUser().getAccountId() != null ? </span>
+<span class="nc" id="L67">                           booking.getUser().getAccountId().toString() : &quot;&quot;;</span>
+            
+<span class="nc" id="L69">            csvWrite.write(bookingId);</span>
+<span class="nc" id="L70">            csvWrite.write(roomId);</span>
+<span class="nc" id="L71">            csvWrite.write(buildingName);</span>
+<span class="nc" id="L72">            csvWrite.write(booking.getRoomNumber());</span>
+<span class="nc" id="L73">            csvWrite.write(userId);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">            csvWrite.write(booking.getBookingDate() != null ? booking.getBookingDate() : &quot;&quot;);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            csvWrite.write(booking.getBookingStartTime() != null ? booking.getBookingStartTime() : &quot;&quot;);</span>
+            
+            // Calculate end time as start time + 1 hour
+<span class="nc" id="L78">            String endTime = calculateEndTime(booking.getBookingStartTime());</span>
+<span class="nc" id="L79">            csvWrite.write(endTime);</span>
+            
+<span class="nc" id="L81">            csvWrite.endRecord();</span>
+<span class="nc" id="L82">            csvWrite.close();</span>
+            
+<span class="fc" id="L84">        } catch (Exception e) {</span>
+<span class="fc" id="L85">            e.printStackTrace();</span>
+<span class="nc" id="L86">        }</span>
+<span class="fc" id="L87">    }</span>
+    
+   // Calculate end time as start time + 1 hour
+
+    private String calculateEndTime(String startTime) {
+<span class="nc bnc" id="L92" title="All 4 branches missed.">        if (startTime == null || startTime.trim().isEmpty()) {</span>
+<span class="nc" id="L93">            return &quot;&quot;;</span>
+        }
+        
+        try {
+<span class="nc" id="L97">            String[] parts = startTime.trim().split(&quot;:&quot;);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (parts.length &gt;= 2) {</span>
+<span class="nc" id="L99">                int hours = Integer.parseInt(parts[0]);</span>
+<span class="nc" id="L100">                int minutes = Integer.parseInt(parts[1]);</span>
+                
+                // Add 1 hour
+<span class="nc" id="L103">                hours += 1;</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                if (hours &gt;= 24) {</span>
+<span class="nc" id="L105">                    hours = hours % 24;</span>
+                }
+                
+<span class="nc" id="L108">                return String.format(&quot;%02d:%02d&quot;, hours, minutes);</span>
+            }
+<span class="nc" id="L110">        } catch (Exception e) {</span>
+<span class="nc" id="L111">            System.err.println(&quot;Error calculating end time from start time: &quot; + startTime);</span>
+<span class="nc" id="L112">            e.printStackTrace();</span>
+<span class="nc" id="L113">        }</span>
+        
+<span class="nc" id="L115">        return &quot;&quot;;</span>
+    }
+    
+    private Room findRoomByNumber(String roomNumber) {
+<span class="fc" id="L119">        RoomService roomService = new RoomService();</span>
+<span class="fc" id="L120">        List&lt;Room&gt; allRooms = roomService.getAllRooms();</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        for (Room room : allRooms) {</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">            if (room.getRoomNumber().equals(roomNumber)) {</span>
+<span class="fc" id="L123">                return room;</span>
+            }
+<span class="fc" id="L125">        }</span>
+<span class="nc" id="L126">        return null;</span>
+    }
+    
+    private void updateRoomDatabase(Room room, Booking booking) {
+        try {
+<span class="nc" id="L131">            RoomCSV roomCSV = RoomCSV.getInstance();</span>
+            // Update room with booking information
+<span class="nc" id="L133">            room.getRoomContext().setBookingInfo(</span>
+<span class="nc" id="L134">                booking.getBookingId(),</span>
+<span class="nc" id="L135">                booking.getUser().getAccountId(),</span>
+<span class="nc" id="L136">                booking.getBookingDate(),</span>
+<span class="nc" id="L137">                booking.getBookingStartTime(),</span>
+<span class="nc" id="L138">                booking.getBookingEndTime()</span>
+            );
+<span class="nc" id="L140">            room.getRoomContext().setState(ReservedState.getInstance());</span>
+<span class="nc" id="L141">            roomCSV.update(room);</span>
+<span class="nc" id="L142">        } catch (Exception e) {</span>
+<span class="nc" id="L143">            e.printStackTrace();</span>
+<span class="nc" id="L144">        }</span>
+<span class="nc" id="L145">    }</span>
+    
+    public Booking findById(String bookingId) {
+        // Search for booking by ID
+        try {
+<span class="fc" id="L150">            File bookingFile = new File(BOOKING_PATH);</span>
+<span class="pc bpc" id="L151" title="2 of 4 branches missed.">            if (!bookingFile.exists() || !bookingFile.canRead()) {</span>
+<span class="nc" id="L152">                return null;</span>
+            }
+            
+<span class="fc" id="L155">            CsvReader csvRead = new CsvReader(BOOKING_PATH);</span>
+<span class="fc" id="L156">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L158" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L159">                String recordBookingId = csvRead.get(0); // BookingID is first column</span>
+<span class="pc bpc" id="L160" title="2 of 4 branches missed.">                if (recordBookingId != null &amp;&amp; recordBookingId.trim().equals(bookingId)) {</span>
+<span class="nc" id="L161">                    Booking booking = parseBookingFromRecord(csvRead);</span>
+<span class="nc" id="L162">                    csvRead.close();</span>
+<span class="nc" id="L163">                    return booking;</span>
+                }
+<span class="fc" id="L165">            }</span>
+<span class="fc" id="L166">            csvRead.close();</span>
+<span class="nc" id="L167">        } catch (Exception e) {</span>
+<span class="nc" id="L168">            System.err.println(&quot;Error finding booking by ID: &quot; + e.getMessage());</span>
+<span class="fc" id="L169">        }</span>
+<span class="fc" id="L170">        return null;</span>
+    }
+    
+    // Check if a time slot conflicts with existing bookings for a room
+    public boolean hasTimeConflict(String roomNumber, String date, String startTime, String endTime) {
+<span class="fc" id="L175">        return hasTimeConflict(roomNumber, date, startTime, endTime, null);</span>
+    }
+    
+   //Check if there's a time conflict for a room on a given date and time range
+
+    public boolean hasTimeConflict(String roomNumber, String date, String startTime, String endTime, String excludeBookingId) {
+<span class="fc" id="L181">        System.out.println(&quot;hasTimeConflict: Checking for conflicts - Room: &quot; + roomNumber + &quot;, Date: &quot; + date + </span>
+                         &quot;, Time: &quot; + startTime + &quot;-&quot; + endTime + &quot;, Exclude: &quot; + excludeBookingId);
+        try {
+<span class="fc" id="L184">            File bookingFile = new File(BOOKING_PATH);</span>
+<span class="pc bpc" id="L185" title="2 of 4 branches missed.">            if (!bookingFile.exists() || !bookingFile.canRead()) {</span>
+<span class="nc" id="L186">                System.out.println(&quot;hasTimeConflict: No booking file found, no conflicts&quot;);</span>
+<span class="nc" id="L187">                return false; // No conflicts if no bookings exist</span>
+            }
+            
+<span class="fc" id="L190">            CsvReader csvRead = new CsvReader(BOOKING_PATH);</span>
+<span class="fc" id="L191">            csvRead.readHeaders();</span>
+            
+<span class="fc" id="L193">            int recordCount = 0;</span>
+<span class="fc" id="L194">            int excludedCount = 0;</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L196">                recordCount++;</span>
+                // Get booking ID to check if we should exclude this booking
+<span class="fc" id="L198">                String recordBookingId = null;</span>
+                try {
+<span class="fc" id="L200">                    recordBookingId = csvRead.get(0); // BookingID is first column</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">                    if (recordBookingId != null) {</span>
+<span class="fc" id="L202">                        recordBookingId = recordBookingId.trim();</span>
+                    }
+<span class="nc" id="L204">                } catch (Exception e) {</span>
+                    // Try by name as fallback
+                    try {
+<span class="nc" id="L207">                        recordBookingId = csvRead.get(&quot;BookingID&quot;);</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">                        if (recordBookingId != null) {</span>
+<span class="nc" id="L209">                            recordBookingId = recordBookingId.trim();</span>
+                        }
+<span class="nc" id="L211">                    } catch (Exception e2) {</span>
+                        // Ignore
+<span class="nc" id="L213">                    }</span>
+<span class="fc" id="L214">                }</span>
+                
+<span class="fc" id="L216">                String recordRoomNumber = csvRead.get(&quot;Room Number&quot;);</span>
+<span class="fc" id="L217">                String recordDate = csvRead.get(&quot;Booking Date&quot;);</span>
+<span class="fc" id="L218">                String recordStartTime = csvRead.get(&quot;Booking Start Time&quot;);</span>
+                
+                // Skip empty records
+<span class="pc bpc" id="L221" title="3 of 6 branches missed.">                if (recordRoomNumber == null || recordRoomNumber.trim().isEmpty() ||</span>
+<span class="pc bpc" id="L222" title="1 of 2 branches missed.">                    recordDate == null || recordDate.trim().isEmpty()) {</span>
+<span class="nc" id="L223">                    System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - Skipping empty record&quot;);</span>
+<span class="nc" id="L224">                    continue;</span>
+                }
+                
+                // Skip if this is the booking we're excluding (check AFTER getting room/date to ensure we have the record)
+<span class="pc bpc" id="L228" title="1 of 4 branches missed.">                if (excludeBookingId != null &amp;&amp; recordBookingId != null) {</span>
+<span class="fc" id="L229">                    String trimmedExclude = excludeBookingId.trim();</span>
+<span class="fc" id="L230">                    String trimmedRecord = recordBookingId.trim();</span>
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">                    if (trimmedRecord.equals(trimmedExclude)) {</span>
+<span class="nc" id="L232">                        excludedCount++;</span>
+<span class="nc" id="L233">                        System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - Excluding booking &quot; + recordBookingId + </span>
+                                         &quot; (matches exclude ID: &quot; + excludeBookingId + &quot;)&quot;);
+<span class="nc" id="L235">                        continue;</span>
+                    }
+                }
+                
+                // Check if same room and same date
+<span class="pc bpc" id="L240" title="4 of 6 branches missed.">                if (recordRoomNumber != null &amp;&amp; recordRoomNumber.equals(roomNumber) &amp;&amp; </span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">                    recordDate != null &amp;&amp; recordDate.equals(date)) {</span>
+<span class="nc" id="L242">                    System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - Found matching room/date for booking &quot; + recordBookingId);</span>
+                    
+                    // Get end time from BookingDatabase.csv first (this is the source of truth)
+<span class="nc" id="L245">                    String recordEndTime = null;</span>
+<span class="nc" id="L246">                    boolean endTimeReadFromCSV = false;</span>
+                    try {
+<span class="nc" id="L248">                        recordEndTime = csvRead.get(&quot;Booking End Time&quot;);</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">                        if (recordEndTime != null) {</span>
+<span class="nc" id="L250">                            recordEndTime = recordEndTime.trim();</span>
+                            // Only use it if it's not empty
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                            if (!recordEndTime.isEmpty()) {</span>
+<span class="nc" id="L253">                                endTimeReadFromCSV = true;</span>
+<span class="nc" id="L254">                                System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - End time from BookingDatabase.csv: &quot; + recordEndTime);</span>
+                            }
+                        }
+<span class="nc" id="L257">                    } catch (Exception e) {</span>
+<span class="nc" id="L258">                        System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - Could not read end time column from CSV&quot;);</span>
+<span class="nc" id="L259">                    }</span>
+                    
+                    // Only fall back to RoomDatabase if we didn't successfully read from BookingDatabase.csv
+<span class="nc bnc" id="L262" title="All 2 branches missed.">                    if (!endTimeReadFromCSV) {</span>
+<span class="nc" id="L263">                        System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - End time not in BookingDatabase.csv, trying RoomDatabase&quot;);</span>
+                        try {
+<span class="nc" id="L265">                            String roomIdStr = csvRead.get(&quot;RoomID&quot;);</span>
+<span class="nc bnc" id="L266" title="All 4 branches missed.">                            if (roomIdStr != null &amp;&amp; !roomIdStr.trim().isEmpty()) {</span>
+<span class="nc" id="L267">                                RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L268">                                UUID roomId = UUID.fromString(roomIdStr.trim());</span>
+<span class="nc" id="L269">                                Room room = roomCSV.findById(roomId);</span>
+<span class="nc bnc" id="L270" title="All 6 branches missed.">                                if (room != null &amp;&amp; room.getBookingEndTime() != null &amp;&amp; !room.getBookingEndTime().trim().isEmpty()) {</span>
+<span class="nc" id="L271">                                    recordEndTime = room.getBookingEndTime().trim();</span>
+<span class="nc" id="L272">                                    System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - End time from RoomDatabase: &quot; + recordEndTime);</span>
+                                }
+                            }
+<span class="nc" id="L275">                        } catch (Exception e2) {</span>
+<span class="nc" id="L276">                            System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - Could not get end time from RoomDatabase&quot;);</span>
+<span class="nc" id="L277">                        }</span>
+                    }
+                    
+                    // If end time still not available, calculate from start time (start + 1 hour) as last resort
+<span class="nc bnc" id="L281" title="All 4 branches missed.">                    if (recordEndTime == null || recordEndTime.trim().isEmpty()) {</span>
+<span class="nc" id="L282">                        recordEndTime = calculateEndTime(recordStartTime);</span>
+<span class="nc" id="L283">                        System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - Calculated end time from start: &quot; + recordEndTime);</span>
+                    }
+                    
+                    // Check for time overlap
+<span class="nc bnc" id="L287" title="All 4 branches missed.">                    if (recordEndTime != null &amp;&amp; !recordEndTime.trim().isEmpty()) {</span>
+<span class="nc" id="L288">                        boolean overlaps = timesOverlap(startTime, endTime, recordStartTime, recordEndTime);</span>
+<span class="nc" id="L289">                        System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - Checking overlap - Requested: &quot; + startTime + &quot;-&quot; + endTime + </span>
+                                         &quot; vs Existing: &quot; + recordStartTime + &quot;-&quot; + recordEndTime + &quot; = &quot; + overlaps);
+<span class="nc bnc" id="L291" title="All 2 branches missed.">                        if (overlaps) {</span>
+<span class="nc" id="L292">                            csvRead.close();</span>
+<span class="nc" id="L293">                            System.out.println(&quot;hasTimeConflict: CONFLICT FOUND with booking &quot; + recordBookingId + </span>
+                                             &quot; (Room: &quot; + recordRoomNumber + &quot;, Time: &quot; + recordStartTime + &quot;-&quot; + recordEndTime + &quot;)&quot;);
+<span class="nc" id="L295">                            return true; // Conflict found</span>
+                        } else {
+<span class="nc" id="L297">                            System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - No overlap with booking &quot; + recordBookingId);</span>
+                        }
+<span class="nc bnc" id="L299" title="All 4 branches missed.">                    } else if (recordStartTime != null &amp;&amp; recordStartTime.equals(startTime)) {</span>
+                        // If end time not available, check if start times match
+<span class="nc" id="L301">                        csvRead.close();</span>
+<span class="nc" id="L302">                        System.out.println(&quot;hasTimeConflict: CONFLICT FOUND (start time match) with booking &quot; + recordBookingId + </span>
+                                         &quot; (Room: &quot; + recordRoomNumber + &quot;, StartTime: &quot; + recordStartTime + &quot;)&quot;);
+<span class="nc" id="L304">                        return true; // Conflict found</span>
+                    }
+<span class="nc" id="L306">                } else {</span>
+<span class="fc" id="L307">                    System.out.println(&quot;hasTimeConflict: Record &quot; + recordCount + &quot; - Room/Date mismatch - Room: &quot; + recordRoomNumber + </span>
+                                     &quot; (expected &quot; + roomNumber + &quot;), Date: &quot; + recordDate + &quot; (expected &quot; + date + &quot;)&quot;);
+                }
+<span class="fc" id="L310">            }</span>
+<span class="fc" id="L311">            csvRead.close();</span>
+<span class="fc" id="L312">            System.out.println(&quot;hasTimeConflict: Checked &quot; + recordCount + &quot; records (&quot; + excludedCount + &quot; excluded), no conflicts found&quot;);</span>
+<span class="nc" id="L313">        } catch (Exception e) {</span>
+<span class="nc" id="L314">            System.err.println(&quot;Error checking time conflict: &quot; + e.getMessage());</span>
+<span class="nc" id="L315">            e.printStackTrace();</span>
+<span class="fc" id="L316">        }</span>
+<span class="fc" id="L317">        return false; // No conflicts found</span>
+    }
+    
+    // Helper method to check if two time ranges overlap
+    private boolean timesOverlap(String start1, String end1, String start2, String end2) {
+        try {
+            // Parse times (assuming format HH:MM)
+<span class="nc" id="L324">            int start1Minutes = parseTimeToMinutes(start1);</span>
+<span class="nc" id="L325">            int end1Minutes = parseTimeToMinutes(end1);</span>
+<span class="nc" id="L326">            int start2Minutes = parseTimeToMinutes(start2);</span>
+<span class="nc" id="L327">            int end2Minutes = parseTimeToMinutes(end2);</span>
+            
+
+<span class="nc bnc" id="L330" title="All 4 branches missed.">            boolean overlaps = start1Minutes &lt; end2Minutes &amp;&amp; start2Minutes &lt; end1Minutes;</span>
+<span class="nc" id="L331">            System.out.println(&quot;timesOverlap: Range1=&quot; + start1 + &quot;-&quot; + end1 + &quot; (&quot; + start1Minutes + &quot;-&quot; + end1Minutes + </span>
+                             &quot;), Range2=&quot; + start2 + &quot;-&quot; + end2 + &quot; (&quot; + start2Minutes + &quot;-&quot; + end2Minutes + 
+                             &quot;), Overlaps=&quot; + overlaps);
+<span class="nc" id="L334">            return overlaps;</span>
+<span class="nc" id="L335">        } catch (Exception e) {</span>
+<span class="nc" id="L336">            System.err.println(&quot;Error in timesOverlap: &quot; + e.getMessage());</span>
+            // If parsing fails, do simple string comparison
+<span class="nc bnc" id="L338" title="All 6 branches missed.">            return start1.equals(start2) || (end1 != null &amp;&amp; end1.equals(end2));</span>
+        }
+    }
+    
+    // Helper method to parse time string (HH:MM) to minutes since midnight
+    private int parseTimeToMinutes(String time) {
+<span class="nc bnc" id="L344" title="All 4 branches missed.">        if (time == null || time.trim().isEmpty()) {</span>
+<span class="nc" id="L345">            return 0;</span>
+        }
+<span class="nc" id="L347">        String[] parts = time.trim().split(&quot;:&quot;);</span>
+<span class="nc bnc" id="L348" title="All 2 branches missed.">        if (parts.length &gt;= 2) {</span>
+<span class="nc" id="L349">            int hours = Integer.parseInt(parts[0]);</span>
+<span class="nc" id="L350">            int minutes = Integer.parseInt(parts[1]);</span>
+<span class="nc" id="L351">            return hours * 60 + minutes;</span>
+        }
+<span class="nc" id="L353">        return 0;</span>
+    }
+    
+    public List&lt;Booking&gt; findByUserEmail(String email) {
+<span class="fc" id="L357">        List&lt;Booking&gt; bookings = new ArrayList&lt;&gt;();</span>
+        try {
+            // Check if file exists
+<span class="fc" id="L360">            File bookingFile = new File(BOOKING_PATH);</span>
+<span class="pc bpc" id="L361" title="1 of 2 branches missed.">            if (!bookingFile.exists()) {</span>
+<span class="nc" id="L362">                System.out.println(&quot;BookingDatabase.csv does not exist at: &quot; + BOOKING_PATH);</span>
+<span class="nc" id="L363">                return bookings;</span>
+            }
+            
+<span class="fc" id="L366">            UserCSV userCSV = UserCSV.getInstance();</span>
+<span class="fc" id="L367">            Accounts account = userCSV.findByEmail(email);</span>
+<span class="pc bpc" id="L368" title="1 of 2 branches missed.">            if (account == null) {</span>
+<span class="fc" id="L369">                System.out.println(&quot;User not found for email: &quot; + email);</span>
+<span class="fc" id="L370">                return bookings;</span>
+            }
+            
+<span class="nc" id="L373">            String userId = account.getAccountId().toString();</span>
+<span class="nc" id="L374">            System.out.println(&quot;Looking for bookings with UserID: &quot; + userId);</span>
+            
+            // Verify file is readable
+<span class="nc bnc" id="L377" title="All 2 branches missed.">            if (!bookingFile.canRead()) {</span>
+<span class="nc" id="L378">                System.out.println(&quot;BookingDatabase.csv exists but cannot be read: &quot; + BOOKING_PATH);</span>
+<span class="nc" id="L379">                return bookings;</span>
+            }
+            
+<span class="nc" id="L382">            System.out.println(&quot;Reading from BookingDatabase.csv at: &quot; + BOOKING_PATH);</span>
+<span class="nc" id="L383">            System.out.println(&quot;File size: &quot; + bookingFile.length() + &quot; bytes&quot;);</span>
+            
+            // Check if file is empty (only headers)
+<span class="nc bnc" id="L386" title="All 2 branches missed.">            if (bookingFile.length() &lt; 100) {</span>
+<span class="nc" id="L387">                System.out.println(&quot;WARNING: BookingDatabase.csv appears to be empty or very small&quot;);</span>
+            }
+            
+<span class="nc" id="L390">            CsvReader csvRead = new CsvReader(BOOKING_PATH);</span>
+<span class="nc" id="L391">            csvRead.readHeaders();</span>
+            
+            // Debug: Print headers to verify column names
+<span class="nc" id="L394">            String[] headers = csvRead.getHeaders();</span>
+<span class="nc" id="L395">            System.out.println(&quot;CSV Headers: &quot; + java.util.Arrays.toString(headers));</span>
+            
+            // Verify we have the expected columns
+<span class="nc" id="L398">            boolean hasRequiredColumns = false;</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">            for (String header : headers) {</span>
+<span class="nc bnc" id="L400" title="All 2 branches missed.">                if (header.equals(&quot;Booking UserID&quot;)) {</span>
+<span class="nc" id="L401">                    hasRequiredColumns = true;</span>
+<span class="nc" id="L402">                    break;</span>
+                }
+            }
+<span class="nc bnc" id="L405" title="All 2 branches missed.">            if (!hasRequiredColumns) {</span>
+<span class="nc" id="L406">                System.err.println(&quot;ERROR: CSV file does not have 'Booking UserID' column!&quot;);</span>
+<span class="nc" id="L407">                System.err.println(&quot;Expected columns: RoomID, Building Name, Room Number, Booking UserID, Booking Date, Booking Start Time&quot;);</span>
+<span class="nc" id="L408">                csvRead.close();</span>
+<span class="nc" id="L409">                return bookings;</span>
+            }
+            
+<span class="nc" id="L412">            int recordCount = 0;</span>
+<span class="nc" id="L413">            int matchCount = 0;</span>
+            
+<span class="nc bnc" id="L415" title="All 2 branches missed.">            while (csvRead.readRecord()) {</span>
+<span class="nc" id="L416">                recordCount++;</span>
+                
+                // Skip empty records
+<span class="nc" id="L419">                String recordUserId = csvRead.get(&quot;Booking UserID&quot;);</span>
+<span class="nc" id="L420">                String roomNumber = csvRead.get(&quot;Room Number&quot;);</span>
+                
+                // Skip if both are empty (empty row)
+<span class="nc bnc" id="L423" title="All 6 branches missed.">                if ((recordUserId == null || recordUserId.trim().isEmpty()) &amp;&amp; </span>
+<span class="nc bnc" id="L424" title="All 2 branches missed.">                    (roomNumber == null || roomNumber.trim().isEmpty())) {</span>
+<span class="nc" id="L425">                    System.out.println(&quot;Record &quot; + recordCount + &quot; - Skipping empty record&quot;);</span>
+<span class="nc" id="L426">                    continue;</span>
+                }
+                
+<span class="nc" id="L429">                System.out.println(&quot;Record &quot; + recordCount + &quot; - UserID: &quot; + recordUserId + &quot;, Room: &quot; + roomNumber);</span>
+                
+<span class="nc bnc" id="L431" title="All 6 branches missed.">                if (recordUserId != null &amp;&amp; !recordUserId.trim().isEmpty() &amp;&amp; recordUserId.equals(userId)) {</span>
+<span class="nc" id="L432">                    matchCount++;</span>
+<span class="nc" id="L433">                    System.out.println(&quot;Match found! Parsing booking record &quot; + matchCount);</span>
+<span class="nc" id="L434">                    Booking booking = parseBookingFromRecord(csvRead);</span>
+<span class="nc bnc" id="L435" title="All 2 branches missed.">                    if (booking != null) {</span>
+<span class="nc" id="L436">                        bookings.add(booking);</span>
+<span class="nc" id="L437">                        System.out.println(&quot;Successfully parsed booking: &quot; + booking.getBookingId());</span>
+                    } else {
+<span class="nc" id="L439">                        System.out.println(&quot;Failed to parse booking record&quot;);</span>
+                    }
+                }
+<span class="nc" id="L442">            }</span>
+<span class="nc" id="L443">            csvRead.close();</span>
+            
+<span class="nc" id="L445">            System.out.println(&quot;Total records read: &quot; + recordCount + &quot;, Matches: &quot; + matchCount + &quot;, Bookings added: &quot; + bookings.size());</span>
+<span class="nc" id="L446">        } catch (Exception e) {</span>
+<span class="nc" id="L447">            System.err.println(&quot;Error reading bookings from CSV: &quot; + e.getMessage());</span>
+<span class="nc" id="L448">            e.printStackTrace();</span>
+<span class="nc" id="L449">        }</span>
+<span class="nc" id="L450">        return bookings;</span>
+    }
+    
+    // Simple method to get all booking records directly from CSV without user lookup
+    public List&lt;Map&lt;String, String&gt;&gt; getAllBookingRecords() {
+<span class="fc" id="L455">        List&lt;Map&lt;String, String&gt;&gt; records = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="fc" id="L457">            File bookingFile = new File(BOOKING_PATH);</span>
+<span class="pc bpc" id="L458" title="2 of 4 branches missed.">            if (!bookingFile.exists() || !bookingFile.canRead()) {</span>
+<span class="nc" id="L459">                System.out.println(&quot;BookingDatabase.csv does not exist or cannot be read at: &quot; + BOOKING_PATH);</span>
+<span class="nc" id="L460">                return records;</span>
+            }
+            
+<span class="fc" id="L463">            CsvReader csvRead = new CsvReader(BOOKING_PATH);</span>
+<span class="fc" id="L464">            csvRead.readHeaders();</span>
+            
+            // Debug: Print headers to verify column names
+<span class="fc" id="L467">            String[] headers = csvRead.getHeaders();</span>
+<span class="fc" id="L468">            System.out.println(&quot;BookingDatabase.csv Headers: &quot; + java.util.Arrays.toString(headers));</span>
+            
+<span class="fc bfc" id="L470" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+                // Read BookingID from CSV - it's the first column (index 0)
+<span class="fc" id="L472">                String bookingId = null;</span>
+                try {
+                    // Read directly by index 0 (first column) to ensure we get the right value
+<span class="fc" id="L475">                    bookingId = csvRead.get(0);</span>
+                    
+                    // Clean up the value
+<span class="pc bpc" id="L478" title="1 of 2 branches missed.">                    if (bookingId != null) {</span>
+<span class="fc" id="L479">                        bookingId = bookingId.trim();</span>
+<span class="pc bpc" id="L480" title="1 of 2 branches missed.">                        if (bookingId.isEmpty()) {</span>
+<span class="nc" id="L481">                            bookingId = null;</span>
+                        }
+                    }
+                    
+<span class="fc" id="L485">                    System.out.println(&quot;Read BookingID from CSV (column index 0): '&quot; + bookingId + &quot;'&quot;);</span>
+<span class="nc" id="L486">                } catch (Exception e) {</span>
+<span class="nc" id="L487">                    System.err.println(&quot;Error reading BookingID from column 0: &quot; + e.getMessage());</span>
+                    // Try by name as fallback
+                    try {
+<span class="nc" id="L490">                        bookingId = csvRead.get(&quot;BookingID&quot;);</span>
+<span class="nc bnc" id="L491" title="All 2 branches missed.">                        if (bookingId != null) {</span>
+<span class="nc" id="L492">                            bookingId = bookingId.trim();</span>
+<span class="nc bnc" id="L493" title="All 2 branches missed.">                            if (bookingId.isEmpty()) {</span>
+<span class="nc" id="L494">                                bookingId = null;</span>
+                            }
+                        }
+<span class="nc" id="L497">                        System.out.println(&quot;Read BookingID by name: '&quot; + bookingId + &quot;'&quot;);</span>
+<span class="nc" id="L498">                    } catch (Exception e2) {</span>
+<span class="nc" id="L499">                        System.err.println(&quot;Could not read BookingID by name either&quot;);</span>
+<span class="nc" id="L500">                    }</span>
+<span class="fc" id="L501">                }</span>
+                
+<span class="fc" id="L503">                String roomNumber = csvRead.get(&quot;Room Number&quot;);</span>
+<span class="fc" id="L504">                String bookingDate = csvRead.get(&quot;Booking Date&quot;);</span>
+<span class="fc" id="L505">                String bookingStartTime = csvRead.get(&quot;Booking Start Time&quot;);</span>
+<span class="fc" id="L506">                String roomId = csvRead.get(&quot;RoomID&quot;);</span>
+<span class="fc" id="L507">                String buildingName = csvRead.get(&quot;Building Name&quot;);</span>
+<span class="fc" id="L508">                String userId = csvRead.get(&quot;Booking UserID&quot;);</span>
+                
+                // Skip empty records
+<span class="pc bpc" id="L511" title="4 of 6 branches missed.">                if ((roomNumber == null || roomNumber.trim().isEmpty()) &amp;&amp; </span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">                    (bookingDate == null || bookingDate.trim().isEmpty())) {</span>
+<span class="nc" id="L513">                    continue;</span>
+                }
+                
+<span class="fc" id="L516">                Map&lt;String, String&gt; record = new HashMap&lt;&gt;();</span>
+                
+                // Debug: Print what we read
+<span class="fc" id="L519">                System.out.println(&quot;DEBUG - bookingId: '&quot; + bookingId + &quot;', roomId: '&quot; + roomId + &quot;'&quot;);</span>
+                
+                // Use BookingID from CSV, or fallback to RoomID substring if not available
+<span class="pc bpc" id="L522" title="3 of 6 branches missed.">                if (bookingId != null &amp;&amp; !bookingId.trim().isEmpty() &amp;&amp; !bookingId.equals(&quot;null&quot;)) {</span>
+<span class="fc" id="L523">                    String finalBookingId = bookingId.trim();</span>
+<span class="fc" id="L524">                    record.put(&quot;bookingId&quot;, finalBookingId);</span>
+<span class="fc" id="L525">                    System.out.println(&quot;✓ Using BookingID from CSV: '&quot; + finalBookingId + &quot;'&quot;);</span>
+<span class="fc" id="L526">                } else {</span>
+                    // Fallback: use RoomID substring only if BookingID is truly not available
+<span class="nc bnc" id="L528" title="All 4 branches missed.">                    String fallbackId = roomId != null &amp;&amp; !roomId.trim().isEmpty() ? roomId.substring(0, Math.min(8, roomId.length())) : &quot;N/A&quot;;</span>
+<span class="nc" id="L529">                    record.put(&quot;bookingId&quot;, fallbackId);</span>
+<span class="nc" id="L530">                    System.out.println(&quot;✗ WARNING: BookingID not found or empty, using RoomID fallback: '&quot; + fallbackId + &quot;'&quot;);</span>
+<span class="nc" id="L531">                    System.out.println(&quot;  bookingId was: '&quot; + bookingId + &quot;'&quot;);</span>
+                }
+<span class="pc bpc" id="L533" title="1 of 2 branches missed.">                record.put(&quot;roomId&quot;, roomId != null ? roomId : &quot;N/A&quot;);</span>
+<span class="pc bpc" id="L534" title="1 of 2 branches missed.">                record.put(&quot;buildingName&quot;, buildingName != null ? buildingName : &quot;N/A&quot;);</span>
+<span class="pc bpc" id="L535" title="1 of 2 branches missed.">                record.put(&quot;roomNumber&quot;, roomNumber != null ? roomNumber : &quot;N/A&quot;);</span>
+<span class="pc bpc" id="L536" title="1 of 2 branches missed.">                record.put(&quot;date&quot;, bookingDate != null ? bookingDate : &quot;N/A&quot;);</span>
+<span class="pc bpc" id="L537" title="1 of 2 branches missed.">                record.put(&quot;startTime&quot;, bookingStartTime != null ? bookingStartTime : &quot;N/A&quot;);</span>
+                
+                // Get end time from CSV first, then fallback to RoomDatabase.csv or calculate from start time
+<span class="fc" id="L540">                String endTime = null;</span>
+                try {
+<span class="fc" id="L542">                    endTime = csvRead.get(&quot;Booking End Time&quot;);</span>
+<span class="pc bpc" id="L543" title="1 of 2 branches missed.">                    if (endTime != null) {</span>
+<span class="fc" id="L544">                        endTime = endTime.trim();</span>
+                    }
+<span class="nc" id="L546">                } catch (Exception e) {</span>
+                    // Column might not exist in older CSV files
+<span class="fc" id="L548">                }</span>
+                
+                // If end time not in CSV, try to get from RoomDatabase.csv
+<span class="pc bpc" id="L551" title="6 of 8 branches missed.">                if ((endTime == null || endTime.isEmpty()) &amp;&amp; roomId != null &amp;&amp; !roomId.trim().isEmpty()) {</span>
+                    try {
+<span class="nc" id="L553">                        RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L554">                        UUID roomUUID = UUID.fromString(roomId.trim());</span>
+<span class="nc" id="L555">                        Room room = roomCSV.findById(roomUUID);</span>
+<span class="nc bnc" id="L556" title="All 2 branches missed.">                        if (room != null) {</span>
+<span class="nc" id="L557">                            endTime = room.getBookingEndTime();</span>
+                        }
+<span class="nc" id="L559">                    } catch (Exception e) {</span>
+                        // If room lookup fails, continue
+<span class="nc" id="L561">                    }</span>
+                }
+                
+                // If still no end time, calculate from start time (start time + 1 hour)
+<span class="pc bpc" id="L565" title="2 of 4 branches missed.">                if (endTime == null || endTime.isEmpty()) {</span>
+<span class="nc" id="L566">                    endTime = calculateEndTime(bookingStartTime);</span>
+                }
+                
+<span class="pc bpc" id="L569" title="2 of 4 branches missed.">                record.put(&quot;endTime&quot;, endTime != null &amp;&amp; !endTime.isEmpty() ? endTime : &quot;N/A&quot;);</span>
+                
+                // Get status from RoomDatabase.csv if roomId exists
+                // Only use room condition if this booking's time slot matches the room's current booking
+<span class="fc" id="L573">                String status = &quot;Reserved&quot;;</span>
+<span class="pc bpc" id="L574" title="2 of 4 branches missed.">                if (roomId != null &amp;&amp; !roomId.trim().isEmpty()) {</span>
+                    try {
+<span class="fc" id="L576">                        RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="fc" id="L577">                        UUID roomUUID = UUID.fromString(roomId.trim());</span>
+<span class="fc" id="L578">                        Room room = roomCSV.findById(roomUUID);</span>
+<span class="pc bpc" id="L579" title="1 of 2 branches missed.">                        if (room != null) {</span>
+                            // Get the booking ID for this record (use the one we read earlier)
+<span class="pc bpc" id="L581" title="1 of 2 branches missed.">                            String currentBookingId = bookingId != null ? bookingId.trim() : null;</span>
+                            
+                            // Check if this booking's time slot matches the room's current booking
+<span class="fc" id="L584">                            String roomBookingId = room.getBookingId();</span>
+<span class="fc" id="L585">                            String roomBookingDate = room.getBookingDate();</span>
+<span class="fc" id="L586">                            String roomBookingStartTime = room.getBookingStartTime();</span>
+                            
+                            // Only use room condition if this booking matches the room's current booking
+<span class="pc bpc" id="L589" title="6 of 8 branches missed.">                            boolean bookingMatchesRoom = (currentBookingId != null &amp;&amp; roomBookingId != null &amp;&amp; roomBookingId.equals(currentBookingId)) &amp;&amp;</span>
+<span class="nc bnc" id="L590" title="All 4 branches missed.">                                                         (roomBookingDate != null &amp;&amp; roomBookingDate.equals(bookingDate)) &amp;&amp;</span>
+<span class="pc bnc" id="L591" title="All 2 branches missed.">                                                         (roomBookingStartTime != null &amp;&amp; roomBookingStartTime.equals(bookingStartTime));</span>
+                            
+<span class="pc bpc" id="L593" title="1 of 2 branches missed.">                            if (bookingMatchesRoom) {</span>
+                                // This booking matches the room's current booking, use room condition
+<span class="nc" id="L595">                                String roomCondition = room.getCondition();</span>
+<span class="nc bnc" id="L596" title="All 2 branches missed.">                                if (roomCondition != null) {</span>
+<span class="nc bnc" id="L597" title="All 4 branches missed.">                                    switch (roomCondition) {</span>
+<span class="nc" id="L598">                                        case &quot;InUse&quot;: status = &quot;InUse&quot;; break;</span>
+<span class="nc" id="L599">                                        case &quot;Available&quot;: status = &quot;Completed&quot;; break;</span>
+<span class="nc" id="L600">                                        case &quot;Reserved&quot;: status = &quot;Reserved&quot;; break;</span>
+<span class="nc" id="L601">                                        default: status = &quot;Reserved&quot;;</span>
+                                    }
+                                }
+<span class="nc" id="L604">                            } else {</span>
+                                // This booking doesn't match the room's current booking
+<span class="fc" id="L606">                                status = &quot;Reserved&quot;;</span>
+                            }
+                        }
+<span class="nc" id="L609">                    } catch (Exception e) {</span>
+                        // If room lookup fails, use defaults
+<span class="fc" id="L611">                    }</span>
+                }
+                
+<span class="fc" id="L614">                record.put(&quot;status&quot;, status);</span>
+                
+<span class="fc" id="L616">                records.add(record);</span>
+<span class="fc" id="L617">            }</span>
+<span class="fc" id="L618">            csvRead.close();</span>
+<span class="nc" id="L619">        } catch (Exception e) {</span>
+<span class="nc" id="L620">            System.err.println(&quot;Error reading booking records from CSV: &quot; + e.getMessage());</span>
+<span class="nc" id="L621">            e.printStackTrace();</span>
+<span class="fc" id="L622">        }</span>
+<span class="fc" id="L623">        return records;</span>
+    }
+    
+    public List&lt;Booking&gt; findAll() {
+<span class="fc" id="L627">        List&lt;Booking&gt; bookings = new ArrayList&lt;&gt;();</span>
+        try {
+            // Check if file exists
+<span class="fc" id="L630">            File bookingFile = new File(BOOKING_PATH);</span>
+<span class="pc bpc" id="L631" title="1 of 2 branches missed.">            if (!bookingFile.exists()) {</span>
+<span class="nc" id="L632">                System.out.println(&quot;BookingDatabase.csv does not exist at: &quot; + BOOKING_PATH);</span>
+<span class="nc" id="L633">                return bookings;</span>
+            }
+            
+            // Verify file is readable
+<span class="pc bpc" id="L637" title="1 of 2 branches missed.">            if (!bookingFile.canRead()) {</span>
+<span class="nc" id="L638">                System.out.println(&quot;BookingDatabase.csv exists but cannot be read: &quot; + BOOKING_PATH);</span>
+<span class="nc" id="L639">                return bookings;</span>
+            }
+            
+<span class="fc" id="L642">            System.out.println(&quot;findAll: Reading from BookingDatabase.csv at: &quot; + BOOKING_PATH);</span>
+<span class="fc" id="L643">            System.out.println(&quot;findAll: File size: &quot; + bookingFile.length() + &quot; bytes&quot;);</span>
+            
+<span class="fc" id="L645">            CsvReader csvRead = new CsvReader(BOOKING_PATH);</span>
+<span class="fc" id="L646">            csvRead.readHeaders();</span>
+            
+            // Debug: Print headers
+<span class="fc" id="L649">            String[] headers = csvRead.getHeaders();</span>
+<span class="fc" id="L650">            System.out.println(&quot;findAll: CSV Headers: &quot; + java.util.Arrays.toString(headers));</span>
+            
+<span class="fc" id="L652">            int recordCount = 0;</span>
+<span class="fc bfc" id="L653" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L654">                recordCount++;</span>
+                
+                // Skip empty records
+<span class="fc" id="L657">                String recordUserId = csvRead.get(&quot;Booking UserID&quot;);</span>
+<span class="fc" id="L658">                String roomNumber = csvRead.get(&quot;Room Number&quot;);</span>
+                
+                // Skip if both are empty (empty row)
+<span class="pc bpc" id="L661" title="4 of 6 branches missed.">                if ((recordUserId == null || recordUserId.trim().isEmpty()) &amp;&amp; </span>
+<span class="nc bnc" id="L662" title="All 2 branches missed.">                    (roomNumber == null || roomNumber.trim().isEmpty())) {</span>
+<span class="nc" id="L663">                    System.out.println(&quot;findAll: Record &quot; + recordCount + &quot; - Skipping empty record&quot;);</span>
+<span class="nc" id="L664">                    continue;</span>
+                }
+                
+<span class="fc" id="L667">                System.out.println(&quot;findAll: Record &quot; + recordCount + &quot; - UserID: &quot; + recordUserId + &quot;, Room: &quot; + roomNumber);</span>
+                
+<span class="fc" id="L669">                Booking booking = parseBookingFromRecord(csvRead);</span>
+<span class="pc bpc" id="L670" title="1 of 2 branches missed.">                if (booking != null) {</span>
+<span class="fc" id="L671">                    bookings.add(booking);</span>
+<span class="fc" id="L672">                    System.out.println(&quot;findAll: Successfully parsed booking: &quot; + booking.getBookingId());</span>
+                } else {
+<span class="nc" id="L674">                    System.out.println(&quot;findAll: Failed to parse booking record &quot; + recordCount);</span>
+                }
+<span class="fc" id="L676">            }</span>
+<span class="fc" id="L677">            csvRead.close();</span>
+<span class="fc" id="L678">            System.out.println(&quot;findAll: Read &quot; + recordCount + &quot; records, parsed &quot; + bookings.size() + &quot; bookings&quot;);</span>
+<span class="nc" id="L679">        } catch (Exception e) {</span>
+<span class="nc" id="L680">            System.err.println(&quot;Error in findAll: &quot; + e.getMessage());</span>
+<span class="nc" id="L681">            e.printStackTrace();</span>
+<span class="fc" id="L682">        }</span>
+<span class="fc" id="L683">        return bookings;</span>
+    }
+    
+    public void update(Booking updatedBooking) {
+<span class="fc" id="L687">        System.out.println(&quot;BookingCSV.update: Called with booking ID: &quot; + updatedBooking.getBookingId());</span>
+<span class="fc" id="L688">        System.out.println(&quot;BookingCSV.update: Booking end time: &quot; + updatedBooking.getBookingEndTime());</span>
+        try {
+            // Read all bookings
+<span class="fc" id="L691">            List&lt;Map&lt;String, String&gt;&gt; allBookings = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L692">            File bookingFile = new File(BOOKING_PATH);</span>
+            
+<span class="pc bpc" id="L694" title="2 of 4 branches missed.">            if (!bookingFile.exists() || !bookingFile.canRead()) {</span>
+<span class="nc" id="L695">                System.err.println(&quot;BookingDatabase.csv does not exist or cannot be read for update&quot;);</span>
+<span class="nc" id="L696">                return;</span>
+            }
+            
+<span class="fc" id="L699">            CsvReader csvRead = new CsvReader(BOOKING_PATH);</span>
+<span class="fc" id="L700">            csvRead.readHeaders();</span>
+            
+<span class="fc" id="L702">            boolean found = false;</span>
+<span class="fc" id="L703">            int recordCount = 0;</span>
+<span class="fc bfc" id="L704" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L705">                recordCount++;</span>
+<span class="fc" id="L706">                String recordBookingId = csvRead.get(0); // BookingID is first column</span>
+                
+                // Skip empty records
+<span class="pc bpc" id="L709" title="2 of 4 branches missed.">                if (recordBookingId == null || recordBookingId.trim().isEmpty()) {</span>
+<span class="nc" id="L710">                    System.out.println(&quot;BookingCSV.update: Record &quot; + recordCount + &quot; - Skipping empty booking ID&quot;);</span>
+<span class="nc" id="L711">                    continue;</span>
+                }
+                
+<span class="fc" id="L714">                System.out.println(&quot;BookingCSV.update: Record &quot; + recordCount + &quot; - Comparing '&quot; + recordBookingId.trim() + &quot;' with '&quot; + updatedBooking.getBookingId() + &quot;'&quot;);</span>
+                
+                // If this is the booking to update, use updated values
+<span class="pc bpc" id="L717" title="1 of 2 branches missed.">                if (recordBookingId.trim().equals(updatedBooking.getBookingId())) {</span>
+<span class="nc" id="L718">                    System.out.println(&quot;BookingCSV.update: ✓ Found matching booking to update!&quot;);</span>
+<span class="nc" id="L719">                    found = true;</span>
+                    // Create updated record
+<span class="nc" id="L721">                    Room room = findRoomByNumber(updatedBooking.getRoomNumber());</span>
+<span class="nc" id="L722">                    Map&lt;String, String&gt; booking = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L723">                    booking.put(&quot;bookingId&quot;, updatedBooking.getBookingId());</span>
+<span class="nc bnc" id="L724" title="All 2 branches missed.">                    booking.put(&quot;roomId&quot;, room != null ? room.getRoomId().toString() : &quot;&quot;);</span>
+<span class="nc bnc" id="L725" title="All 2 branches missed.">                    booking.put(&quot;buildingName&quot;, room != null ? room.getBuildingName() : &quot;&quot;);</span>
+<span class="nc" id="L726">                    booking.put(&quot;roomNumber&quot;, updatedBooking.getRoomNumber());</span>
+<span class="nc" id="L727">                    booking.put(&quot;userId&quot;, updatedBooking.getUser().getAccountId().toString());</span>
+<span class="nc" id="L728">                    booking.put(&quot;date&quot;, updatedBooking.getBookingDate());</span>
+<span class="nc" id="L729">                    booking.put(&quot;startTime&quot;, updatedBooking.getBookingStartTime());</span>
+                    // Use the updated end time
+<span class="nc bnc" id="L731" title="All 2 branches missed.">                    String updatedEndTime = updatedBooking.getBookingEndTime() != null ? updatedBooking.getBookingEndTime() : &quot;&quot;;</span>
+<span class="nc" id="L732">                    booking.put(&quot;endTime&quot;, updatedEndTime);</span>
+<span class="nc" id="L733">                    System.out.println(&quot;BookingCSV.update: Updating booking &quot; + updatedBooking.getBookingId() + </span>
+                                     &quot; with new end time: &quot; + updatedEndTime);
+<span class="nc" id="L735">                    allBookings.add(booking);</span>
+<span class="nc" id="L736">                } else {</span>
+                    // Keep existing booking
+<span class="fc" id="L738">                    Map&lt;String, String&gt; booking = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L739">                    booking.put(&quot;bookingId&quot;, recordBookingId);</span>
+<span class="fc" id="L740">                    booking.put(&quot;roomId&quot;, csvRead.get(&quot;RoomID&quot;));</span>
+<span class="fc" id="L741">                    booking.put(&quot;buildingName&quot;, csvRead.get(&quot;Building Name&quot;));</span>
+<span class="fc" id="L742">                    booking.put(&quot;roomNumber&quot;, csvRead.get(&quot;Room Number&quot;));</span>
+<span class="fc" id="L743">                    booking.put(&quot;userId&quot;, csvRead.get(&quot;Booking UserID&quot;));</span>
+<span class="fc" id="L744">                    booking.put(&quot;date&quot;, csvRead.get(&quot;Booking Date&quot;));</span>
+<span class="fc" id="L745">                    booking.put(&quot;startTime&quot;, csvRead.get(&quot;Booking Start Time&quot;));</span>
+                    // Get end time from CSV, or calculate from start time if not present
+<span class="fc" id="L747">                    String endTime = csvRead.get(&quot;Booking End Time&quot;);</span>
+<span class="pc bpc" id="L748" title="2 of 4 branches missed.">                    if (endTime == null || endTime.trim().isEmpty()) {</span>
+<span class="nc" id="L749">                        endTime = calculateEndTime(csvRead.get(&quot;Booking Start Time&quot;));</span>
+                    }
+<span class="pc bpc" id="L751" title="1 of 2 branches missed.">                    booking.put(&quot;endTime&quot;, endTime != null ? endTime : &quot;&quot;);</span>
+<span class="fc" id="L752">                    allBookings.add(booking);</span>
+                }
+<span class="fc" id="L754">            }</span>
+<span class="fc" id="L755">            csvRead.close();</span>
+            
+<span class="pc bpc" id="L757" title="1 of 2 branches missed.">            if (!found) {</span>
+<span class="fc" id="L758">                System.err.println(&quot;Booking not found for update: &quot; + updatedBooking.getBookingId());</span>
+<span class="fc" id="L759">                return;</span>
+            }
+            
+            // Rewrite the file with updated booking
+<span class="nc" id="L763">            System.out.println(&quot;BookingCSV.update: Writing to file: &quot; + BOOKING_PATH);</span>
+<span class="nc" id="L764">            System.out.println(&quot;BookingCSV.update: Total bookings to write: &quot; + allBookings.size());</span>
+<span class="nc" id="L765">            CsvWriter csvWrite = new CsvWriter(new FileWriter(BOOKING_PATH, false), ',');</span>
+<span class="nc" id="L766">            csvWrite.write(&quot;BookingID&quot;);</span>
+<span class="nc" id="L767">            csvWrite.write(&quot;RoomID&quot;);</span>
+<span class="nc" id="L768">            csvWrite.write(&quot;Building Name&quot;);</span>
+<span class="nc" id="L769">            csvWrite.write(&quot;Room Number&quot;);</span>
+<span class="nc" id="L770">            csvWrite.write(&quot;Booking UserID&quot;);</span>
+<span class="nc" id="L771">            csvWrite.write(&quot;Booking Date&quot;);</span>
+<span class="nc" id="L772">            csvWrite.write(&quot;Booking Start Time&quot;);</span>
+<span class="nc" id="L773">            csvWrite.write(&quot;Booking End Time&quot;);</span>
+<span class="nc" id="L774">            csvWrite.endRecord();</span>
+
+<span class="nc bnc" id="L776" title="All 2 branches missed.">            for (Map&lt;String, String&gt; booking : allBookings) {</span>
+<span class="nc bnc" id="L777" title="All 2 branches missed.">                String bookingId = booking.get(&quot;bookingId&quot;) != null ? booking.get(&quot;bookingId&quot;) : &quot;&quot;;</span>
+<span class="nc bnc" id="L778" title="All 2 branches missed.">                String endTime = booking.get(&quot;endTime&quot;) != null ? booking.get(&quot;endTime&quot;) : &quot;&quot;;</span>
+<span class="nc bnc" id="L779" title="All 2 branches missed.">                String startTime = booking.get(&quot;startTime&quot;) != null ? booking.get(&quot;startTime&quot;) : &quot;&quot;;</span>
+<span class="nc" id="L780">                csvWrite.write(bookingId);</span>
+<span class="nc bnc" id="L781" title="All 2 branches missed.">                csvWrite.write(booking.get(&quot;roomId&quot;) != null ? booking.get(&quot;roomId&quot;) : &quot;&quot;);</span>
+<span class="nc bnc" id="L782" title="All 2 branches missed.">                csvWrite.write(booking.get(&quot;buildingName&quot;) != null ? booking.get(&quot;buildingName&quot;) : &quot;&quot;);</span>
+<span class="nc bnc" id="L783" title="All 2 branches missed.">                csvWrite.write(booking.get(&quot;roomNumber&quot;) != null ? booking.get(&quot;roomNumber&quot;) : &quot;&quot;);</span>
+<span class="nc bnc" id="L784" title="All 2 branches missed.">                csvWrite.write(booking.get(&quot;userId&quot;) != null ? booking.get(&quot;userId&quot;) : &quot;&quot;);</span>
+<span class="nc bnc" id="L785" title="All 2 branches missed.">                csvWrite.write(booking.get(&quot;date&quot;) != null ? booking.get(&quot;date&quot;) : &quot;&quot;);</span>
+<span class="nc" id="L786">                csvWrite.write(startTime);</span>
+<span class="nc" id="L787">                csvWrite.write(endTime); // Write the end time</span>
+<span class="nc" id="L788">                csvWrite.endRecord();</span>
+<span class="nc bnc" id="L789" title="All 2 branches missed.">                if (bookingId.equals(updatedBooking.getBookingId())) {</span>
+<span class="nc" id="L790">                    System.out.println(&quot;BookingCSV.update: ✓ Wrote booking &quot; + bookingId + &quot; - Start: &quot; + startTime + &quot;, End: &quot; + endTime);</span>
+                } else {
+<span class="nc" id="L792">                    System.out.println(&quot;BookingCSV.update: Wrote booking &quot; + bookingId + &quot; - Start: &quot; + startTime + &quot;, End: &quot; + endTime);</span>
+                }
+<span class="nc" id="L794">            }</span>
+<span class="nc" id="L795">            csvWrite.close();</span>
+<span class="nc" id="L796">            System.out.println(&quot;BookingCSV.update: File write completed successfully&quot;);</span>
+            
+            // Update RoomDatabase.csv when booking changes
+<span class="nc bnc" id="L799" title="All 4 branches missed.">            if (updatedBooking.getRoomNumber() != null &amp;&amp; !updatedBooking.getRoomNumber().isEmpty()) {</span>
+<span class="nc" id="L800">                Room room = findRoomByNumber(updatedBooking.getRoomNumber());</span>
+<span class="nc bnc" id="L801" title="All 2 branches missed.">                if (room != null) {</span>
+<span class="nc" id="L802">                    updateRoomDatabase(room, updatedBooking);</span>
+                }
+            }
+            
+<span class="nc" id="L806">            System.out.println(&quot;Successfully updated booking in BookingDatabase.csv: &quot; + updatedBooking.getBookingId());</span>
+<span class="nc" id="L807">        } catch (Exception e) {</span>
+<span class="nc" id="L808">            System.err.println(&quot;Error updating booking: &quot; + e.getMessage());</span>
+<span class="nc" id="L809">            e.printStackTrace();</span>
+<span class="nc" id="L810">        }</span>
+<span class="nc" id="L811">    }</span>
+    
+    // Get bookings for a specific room and date
+    public List&lt;Map&lt;String, String&gt;&gt; getBookingsForRoomAndDate(String roomNumber, String date) {
+<span class="fc" id="L815">        List&lt;Map&lt;String, String&gt;&gt; bookings = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="fc" id="L817">            File bookingFile = new File(BOOKING_PATH);</span>
+<span class="pc bpc" id="L818" title="2 of 4 branches missed.">            if (!bookingFile.exists() || !bookingFile.canRead()) {</span>
+<span class="nc" id="L819">                return bookings;</span>
+            }
+            
+<span class="fc" id="L822">            CsvReader csvRead = new CsvReader(BOOKING_PATH);</span>
+<span class="fc" id="L823">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L825" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L826">                String recordRoomNumber = csvRead.get(&quot;Room Number&quot;);</span>
+<span class="fc" id="L827">                String recordDate = csvRead.get(&quot;Booking Date&quot;);</span>
+<span class="fc" id="L828">                String recordStartTime = csvRead.get(&quot;Booking Start Time&quot;);</span>
+                
+                // Skip empty records
+<span class="pc bpc" id="L831" title="3 of 6 branches missed.">                if (recordRoomNumber == null || recordRoomNumber.trim().isEmpty() ||</span>
+<span class="pc bpc" id="L832" title="1 of 2 branches missed.">                    recordDate == null || recordDate.trim().isEmpty()) {</span>
+<span class="nc" id="L833">                    continue;</span>
+                }
+                
+                // Debug output
+<span class="fc" id="L837">                System.out.println(&quot;getBookingsForRoomAndDate: Checking record - Room: '&quot; + recordRoomNumber + </span>
+                                 &quot;', Date: '&quot; + recordDate + &quot;', StartTime: '&quot; + recordStartTime + &quot;'&quot;);
+<span class="fc" id="L839">                System.out.println(&quot;getBookingsForRoomAndDate: Looking for - Room: '&quot; + roomNumber + </span>
+                                 &quot;', Date: '&quot; + date + &quot;'&quot;);
+                
+                // Check if this booking matches the room and date (trim for comparison)
+<span class="fc" id="L843">                String trimmedRecordRoom = recordRoomNumber.trim();</span>
+<span class="fc" id="L844">                String trimmedRecordDate = recordDate.trim();</span>
+<span class="pc bpc" id="L845" title="1 of 2 branches missed.">                String trimmedRoomNumber = roomNumber != null ? roomNumber.trim() : &quot;&quot;;</span>
+<span class="pc bpc" id="L846" title="1 of 2 branches missed.">                String trimmedDate = date != null ? date.trim() : &quot;&quot;;</span>
+                
+<span class="pc bpc" id="L848" title="3 of 4 branches missed.">                if (trimmedRecordRoom.equals(trimmedRoomNumber) &amp;&amp; trimmedRecordDate.equals(trimmedDate)) {</span>
+<span class="nc" id="L849">                    System.out.println(&quot;getBookingsForRoomAndDate: MATCH FOUND! Adding booking with startTime: &quot; + recordStartTime);</span>
+<span class="nc" id="L850">                    Map&lt;String, String&gt; booking = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L851" title="All 2 branches missed.">                    booking.put(&quot;startTime&quot;, recordStartTime != null ? recordStartTime.trim() : &quot;&quot;);</span>
+                    
+                    // Get end time from BookingDatabase.csv FIRST (this is the source of truth)
+<span class="nc" id="L854">                    String recordEndTime = null;</span>
+                    try {
+<span class="nc" id="L856">                        recordEndTime = csvRead.get(&quot;Booking End Time&quot;);</span>
+<span class="nc bnc" id="L857" title="All 2 branches missed.">                        if (recordEndTime != null) {</span>
+<span class="nc" id="L858">                            recordEndTime = recordEndTime.trim();</span>
+<span class="nc" id="L859">                            System.out.println(&quot;getBookingsForRoomAndDate: Found endTime from BookingDatabase.csv: &quot; + recordEndTime);</span>
+                        }
+<span class="nc" id="L861">                    } catch (Exception e) {</span>
+<span class="nc" id="L862">                        System.out.println(&quot;getBookingsForRoomAndDate: Could not read end time from BookingDatabase.csv, trying RoomDatabase&quot;);</span>
+<span class="nc" id="L863">                    }</span>
+                    
+                    // If end time not in BookingDatabase.csv, try RoomDatabase.csv as fallback
+<span class="nc bnc" id="L866" title="All 4 branches missed.">                    if ((recordEndTime == null || recordEndTime.isEmpty())) {</span>
+                        try {
+<span class="nc" id="L868">                            String roomIdStr = csvRead.get(&quot;RoomID&quot;);</span>
+<span class="nc bnc" id="L869" title="All 4 branches missed.">                            if (roomIdStr != null &amp;&amp; !roomIdStr.trim().isEmpty()) {</span>
+<span class="nc" id="L870">                                RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L871">                                UUID roomId = UUID.fromString(roomIdStr.trim());</span>
+<span class="nc" id="L872">                                Room room = roomCSV.findById(roomId);</span>
+<span class="nc bnc" id="L873" title="All 2 branches missed.">                                if (room != null) {</span>
+<span class="nc" id="L874">                                    recordEndTime = room.getBookingEndTime();</span>
+<span class="nc" id="L875">                                    System.out.println(&quot;getBookingsForRoomAndDate: Found endTime from RoomDatabase: &quot; + recordEndTime);</span>
+                                }
+                            }
+<span class="nc" id="L878">                        } catch (Exception e) {</span>
+<span class="nc" id="L879">                            System.err.println(&quot;getBookingsForRoomAndDate: Error getting end time from RoomDatabase: &quot; + e.getMessage());</span>
+<span class="nc" id="L880">                        }</span>
+                    }
+                    
+                    // If still no end time, calculate from start time (start + 1 hour)
+<span class="nc bnc" id="L884" title="All 4 branches missed.">                    if (recordEndTime == null || recordEndTime.isEmpty()) {</span>
+<span class="nc" id="L885">                        recordEndTime = calculateEndTime(recordStartTime);</span>
+<span class="nc" id="L886">                        System.out.println(&quot;getBookingsForRoomAndDate: Calculated endTime from start time: &quot; + recordEndTime);</span>
+                    }
+                    
+<span class="nc bnc" id="L889" title="All 2 branches missed.">                    booking.put(&quot;endTime&quot;, recordEndTime != null ? recordEndTime.trim() : &quot;&quot;);</span>
+<span class="nc" id="L890">                    bookings.add(booking);</span>
+                }
+<span class="fc" id="L892">            }</span>
+<span class="fc" id="L893">            csvRead.close();</span>
+<span class="nc" id="L894">        } catch (Exception e) {</span>
+<span class="nc" id="L895">            System.err.println(&quot;Error getting bookings for room and date: &quot; + e.getMessage());</span>
+<span class="nc" id="L896">            e.printStackTrace();</span>
+<span class="fc" id="L897">        }</span>
+<span class="fc" id="L898">        return bookings;</span>
+    }
+    
+    private Booking parseBookingFromRecord(CsvReader csvRead) {
+        try {
+<span class="fc" id="L903">            String userIdStr = csvRead.get(&quot;Booking UserID&quot;);</span>
+<span class="fc" id="L904">            String roomNumber = csvRead.get(&quot;Room Number&quot;);</span>
+<span class="fc" id="L905">            String bookingDate = csvRead.get(&quot;Booking Date&quot;);</span>
+<span class="fc" id="L906">            String bookingStartTime = csvRead.get(&quot;Booking Start Time&quot;);</span>
+<span class="fc" id="L907">            String roomIdStr = csvRead.get(&quot;RoomID&quot;);</span>
+            
+            // Validate required fields
+<span class="pc bpc" id="L910" title="2 of 4 branches missed.">            if (userIdStr == null || userIdStr.trim().isEmpty()) {</span>
+<span class="nc" id="L911">                System.out.println(&quot;parseBookingFromRecord: Missing Booking UserID&quot;);</span>
+<span class="nc" id="L912">                return null;</span>
+            }
+<span class="pc bpc" id="L914" title="2 of 4 branches missed.">            if (roomNumber == null || roomNumber.trim().isEmpty()) {</span>
+<span class="nc" id="L915">                System.out.println(&quot;parseBookingFromRecord: Missing Room Number&quot;);</span>
+<span class="nc" id="L916">                return null;</span>
+            }
+            
+            // Get user from database by ID
+<span class="fc" id="L920">            UserCSV userCSV = UserCSV.getInstance();</span>
+            UUID userId;
+            try {
+<span class="fc" id="L923">                userId = UUID.fromString(userIdStr.trim());</span>
+<span class="nc" id="L924">            } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L925">                System.err.println(&quot;parseBookingFromRecord: Invalid UserID format: &quot; + userIdStr);</span>
+<span class="nc" id="L926">                return null;</span>
+<span class="fc" id="L927">            }</span>
+            
+<span class="fc" id="L929">            Accounts account = userCSV.find(userId);</span>
+            User user;
+
+
+<span class="pc bpc" id="L933" title="3 of 4 branches missed.">            if (account == null || !(account instanceof User)) {</span>
+<span class="fc" id="L934">                System.err.println(&quot;parseBookingFromRecord: User not found for ID: &quot; + userIdStr);</span>
+<span class="fc" id="L935">                System.err.println(&quot;parseBookingFromRecord: Creating placeholder user for booking management&quot;);</span>
+                
+<span class="fc" id="L937">                user = new Student(&quot;deleted_user_&quot; + userIdStr.substring(0, 8) + &quot;@placeholder.com&quot;, </span>
+                                  &quot;placeholder&quot;, &quot;PLACEHOLDER&quot;);
+                
+                // Use reflection to set the accountId to match the UUID from CSV
+                try {
+<span class="fc" id="L942">                    java.lang.reflect.Method setAccountIdMethod = Accounts.class.getDeclaredMethod(&quot;setAccountId&quot;, UUID.class);</span>
+<span class="fc" id="L943">                    setAccountIdMethod.setAccessible(true);</span>
+<span class="fc" id="L944">                    setAccountIdMethod.invoke(user, userId);</span>
+<span class="nc" id="L945">                } catch (Exception e) {</span>
+<span class="nc" id="L946">                    System.err.println(&quot;parseBookingFromRecord: Warning - Could not set accountId for placeholder user: &quot; + e.getMessage());</span>
+                    // Continue anyway - the booking can still be managed
+<span class="pc" id="L948">                }</span>
+            } else {
+<span class="nc" id="L950">                user = (User) account;</span>
+            
+            }
+            
+            
+            // Get end time from CSV first, then fallback to RoomDatabase.csv if not present
+<span class="fc" id="L956">            String bookingEndTime = null;</span>
+            try {
+<span class="fc" id="L958">                bookingEndTime = csvRead.get(&quot;Booking End Time&quot;);</span>
+<span class="pc bpc" id="L959" title="1 of 2 branches missed.">                if (bookingEndTime != null) {</span>
+<span class="fc" id="L960">                    bookingEndTime = bookingEndTime.trim();</span>
+                }
+<span class="nc" id="L962">            } catch (Exception e) {</span>
+                // Column might not exist in older CSV files
+<span class="fc" id="L964">            }</span>
+            
+            // If end time not in CSV, calculate from start time (start time + 1 hour)
+<span class="pc bpc" id="L967" title="2 of 4 branches missed.">            if (bookingEndTime == null || bookingEndTime.isEmpty()) {</span>
+<span class="nc" id="L968">                bookingEndTime = calculateEndTime(bookingStartTime);</span>
+            }
+            
+            // Get status from RoomDatabase.csv
+<span class="fc" id="L972">            String status = &quot;Reserved&quot;; // Default status</span>
+            
+<span class="pc bpc" id="L974" title="2 of 4 branches missed.">            if (roomIdStr != null &amp;&amp; !roomIdStr.isEmpty()) {</span>
+                try {
+<span class="fc" id="L976">                    RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="fc" id="L977">                    UUID roomId = UUID.fromString(roomIdStr);</span>
+<span class="fc" id="L978">                    Room room = roomCSV.findById(roomId);</span>
+                    
+<span class="pc bpc" id="L980" title="1 of 2 branches missed.">                    if (room != null) {</span>
+                        // Read booking ID from CSV to check if this booking matches the room's current booking
+<span class="fc" id="L982">                        String recordBookingId = null;</span>
+                        try {
+<span class="fc" id="L984">                            recordBookingId = csvRead.get(0); // BookingID is first column</span>
+<span class="pc bpc" id="L985" title="1 of 2 branches missed.">                            if (recordBookingId != null) {</span>
+<span class="fc" id="L986">                                recordBookingId = recordBookingId.trim();</span>
+                            }
+<span class="nc" id="L988">                        } catch (Exception e2) {</span>
+                            // Try by name as fallback
+                            try {
+<span class="nc" id="L991">                                recordBookingId = csvRead.get(&quot;BookingID&quot;);</span>
+<span class="nc bnc" id="L992" title="All 2 branches missed.">                                if (recordBookingId != null) {</span>
+<span class="nc" id="L993">                                    recordBookingId = recordBookingId.trim();</span>
+                                }
+<span class="nc" id="L995">                            } catch (Exception e3) {</span>
+                                // Ignore
+<span class="nc" id="L997">                            }</span>
+<span class="fc" id="L998">                        }</span>
+                        
+                        // Check if this booking's time slot matches the room's current booking
+<span class="fc" id="L1001">                        String roomBookingId = room.getBookingId();</span>
+<span class="fc" id="L1002">                        String roomBookingDate = room.getBookingDate();</span>
+<span class="fc" id="L1003">                        String roomBookingStartTime = room.getBookingStartTime();</span>
+                        
+                        // Only use room condition if this booking matches the room's current booking
+<span class="pc bpc" id="L1006" title="6 of 8 branches missed.">                        boolean bookingMatchesRoom = (recordBookingId != null &amp;&amp; roomBookingId != null &amp;&amp; roomBookingId.equals(recordBookingId)) &amp;&amp;</span>
+<span class="nc bnc" id="L1007" title="All 4 branches missed.">                                                     (roomBookingDate != null &amp;&amp; roomBookingDate.equals(bookingDate)) &amp;&amp;</span>
+<span class="pc bnc" id="L1008" title="All 2 branches missed.">                                                     (roomBookingStartTime != null &amp;&amp; roomBookingStartTime.equals(bookingStartTime));</span>
+                        
+<span class="pc bpc" id="L1010" title="1 of 2 branches missed.">                        if (bookingMatchesRoom) {</span>
+                            // This booking matches the room's current booking, use room condition
+<span class="nc" id="L1012">                            String roomCondition = room.getCondition();</span>
+<span class="nc bnc" id="L1013" title="All 2 branches missed.">                            if (roomCondition != null) {</span>
+<span class="nc bnc" id="L1014" title="All 4 branches missed.">                                switch (roomCondition) {</span>
+                                    case &quot;InUse&quot;:
+<span class="nc" id="L1016">                                        status = &quot;InUse&quot;;</span>
+<span class="nc" id="L1017">                                        break;</span>
+                                    case &quot;Available&quot;:
+<span class="nc" id="L1019">                                        status = &quot;Completed&quot;;</span>
+<span class="nc" id="L1020">                                        break;</span>
+                                    case &quot;Reserved&quot;:
+<span class="nc" id="L1022">                                        status = &quot;Reserved&quot;;</span>
+<span class="nc" id="L1023">                                        break;</span>
+                                    default:
+<span class="nc" id="L1025">                                        status = &quot;Reserved&quot;;</span>
+                                }
+                            }
+<span class="nc" id="L1028">                        } else {</span>
+                            // This booking doesn't match the room's current booking
+<span class="fc" id="L1030">                            status = &quot;Reserved&quot;;</span>
+                        }
+                    }
+<span class="nc" id="L1033">                } catch (Exception e) {</span>
+                    // If room lookup fails, use defaults
+<span class="nc" id="L1035">                    System.err.println(&quot;Error looking up room for booking: &quot; + e.getMessage());</span>
+<span class="fc" id="L1036">                }</span>
+            }
+            
+            // Calculate hours from start and end time
+<span class="fc" id="L1040">            int hours = 1; // Default</span>
+<span class="pc bpc" id="L1041" title="3 of 6 branches missed.">            if (bookingStartTime != null &amp;&amp; bookingEndTime != null &amp;&amp; !bookingEndTime.isEmpty()) {</span>
+                try {
+<span class="fc" id="L1043">                    String[] startParts = bookingStartTime.split(&quot;:&quot;);</span>
+<span class="fc" id="L1044">                    String[] endParts = bookingEndTime.split(&quot;:&quot;);</span>
+<span class="fc" id="L1045">                    int startHour = Integer.parseInt(startParts[0]);</span>
+<span class="pc bpc" id="L1046" title="1 of 2 branches missed.">                    int startMin = startParts.length &gt; 1 ? Integer.parseInt(startParts[1]) : 0;</span>
+<span class="fc" id="L1047">                    int endHour = Integer.parseInt(endParts[0]);</span>
+<span class="pc bpc" id="L1048" title="1 of 2 branches missed.">                    int endMin = endParts.length &gt; 1 ? Integer.parseInt(endParts[1]) : 0;</span>
+                    
+<span class="fc" id="L1050">                    int startTotalMinutes = startHour * 60 + startMin;</span>
+<span class="fc" id="L1051">                    int endTotalMinutes = endHour * 60 + endMin;</span>
+<span class="fc" id="L1052">                    int diffMinutes = endTotalMinutes - startTotalMinutes;</span>
+                    
+<span class="fc" id="L1054">                    hours = (int) Math.ceil(diffMinutes / 60.0);</span>
+<span class="pc bpc" id="L1055" title="1 of 2 branches missed.">                    if (hours &lt; 1) hours = 1;</span>
+<span class="nc" id="L1056">                } catch (Exception e) {</span>
+                    // If parsing fails, use default
+<span class="nc" id="L1058">                    hours = 1;</span>
+<span class="fc" id="L1059">                }</span>
+            }
+            
+<span class="fc" id="L1062">            double rate = user.getHourlyRate();</span>
+            
+            // Read BookingID from CSV (first column, index 0)
+<span class="fc" id="L1065">            String bookingId = null;</span>
+            try {
+<span class="fc" id="L1067">                bookingId = csvRead.get(0); // BookingID is first column</span>
+<span class="pc bpc" id="L1068" title="1 of 2 branches missed.">                if (bookingId != null) {</span>
+<span class="fc" id="L1069">                    bookingId = bookingId.trim();</span>
+                }
+<span class="nc" id="L1071">            } catch (Exception e) {</span>
+                // Try by name as fallback
+                try {
+<span class="nc" id="L1074">                    bookingId = csvRead.get(&quot;BookingID&quot;);</span>
+<span class="nc bnc" id="L1075" title="All 2 branches missed.">                    if (bookingId != null) {</span>
+<span class="nc" id="L1076">                        bookingId = bookingId.trim();</span>
+                    }
+<span class="nc" id="L1078">                } catch (Exception e2) {</span>
+                    // If still can't read, generate one as fallback
+<span class="nc bnc" id="L1080" title="All 4 branches missed.">                    bookingId = &quot;B&quot; + (roomIdStr != null &amp;&amp; roomIdStr.length() &gt;= 8 ? </span>
+<span class="nc" id="L1081">                                     roomIdStr.substring(0, 8).toUpperCase() : </span>
+<span class="nc" id="L1082">                                     userIdStr.substring(0, 8).toUpperCase());</span>
+<span class="nc" id="L1083">                    System.err.println(&quot;parseBookingFromRecord: Could not read BookingID from CSV, generated: &quot; + bookingId);</span>
+<span class="nc" id="L1084">                }</span>
+<span class="fc" id="L1085">            }</span>
+            
+            // If booking ID is still null or empty, generate one as fallback
+<span class="pc bpc" id="L1088" title="2 of 4 branches missed.">            if (bookingId == null || bookingId.isEmpty()) {</span>
+<span class="nc bnc" id="L1089" title="All 4 branches missed.">                bookingId = &quot;B&quot; + (roomIdStr != null &amp;&amp; roomIdStr.length() &gt;= 8 ? </span>
+<span class="nc" id="L1090">                                 roomIdStr.substring(0, 8).toUpperCase() : </span>
+<span class="nc" id="L1091">                                 userIdStr.substring(0, 8).toUpperCase());</span>
+<span class="nc" id="L1092">                System.err.println(&quot;parseBookingFromRecord: BookingID was null/empty, generated: &quot; + bookingId);</span>
+            }
+            
+<span class="fc" id="L1095">            System.out.println(&quot;parseBookingFromRecord: Using BookingID: &quot; + bookingId);</span>
+            
+<span class="fc" id="L1097">            Booking booking = new Booking(bookingId, user, hours, rate, </span>
+                                         roomNumber, bookingDate, bookingStartTime, bookingEndTime);
+<span class="fc" id="L1099">            booking.setStatus(status);</span>
+<span class="fc" id="L1100">            return booking;</span>
+<span class="nc" id="L1101">        } catch (Exception e) {</span>
+<span class="nc" id="L1102">            e.printStackTrace();</span>
+<span class="nc" id="L1103">            return null;</span>
+        }
+    }
+    
+    // Delete a booking by BookingID from BookingDatabase.csv
+    public boolean deleteBooking(String bookingId) {
+        try {
+<span class="fc" id="L1110">            File bookingFile = new File(BOOKING_PATH);</span>
+<span class="pc bpc" id="L1111" title="2 of 4 branches missed.">            if (!bookingFile.exists() || !bookingFile.canRead()) {</span>
+<span class="nc" id="L1112">                System.err.println(&quot;BookingDatabase.csv does not exist or cannot be read&quot;);</span>
+<span class="nc" id="L1113">                return false;</span>
+            }
+            
+            // Read all bookings
+<span class="fc" id="L1117">            List&lt;Map&lt;String, String&gt;&gt; allBookings = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L1118">            CsvReader csvRead = new CsvReader(BOOKING_PATH);</span>
+<span class="fc" id="L1119">            csvRead.readHeaders();</span>
+            
+<span class="fc" id="L1121">            String roomIdToClear = null;</span>
+<span class="fc" id="L1122">            String roomNumberToClear = null;</span>
+            
+<span class="fc bfc" id="L1124" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L1125">                String recordBookingId = csvRead.get(0); // BookingID is first column</span>
+                
+                // Skip empty records
+<span class="pc bpc" id="L1128" title="2 of 4 branches missed.">                if (recordBookingId == null || recordBookingId.trim().isEmpty()) {</span>
+<span class="nc" id="L1129">                    continue;</span>
+                }
+                
+                // If this is the booking to delete, remember the room info for clearing
+<span class="pc bpc" id="L1133" title="1 of 2 branches missed.">                if (recordBookingId.trim().equals(bookingId.trim())) {</span>
+<span class="nc" id="L1134">                    roomIdToClear = csvRead.get(&quot;RoomID&quot;);</span>
+<span class="nc" id="L1135">                    roomNumberToClear = csvRead.get(&quot;Room Number&quot;);</span>
+<span class="nc" id="L1136">                    System.out.println(&quot;Found booking to delete: &quot; + bookingId + &quot;, Room: &quot; + roomNumberToClear);</span>
+<span class="nc" id="L1137">                    continue; // Skip this booking (don't add to allBookings)</span>
+                }
+                
+                // Keep all other bookings
+<span class="fc" id="L1141">                Map&lt;String, String&gt; booking = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L1142">                booking.put(&quot;bookingId&quot;, recordBookingId);</span>
+<span class="fc" id="L1143">                booking.put(&quot;roomId&quot;, csvRead.get(&quot;RoomID&quot;));</span>
+<span class="fc" id="L1144">                booking.put(&quot;buildingName&quot;, csvRead.get(&quot;Building Name&quot;));</span>
+<span class="fc" id="L1145">                booking.put(&quot;roomNumber&quot;, csvRead.get(&quot;Room Number&quot;));</span>
+<span class="fc" id="L1146">                booking.put(&quot;userId&quot;, csvRead.get(&quot;Booking UserID&quot;));</span>
+<span class="fc" id="L1147">                booking.put(&quot;date&quot;, csvRead.get(&quot;Booking Date&quot;));</span>
+<span class="fc" id="L1148">                booking.put(&quot;startTime&quot;, csvRead.get(&quot;Booking Start Time&quot;));</span>
+                // Get end time from CSV, or calculate from start time if not present
+<span class="fc" id="L1150">                String endTime = csvRead.get(&quot;Booking End Time&quot;);</span>
+<span class="pc bpc" id="L1151" title="2 of 4 branches missed.">                if (endTime == null || endTime.trim().isEmpty()) {</span>
+<span class="nc" id="L1152">                    endTime = calculateEndTime(csvRead.get(&quot;Booking Start Time&quot;));</span>
+                }
+<span class="pc bpc" id="L1154" title="1 of 2 branches missed.">                booking.put(&quot;endTime&quot;, endTime != null ? endTime : &quot;&quot;);</span>
+<span class="fc" id="L1155">                allBookings.add(booking);</span>
+<span class="fc" id="L1156">            }</span>
+<span class="fc" id="L1157">            csvRead.close();</span>
+            
+            // Rewrite the file without the deleted booking
+<span class="fc" id="L1160">            CsvWriter csvWrite = new CsvWriter(new FileWriter(BOOKING_PATH, false), ',');</span>
+<span class="fc" id="L1161">            csvWrite.write(&quot;BookingID&quot;);</span>
+<span class="fc" id="L1162">            csvWrite.write(&quot;RoomID&quot;);</span>
+<span class="fc" id="L1163">            csvWrite.write(&quot;Building Name&quot;);</span>
+<span class="fc" id="L1164">            csvWrite.write(&quot;Room Number&quot;);</span>
+<span class="fc" id="L1165">            csvWrite.write(&quot;Booking UserID&quot;);</span>
+<span class="fc" id="L1166">            csvWrite.write(&quot;Booking Date&quot;);</span>
+<span class="fc" id="L1167">            csvWrite.write(&quot;Booking Start Time&quot;);</span>
+<span class="fc" id="L1168">            csvWrite.write(&quot;Booking End Time&quot;);</span>
+<span class="fc" id="L1169">            csvWrite.endRecord();</span>
+            
+<span class="fc bfc" id="L1171" title="All 2 branches covered.">            for (Map&lt;String, String&gt; booking : allBookings) {</span>
+<span class="pc bpc" id="L1172" title="1 of 2 branches missed.">                csvWrite.write(booking.get(&quot;bookingId&quot;) != null ? booking.get(&quot;bookingId&quot;) : &quot;&quot;);</span>
+<span class="pc bpc" id="L1173" title="1 of 2 branches missed.">                csvWrite.write(booking.get(&quot;roomId&quot;) != null ? booking.get(&quot;roomId&quot;) : &quot;&quot;);</span>
+<span class="pc bpc" id="L1174" title="1 of 2 branches missed.">                csvWrite.write(booking.get(&quot;buildingName&quot;) != null ? booking.get(&quot;buildingName&quot;) : &quot;&quot;);</span>
+<span class="pc bpc" id="L1175" title="1 of 2 branches missed.">                csvWrite.write(booking.get(&quot;roomNumber&quot;) != null ? booking.get(&quot;roomNumber&quot;) : &quot;&quot;);</span>
+<span class="pc bpc" id="L1176" title="1 of 2 branches missed.">                csvWrite.write(booking.get(&quot;userId&quot;) != null ? booking.get(&quot;userId&quot;) : &quot;&quot;);</span>
+<span class="pc bpc" id="L1177" title="1 of 2 branches missed.">                csvWrite.write(booking.get(&quot;date&quot;) != null ? booking.get(&quot;date&quot;) : &quot;&quot;);</span>
+<span class="pc bpc" id="L1178" title="1 of 2 branches missed.">                csvWrite.write(booking.get(&quot;startTime&quot;) != null ? booking.get(&quot;startTime&quot;) : &quot;&quot;);</span>
+                
+                // Calculate end time from start time if not already stored
+<span class="fc" id="L1181">                String endTime = booking.get(&quot;endTime&quot;);</span>
+<span class="pc bpc" id="L1182" title="2 of 4 branches missed.">                if (endTime == null || endTime.trim().isEmpty()) {</span>
+<span class="nc" id="L1183">                    endTime = calculateEndTime(booking.get(&quot;startTime&quot;));</span>
+                }
+<span class="pc bpc" id="L1185" title="1 of 2 branches missed.">                csvWrite.write(endTime != null ? endTime : &quot;&quot;);</span>
+                
+<span class="fc" id="L1187">                csvWrite.endRecord();</span>
+<span class="fc" id="L1188">            }</span>
+<span class="fc" id="L1189">            csvWrite.close();</span>
+            
+            // Clear booking info from RoomDatabase.csv if this was the only booking for that room
+<span class="pc bpc" id="L1192" title="3 of 4 branches missed.">            if (roomIdToClear != null &amp;&amp; !roomIdToClear.trim().isEmpty()) {</span>
+                try {
+<span class="nc" id="L1194">                    RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L1195">                    UUID roomId = UUID.fromString(roomIdToClear.trim());</span>
+<span class="nc" id="L1196">                    Room room = roomCSV.findById(roomId);</span>
+<span class="nc bnc" id="L1197" title="All 2 branches missed.">                    if (room != null) {</span>
+                        // Check if there are other bookings for this room
+<span class="nc" id="L1199">                        boolean hasOtherBookings = false;</span>
+<span class="nc bnc" id="L1200" title="All 2 branches missed.">                        for (Map&lt;String, String&gt; booking : allBookings) {</span>
+<span class="nc bnc" id="L1201" title="All 4 branches missed.">                            if (booking.get(&quot;roomId&quot;) != null &amp;&amp; booking.get(&quot;roomId&quot;).equals(roomIdToClear)) {</span>
+<span class="nc" id="L1202">                                hasOtherBookings = true;</span>
+<span class="nc" id="L1203">                                break;</span>
+                            }
+<span class="nc" id="L1205">                        }</span>
+                        
+                        // If no other bookings, clear the booking info from the room
+<span class="nc bnc" id="L1208" title="All 2 branches missed.">                        if (!hasOtherBookings) {</span>
+<span class="nc" id="L1209">                            room.getRoomContext().clearBookingInfo();</span>
+                            // Set room state back to Available if it was Reserved
+<span class="nc bnc" id="L1211" title="All 2 branches missed.">                            if (room.getCondition().equals(&quot;Reserved&quot;)) {</span>
+<span class="nc" id="L1212">                                room.getRoomContext().setState(AvailableState.getInstance());</span>
+                            }
+<span class="nc" id="L1214">                            roomCSV.update(room);</span>
+<span class="nc" id="L1215">                            System.out.println(&quot;Cleared booking info from room: &quot; + roomNumberToClear);</span>
+                        }
+                    }
+<span class="nc" id="L1218">                } catch (Exception e) {</span>
+<span class="nc" id="L1219">                    System.err.println(&quot;Error clearing room booking info: &quot; + e.getMessage());</span>
+                    // Continue even if room update fails
+<span class="nc" id="L1221">                }</span>
+            }
+            
+<span class="fc" id="L1224">            System.out.println(&quot;Successfully deleted booking: &quot; + bookingId);</span>
+<span class="fc" id="L1225">            return true;</span>
+<span class="nc" id="L1226">        } catch (Exception e) {</span>
+<span class="nc" id="L1227">            System.err.println(&quot;Error deleting booking: &quot; + e.getMessage());</span>
+<span class="nc" id="L1228">            e.printStackTrace();</span>
+<span class="nc" id="L1229">            return false;</span>
+        }
+    }
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

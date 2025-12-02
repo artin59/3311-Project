@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookingManagementWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">AppUI</a> &gt; <span class="el_source">BookingManagementWindow.java</span></div><h1>BookingManagementWindow.java</h1><pre class="source lang-java linenums">package AppUI;
+
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+public class BookingManagementWindow {
+	private JPanel bookingManagementPane;
+	private JTable bookingTable;
+
+	private JTextField selectedBookingIdTextBox;
+	private JTextField selectedRoomTextBox;
+	private JTextField selectedDateTextBox;
+	private JTextField selectedTimeTextBox;
+
+	private JTextField newBuildingTextBox;
+	private JTextField newRoomNumberTextBox;
+	private JTextField newDateTextBox;
+	private JTextField newStartTimeTextBox;
+	private JTextField newEndTimeTextBox;
+	private JTextField extendByHoursTextBox;
+
+	private JButton btnApplyEdit;
+	private JButton btnCancelBooking;
+	private JButton btnExtendBooking;
+	private JButton btnRefresh;
+	private JButton btnBackToDashboard;
+
+<span class="nc" id="L37">	public BookingManagementWindow() {</span>
+<span class="nc" id="L38">		buildWindow();</span>
+<span class="nc" id="L39">	}</span>
+	
+	public void buildWindow() {
+		
+	    // =====================================================
+	    // 1. Base panel setup
+	    // =====================================================
+		
+<span class="nc" id="L47">	    bookingManagementPane = new JPanel();</span>
+<span class="nc" id="L48">	    bookingManagementPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="nc" id="L49">	    bookingManagementPane.setLayout(null);</span>
+
+	    // =====================================================
+	    // 2. Header &amp; section titles
+	    // =====================================================
+
+<span class="nc" id="L55">	    JLabel titleLabel = new JLabel(&quot;Booking Management&quot;);</span>
+<span class="nc" id="L56">	    titleLabel.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 32));</span>
+<span class="nc" id="L57">	    titleLabel.setBounds(180, 10, 400, 40);</span>
+<span class="nc" id="L58">	    bookingManagementPane.add(titleLabel);</span>
+
+<span class="nc" id="L60">	    JLabel myBookingsTitleLabel = new JLabel(&quot;My Bookings&quot;);</span>
+<span class="nc" id="L61">	    myBookingsTitleLabel.setFont(new Font(&quot;Tahoma&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L62">	    myBookingsTitleLabel.setBounds(20, 60, 200, 22);</span>
+<span class="nc" id="L63">	    bookingManagementPane.add(myBookingsTitleLabel);</span>
+
+<span class="nc" id="L65">	    JLabel bookingDetailsTitleLabel = new JLabel(&quot;Booking Details&quot;);</span>
+<span class="nc" id="L66">	    bookingDetailsTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L67">	    bookingDetailsTitleLabel.setFont(new Font(&quot;Tahoma&quot;, Font.BOLD, 17));</span>
+<span class="nc" id="L68">	    bookingDetailsTitleLabel.setBounds(430, 60, 230, 22);</span>
+<span class="nc" id="L69">	    bookingManagementPane.add(bookingDetailsTitleLabel);</span>
+
+	    // =====================================================
+	    // 3. Bookings table (left)
+	    // =====================================================
+
+<span class="nc" id="L75">	    JScrollPane bookingScrollPane = new JScrollPane();</span>
+<span class="nc" id="L76">	    bookingScrollPane.setBounds(20, 90, 380, 280);</span>
+<span class="nc" id="L77">	    bookingManagementPane.add(bookingScrollPane);</span>
+
+<span class="nc" id="L79">	    bookingTable = new JTable();</span>
+	    // Initialize with empty table - data will be loaded from BookingDatabase.csv
+<span class="nc" id="L81">	    bookingTable.setModel(new DefaultTableModel(</span>
+	        new Object[][] {},
+	        new String[] {
+	            &quot;Booking ID&quot;, &quot;Room ID&quot;, &quot;Building&quot;, &quot;Room #&quot;, &quot;Date&quot;, &quot;Start&quot;, &quot;End&quot;, &quot;Status&quot;
+	        }
+<span class="nc" id="L86">	    ) {</span>
+<span class="nc" id="L87">	        boolean[] columnEditables = new boolean[] {</span>
+	            false, false, false, false, false, false, false, false
+	        };
+	        public boolean isCellEditable(int row, int column) {
+<span class="nc" id="L91">	            return columnEditables[column];</span>
+	        }
+	    });
+
+	    // selection listener (mouse + keyboard)
+<span class="nc" id="L96">	    bookingTable.getSelectionModel().addListSelectionListener(e -&gt; {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">	        if (!e.getValueIsAdjusting()) {</span>
+<span class="nc" id="L98">	            int row = bookingTable.getSelectedRow();</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">	            if (row != -1) {</span>
+<span class="nc" id="L100">	                DefaultTableModel model = (DefaultTableModel) bookingTable.getModel();</span>
+<span class="nc" id="L101">	                String bookingId = String.valueOf(model.getValueAt(row, 0));</span>
+<span class="nc" id="L102">	                String roomId = String.valueOf(model.getValueAt(row, 1));</span>
+<span class="nc" id="L103">	                String building = String.valueOf(model.getValueAt(row, 2));</span>
+<span class="nc" id="L104">	                String room = String.valueOf(model.getValueAt(row, 3));</span>
+<span class="nc" id="L105">	                String date = String.valueOf(model.getValueAt(row, 4));</span>
+<span class="nc" id="L106">	                String start = String.valueOf(model.getValueAt(row, 5));</span>
+<span class="nc" id="L107">	                String end = String.valueOf(model.getValueAt(row, 6));</span>
+
+<span class="nc" id="L109">	                selectedBookingIdTextBox.setText(bookingId);</span>
+<span class="nc" id="L110">	                selectedRoomTextBox.setText(building + &quot; - Room &quot; + room);</span>
+<span class="nc" id="L111">	                selectedDateTextBox.setText(date);</span>
+<span class="nc" id="L112">	                selectedTimeTextBox.setText(start + &quot; - &quot; + end);</span>
+
+	                // pre-fill edit fields with current values
+<span class="nc" id="L115">	                newBuildingTextBox.setText(building);</span>
+<span class="nc" id="L116">	                newRoomNumberTextBox.setText(room);</span>
+<span class="nc" id="L117">	                newDateTextBox.setText(date);</span>
+<span class="nc" id="L118">	                newStartTimeTextBox.setText(start);</span>
+<span class="nc" id="L119">	                newEndTimeTextBox.setText(end);</span>
+	            }
+	        }
+<span class="nc" id="L122">	    });</span>
+
+<span class="nc" id="L124">	    bookingScrollPane.setViewportView(bookingTable);</span>
+
+	    // =====================================================
+	    // 4. Selected booking summary (right, top)
+	    // =====================================================
+
+<span class="nc" id="L130">	    JLabel selectedBookingIdLabel = new JLabel(&quot;Booking ID:&quot;);</span>
+<span class="nc" id="L131">	    selectedBookingIdLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L132">	    selectedBookingIdLabel.setBounds(430, 95, 90, 20);</span>
+<span class="nc" id="L133">	    bookingManagementPane.add(selectedBookingIdLabel);</span>
+
+<span class="nc" id="L135">	    selectedBookingIdTextBox = new JTextField();</span>
+<span class="nc" id="L136">	    selectedBookingIdTextBox.setEditable(false);</span>
+<span class="nc" id="L137">	    selectedBookingIdTextBox.setBounds(530, 97, 130, 18);</span>
+<span class="nc" id="L138">	    bookingManagementPane.add(selectedBookingIdTextBox);</span>
+
+<span class="nc" id="L140">	    JLabel selectedRoomLabel = new JLabel(&quot;Room #:&quot;);</span>
+<span class="nc" id="L141">	    selectedRoomLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L142">	    selectedRoomLabel.setBounds(430, 120, 90, 20);</span>
+<span class="nc" id="L143">	    bookingManagementPane.add(selectedRoomLabel);</span>
+
+<span class="nc" id="L145">	    selectedRoomTextBox = new JTextField();</span>
+<span class="nc" id="L146">	    selectedRoomTextBox.setEditable(false);</span>
+<span class="nc" id="L147">	    selectedRoomTextBox.setBounds(530, 122, 130, 18);</span>
+<span class="nc" id="L148">	    bookingManagementPane.add(selectedRoomTextBox);</span>
+
+<span class="nc" id="L150">	    JLabel selectedDateLabel = new JLabel(&quot;Date:&quot;);</span>
+<span class="nc" id="L151">	    selectedDateLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L152">	    selectedDateLabel.setBounds(430, 145, 90, 20);</span>
+<span class="nc" id="L153">	    bookingManagementPane.add(selectedDateLabel);</span>
+
+<span class="nc" id="L155">	    selectedDateTextBox = new JTextField();</span>
+<span class="nc" id="L156">	    selectedDateTextBox.setEditable(false);</span>
+<span class="nc" id="L157">	    selectedDateTextBox.setBounds(530, 147, 130, 18);</span>
+<span class="nc" id="L158">	    bookingManagementPane.add(selectedDateTextBox);</span>
+
+<span class="nc" id="L160">	    JLabel selectedTimeLabel = new JLabel(&quot;Time:&quot;);</span>
+<span class="nc" id="L161">	    selectedTimeLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L162">	    selectedTimeLabel.setBounds(430, 170, 90, 20);</span>
+<span class="nc" id="L163">	    bookingManagementPane.add(selectedTimeLabel);</span>
+
+<span class="nc" id="L165">	    selectedTimeTextBox = new JTextField();</span>
+<span class="nc" id="L166">	    selectedTimeTextBox.setEditable(false);</span>
+<span class="nc" id="L167">	    selectedTimeTextBox.setBounds(530, 172, 130, 18);</span>
+<span class="nc" id="L168">	    bookingManagementPane.add(selectedTimeTextBox);</span>
+
+	    // =====================================================
+	    // 5. Edit / extend section (right, middle)
+	    // =====================================================
+
+<span class="nc" id="L174">	    JLabel editSectionLabel = new JLabel(&quot;Modify / Extend Booking&quot;);</span>
+<span class="nc" id="L175">	    editSectionLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L176">	    editSectionLabel.setFont(new Font(&quot;Tahoma&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L177">	    editSectionLabel.setBounds(430, 200, 230, 22);</span>
+<span class="nc" id="L178">	    bookingManagementPane.add(editSectionLabel);</span>
+
+<span class="nc" id="L180">	    JLabel newDateLabel = new JLabel(&quot;New Date:&quot;);</span>
+<span class="nc" id="L181">	    newDateLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L182">	    newDateLabel.setBounds(430, 230, 90, 20);</span>
+<span class="nc" id="L183">	    bookingManagementPane.add(newDateLabel);</span>
+
+<span class="nc" id="L185">	    newDateTextBox = new JTextField();</span>
+<span class="nc" id="L186">	    newDateTextBox.setBounds(530, 232, 130, 18);</span>
+<span class="nc" id="L187">	    bookingManagementPane.add(newDateTextBox);</span>
+
+<span class="nc" id="L189">	    JLabel newStartTimeLabel = new JLabel(&quot;New Start Time:&quot;);</span>
+<span class="nc" id="L190">	    newStartTimeLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L191">	    newStartTimeLabel.setBounds(430, 255, 110, 20);</span>
+<span class="nc" id="L192">	    bookingManagementPane.add(newStartTimeLabel);</span>
+
+<span class="nc" id="L194">	    newStartTimeTextBox = new JTextField();</span>
+<span class="nc" id="L195">	    newStartTimeTextBox.setBounds(550, 257, 110, 18);</span>
+<span class="nc" id="L196">	    bookingManagementPane.add(newStartTimeTextBox);</span>
+
+<span class="nc" id="L198">	    JLabel newEndTimeLabel = new JLabel(&quot;New End Time:&quot;);</span>
+<span class="nc" id="L199">	    newEndTimeLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L200">	    newEndTimeLabel.setBounds(430, 280, 110, 20);</span>
+<span class="nc" id="L201">	    bookingManagementPane.add(newEndTimeLabel);</span>
+
+<span class="nc" id="L203">	    newEndTimeTextBox = new JTextField();</span>
+<span class="nc" id="L204">	    newEndTimeTextBox.setBounds(550, 282, 110, 18);</span>
+<span class="nc" id="L205">	    bookingManagementPane.add(newEndTimeTextBox);</span>
+
+<span class="nc" id="L207">	    JLabel newBuildingLabel = new JLabel(&quot;New Building:&quot;);</span>
+<span class="nc" id="L208">	    newBuildingLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L209">	    newBuildingLabel.setBounds(430, 305, 110, 20);</span>
+<span class="nc" id="L210">	    bookingManagementPane.add(newBuildingLabel);</span>
+
+<span class="nc" id="L212">	    newBuildingTextBox = new JTextField();</span>
+<span class="nc" id="L213">	    newBuildingTextBox.setBounds(550, 307, 130, 18);</span>
+<span class="nc" id="L214">	    bookingManagementPane.add(newBuildingTextBox);</span>
+
+<span class="nc" id="L216">	    JLabel newRoomNumberLabel = new JLabel(&quot;New Room #:&quot;);</span>
+<span class="nc" id="L217">	    newRoomNumberLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L218">	    newRoomNumberLabel.setBounds(430, 330, 110, 20);</span>
+<span class="nc" id="L219">	    bookingManagementPane.add(newRoomNumberLabel);</span>
+
+<span class="nc" id="L221">	    newRoomNumberTextBox = new JTextField();</span>
+<span class="nc" id="L222">	    newRoomNumberTextBox.setBounds(550, 332, 130, 18);</span>
+<span class="nc" id="L223">	    bookingManagementPane.add(newRoomNumberTextBox);</span>
+
+<span class="nc" id="L225">	    JLabel extendByLabel = new JLabel(&quot;Extend (hrs):&quot;);</span>
+<span class="nc" id="L226">	    extendByLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 16));</span>
+<span class="nc" id="L227">	    extendByLabel.setBounds(430, 355, 100, 20);</span>
+<span class="nc" id="L228">	    bookingManagementPane.add(extendByLabel);</span>
+
+<span class="nc" id="L230">	    extendByHoursTextBox = new JTextField();</span>
+<span class="nc" id="L231">	    extendByHoursTextBox.setBounds(550, 357, 50, 18);</span>
+<span class="nc" id="L232">	    bookingManagementPane.add(extendByHoursTextBox);</span>
+
+	    // =====================================================
+	    // 6. Action buttons (right, bottom)
+	    // =====================================================
+
+<span class="nc" id="L238">	    btnApplyEdit = new JButton(&quot;Apply Edit&quot;);</span>
+<span class="nc" id="L239">	    btnApplyEdit.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 15));</span>
+<span class="nc" id="L240">	    btnApplyEdit.setBounds(430, 385, 120, 23);</span>
+<span class="nc" id="L241">	    bookingManagementPane.add(btnApplyEdit);</span>
+
+<span class="nc" id="L243">	    btnExtendBooking = new JButton(&quot;Extend&quot;);</span>
+<span class="nc" id="L244">	    btnExtendBooking.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 15));</span>
+<span class="nc" id="L245">	    btnExtendBooking.setBounds(560, 385, 100, 23);</span>
+<span class="nc" id="L246">	    bookingManagementPane.add(btnExtendBooking);</span>
+
+<span class="nc" id="L248">	    btnCancelBooking = new JButton(&quot;Cancel&quot;);</span>
+<span class="nc" id="L249">	    btnCancelBooking.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 15));</span>
+<span class="nc" id="L250">	    btnCancelBooking.setBounds(430, 415, 120, 23);</span>
+<span class="nc" id="L251">	    bookingManagementPane.add(btnCancelBooking);</span>
+
+<span class="nc" id="L253">	    btnRefresh = new JButton(&quot;Refresh&quot;);</span>
+<span class="nc" id="L254">	    btnRefresh.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 15));</span>
+<span class="nc" id="L255">	    btnRefresh.setBounds(560, 415, 100, 23);</span>
+<span class="nc" id="L256">	    bookingManagementPane.add(btnRefresh);</span>
+
+	    // =====================================================
+	    // 7. Beck to Dashboard
+	    // =====================================================
+	    
+<span class="nc" id="L262">	    btnBackToDashboard = new JButton(&quot;Back&quot;);</span>
+<span class="nc" id="L263">	    btnBackToDashboard.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 14));</span>
+<span class="nc" id="L264">	    btnBackToDashboard.setBounds(20, 10, 80, 23);</span>
+<span class="nc" id="L265">	    bookingManagementPane.add(btnBackToDashboard);</span>
+<span class="nc" id="L266">	}</span>
+
+	public JPanel getPane() {
+<span class="nc" id="L269">		return bookingManagementPane;</span>
+	}
+
+	public JTable getBookingTable() {
+<span class="nc" id="L273">		return bookingTable;</span>
+	}
+
+	public JTextField getSelectedBookingIdTextBox() {
+<span class="nc" id="L277">		return selectedBookingIdTextBox;</span>
+	}
+
+	public JTextField getSelectedRoomTextBox() {
+<span class="nc" id="L281">		return selectedRoomTextBox;</span>
+	}
+
+	public JTextField getSelectedDateTextBox() {
+<span class="nc" id="L285">		return selectedDateTextBox;</span>
+	}
+
+	public JTextField getSelectedTimeTextBox() {
+<span class="nc" id="L289">		return selectedTimeTextBox;</span>
+	}
+
+	public JTextField getNewBuildingTextBox() {
+<span class="nc" id="L293">		return newBuildingTextBox;</span>
+	}
+
+	public JTextField getNewRoomNumberTextBox() {
+<span class="nc" id="L297">		return newRoomNumberTextBox;</span>
+	}
+
+	public JTextField getNewDateTextBox() {
+<span class="nc" id="L301">		return newDateTextBox;</span>
+	}
+
+	public JTextField getNewStartTimeTextBox() {
+<span class="nc" id="L305">		return newStartTimeTextBox;</span>
+	}
+
+	public JTextField getNewEndTimeTextBox() {
+<span class="nc" id="L309">		return newEndTimeTextBox;</span>
+	}
+
+	public JTextField getExtendByHoursTextBox() {
+<span class="nc" id="L313">		return extendByHoursTextBox;</span>
+	}
+
+	public JButton getBtnApplyEdit() {
+<span class="nc" id="L317">		return btnApplyEdit;</span>
+	}
+
+	public JButton getBtnCancelBooking() {
+<span class="nc" id="L321">		return btnCancelBooking;</span>
+	}
+
+	public JButton getBtnExtendBooking() {
+<span class="nc" id="L325">		return btnExtendBooking;</span>
+	}
+
+	public JButton getBtnRefresh() {
+<span class="nc" id="L329">		return btnRefresh;</span>
+	}
+
+	public JButton getBtnBackToDashboard() {
+<span class="nc" id="L333">		return btnBackToDashboard;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

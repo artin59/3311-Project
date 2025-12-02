@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExtendBookingCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">ExtendBookingCommand.java</span></div><h1>ExtendBookingCommand.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.List;
+
+/**
+ * Command to extend a booking
+ * ensures the end time has not passed, checks if room is free for extended period,
+ * updates booking end time, applies hourly rate via Pricing Strategy, and charges additional amount.
+ */
+public class ExtendBookingCommand implements Command {
+    private String bookingId;
+    private int extraDuration; // in hours
+    private BookingRepository repository;
+    private PricingPolicyFactory pricingFactory;
+    private PaymentService paymentService;
+    private RoomService roomService;
+    private List&lt;BookingObserver&gt; observers;
+    
+    // For undo
+    private Booking originalBooking;
+    private String originalEndTime;
+    private int originalHours;
+    private double originalCost;
+    
+    public ExtendBookingCommand(String bookingId, int extraDuration,
+                                BookingRepository repository, PricingPolicyFactory pricingFactory,
+                                PaymentService paymentService, RoomService roomService,
+<span class="fc" id="L28">                                List&lt;BookingObserver&gt; observers) {</span>
+<span class="fc" id="L29">        this.bookingId = bookingId;</span>
+<span class="fc" id="L30">        this.extraDuration = extraDuration;</span>
+<span class="fc" id="L31">        this.repository = repository;</span>
+<span class="fc" id="L32">        this.pricingFactory = pricingFactory;</span>
+<span class="fc" id="L33">        this.paymentService = paymentService;</span>
+<span class="fc" id="L34">        this.roomService = roomService;</span>
+<span class="fc" id="L35">        this.observers = observers;</span>
+<span class="fc" id="L36">    }</span>
+    
+    @Override
+    public boolean execute() {
+        // Find the booking
+<span class="fc" id="L41">        Booking booking = repository.findById(bookingId);</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (booking == null) {</span>
+<span class="fc" id="L43">            System.err.println(&quot;ExtendBookingCommand: Booking not found: &quot; + bookingId);</span>
+<span class="fc" id="L44">            return false;</span>
+        }
+        
+        // Debug: Print booking details
+<span class="nc" id="L48">        System.out.println(&quot;ExtendBookingCommand: Found booking - ID: &quot; + bookingId);</span>
+<span class="nc" id="L49">        System.out.println(&quot;ExtendBookingCommand: Room: &quot; + booking.getRoomNumber());</span>
+<span class="nc" id="L50">        System.out.println(&quot;ExtendBookingCommand: Date: &quot; + booking.getBookingDate());</span>
+<span class="nc" id="L51">        System.out.println(&quot;ExtendBookingCommand: Start: &quot; + booking.getBookingStartTime());</span>
+<span class="nc" id="L52">        System.out.println(&quot;ExtendBookingCommand: Current End: &quot; + booking.getBookingEndTime());</span>
+<span class="nc" id="L53">        System.out.println(&quot;ExtendBookingCommand: Status: &quot; + booking.getStatus());</span>
+        
+        // Store original values for undo
+<span class="nc" id="L56">        originalBooking = booking;</span>
+<span class="nc" id="L57">        originalEndTime = booking.getBookingEndTime();</span>
+<span class="nc" id="L58">        originalHours = booking.getHours();</span>
+<span class="nc" id="L59">        originalCost = booking.getTotalCost();</span>
+        
+        // REQ9: Check booking's current state (InUseState or ReservedState) - case-insensitive
+<span class="nc" id="L62">        String status = booking.getStatus();</span>
+<span class="nc bnc" id="L63" title="All 6 branches missed.">        if (status == null || (!status.trim().equalsIgnoreCase(&quot;InUse&quot;) &amp;&amp; !status.trim().equalsIgnoreCase(&quot;Reserved&quot;))) {</span>
+<span class="nc" id="L64">            System.err.println(&quot;ExtendBookingCommand: Booking &quot; + bookingId + </span>
+                             &quot; is not in InUse or Reserved state. Current state: '&quot; + status + &quot;'&quot;);
+<span class="nc" id="L66">            return false;</span>
+        }
+        
+        // REQ9: Ensure the end time has not passed
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (BookingTimeUtil.hasEndTimePassed(booking.getBookingDate(), booking.getBookingEndTime())) {</span>
+<span class="nc" id="L71">            System.err.println(&quot;ExtendBookingCommand: Booking end time has already passed. Cannot extend.&quot;);</span>
+<span class="nc" id="L72">            System.err.println(&quot;ExtendBookingCommand: Date: '&quot; + booking.getBookingDate() + </span>
+<span class="nc" id="L73">                             &quot;', EndTime: '&quot; + booking.getBookingEndTime() + &quot;'&quot;);</span>
+<span class="nc" id="L74">            return false;</span>
+        }
+        
+        // Calculate new end time
+<span class="nc" id="L78">        String newEndTime = calculateNewEndTime(booking.getBookingEndTime(), extraDuration);</span>
+<span class="nc" id="L79">        System.out.println(&quot;ExtendBookingCommand: Current end time: '&quot; + booking.getBookingEndTime() + </span>
+                         &quot;', New end time: '&quot; + newEndTime + &quot;', Extra duration: &quot; + extraDuration + &quot; hours&quot;);
+        
+        // REQ9: Check if the EXTENDED time slot is free (from current end time to new end time)
+        // We only need to check if the extended portion conflicts with other bookings
+<span class="nc" id="L84">        String currentEndTime = booking.getBookingEndTime();</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        if (currentEndTime == null || currentEndTime.trim().isEmpty()) {</span>
+<span class="nc" id="L86">            System.err.println(&quot;ExtendBookingCommand: Current booking end time is not set&quot;);</span>
+<span class="nc" id="L87">            return false;</span>
+        }
+        
+        // Check if the extended time slot (currentEndTime to newEndTime) conflicts with other bookings
+        // Note: We exclude the current booking ID so it doesn't conflict with itself
+<span class="nc" id="L92">        BookingCSV bookingCSV = BookingCSV.getInstance();</span>
+<span class="nc" id="L93">        System.out.println(&quot;ExtendBookingCommand: Checking for conflicts in extended slot: &quot; + currentEndTime + &quot; to &quot; + newEndTime);</span>
+<span class="nc" id="L94">        System.out.println(&quot;ExtendBookingCommand: Excluding booking ID: &quot; + bookingId);</span>
+        
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (bookingCSV.hasTimeConflict(booking.getRoomNumber(), booking.getBookingDate(),</span>
+                                       currentEndTime, newEndTime, bookingId)) {
+<span class="nc" id="L98">            System.err.println(&quot;ExtendBookingCommand: Extended time slot is already reserved&quot;);</span>
+<span class="nc" id="L99">            System.err.println(&quot;ExtendBookingCommand: Room: '&quot; + booking.getRoomNumber() + </span>
+<span class="nc" id="L100">                             &quot;', Date: '&quot; + booking.getBookingDate() + </span>
+                             &quot;', Extended time slot: '&quot; + currentEndTime + &quot;' to '&quot; + newEndTime + &quot;'&quot;);
+<span class="nc" id="L102">            System.err.println(&quot;ExtendBookingCommand: Please check the console output above for conflict details&quot;);</span>
+<span class="nc" id="L103">            return false;</span>
+        }
+        
+<span class="nc" id="L106">        System.out.println(&quot;ExtendBookingCommand: No conflicts found in extended time slot&quot;);</span>
+        
+        // Update booking end time
+<span class="nc" id="L109">        System.out.println(&quot;ExtendBookingCommand: Setting booking end time from '&quot; + booking.getBookingEndTime() + &quot;' to '&quot; + newEndTime + &quot;'&quot;);</span>
+<span class="nc" id="L110">        booking.setBookingEndTime(newEndTime);</span>
+<span class="nc" id="L111">        System.out.println(&quot;ExtendBookingCommand: Booking end time after set: '&quot; + booking.getBookingEndTime() + &quot;'&quot;);</span>
+        
+        // Update hours
+<span class="nc" id="L114">        int newHours = originalHours + extraDuration;</span>
+<span class="nc" id="L115">        booking.setHours(newHours);</span>
+<span class="nc" id="L116">        System.out.println(&quot;ExtendBookingCommand: Updated hours from &quot; + originalHours + &quot; to &quot; + newHours);</span>
+        
+        // REQ9: Apply correct hourly rate via Pricing Strategy
+        // Use Strategy pattern to get appropriate pricing strategy for user type
+<span class="nc" id="L120">        PricingPolicy policy = pricingFactory.createPolicy(booking.getUser());</span>
+<span class="nc" id="L121">        double hourlyRate = policy.calculateRate(booking.getUser());</span>
+<span class="nc" id="L122">        booking.setRate(hourlyRate);</span>
+        
+        // Calculate additional amount to charge
+<span class="nc" id="L125">        double additionalAmount = extraDuration * hourlyRate;</span>
+        
+        // REQ9: Charge additional amount through PaymentService
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (additionalAmount &gt; 0) {</span>
+<span class="nc" id="L129">            boolean chargeSuccess = paymentService.chargeAdditional(additionalAmount);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            if (!chargeSuccess) {</span>
+<span class="nc" id="L131">                System.err.println(&quot;ExtendBookingCommand: Failed to charge additional amount&quot;);</span>
+<span class="nc" id="L132">                return false;</span>
+            }
+<span class="nc" id="L134">            System.out.println(&quot;ExtendBookingCommand: Charged additional $&quot; + additionalAmount + </span>
+                             &quot; for &quot; + extraDuration + &quot; extra hours&quot;);
+        }
+        
+        // Update room booking end time in RoomDatabase.csv
+<span class="nc" id="L139">        Room room = findRoomByNumber(booking.getRoomNumber());</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (room != null) {</span>
+<span class="nc" id="L141">            room.getRoomContext().setBookingInfo(</span>
+<span class="nc" id="L142">                booking.getBookingId(),</span>
+<span class="nc" id="L143">                booking.getUser().getAccountId(),</span>
+<span class="nc" id="L144">                booking.getBookingDate(),</span>
+<span class="nc" id="L145">                booking.getBookingStartTime(),</span>
+                newEndTime
+            );
+<span class="nc" id="L148">            RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L149">            roomCSV.update(room);</span>
+        }
+        
+        // REQ9: Save new timeslots in CSV
+<span class="nc" id="L153">        System.out.println(&quot;ExtendBookingCommand: Updating booking in repository with new end time: &quot; + newEndTime);</span>
+<span class="nc" id="L154">        repository.update(booking);</span>
+<span class="nc" id="L155">        System.out.println(&quot;ExtendBookingCommand: Booking updated in repository&quot;);</span>
+        
+        // REQ9: Notify observers (room list, booking history, admin view)
+<span class="nc" id="L158">        System.out.println(&quot;ExtendBookingCommand: Notifying observers...&quot;);</span>
+<span class="nc" id="L159">        notifyObservers(booking);</span>
+<span class="nc" id="L160">        System.out.println(&quot;ExtendBookingCommand: Observers notified&quot;);</span>
+        
+<span class="nc" id="L162">        System.out.println(&quot;ExtendBookingCommand: Successfully extended booking &quot; + bookingId + </span>
+                         &quot; by &quot; + extraDuration + &quot; hours. New end time: &quot; + newEndTime);
+<span class="nc" id="L164">        return true;</span>
+    }
+    
+    @Override
+    public boolean undo() {
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        if (originalBooking == null) {</span>
+<span class="fc" id="L170">            return false;</span>
+        }
+        
+        // Restore original values
+<span class="nc" id="L174">        originalBooking.setBookingEndTime(originalEndTime);</span>
+<span class="nc" id="L175">        originalBooking.setHours(originalHours);</span>
+        
+        // Refund the additional charge
+<span class="nc" id="L178">        double additionalAmount = (originalBooking.getTotalCost() - originalCost);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if (additionalAmount &gt; 0) {</span>
+<span class="nc" id="L180">            paymentService.refund(additionalAmount);</span>
+        }
+        
+        // Restore room booking end time
+<span class="nc" id="L184">        Room room = findRoomByNumber(originalBooking.getRoomNumber());</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (room != null) {</span>
+<span class="nc" id="L186">            room.getRoomContext().setBookingInfo(</span>
+<span class="nc" id="L187">                originalBooking.getBookingId(),</span>
+<span class="nc" id="L188">                originalBooking.getUser().getAccountId(),</span>
+<span class="nc" id="L189">                originalBooking.getBookingDate(),</span>
+<span class="nc" id="L190">                originalBooking.getBookingStartTime(),</span>
+                originalEndTime
+            );
+<span class="nc" id="L193">            RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L194">            roomCSV.update(room);</span>
+        }
+        
+<span class="nc" id="L197">        repository.update(originalBooking);</span>
+<span class="nc" id="L198">        notifyObservers(originalBooking);</span>
+        
+<span class="nc" id="L200">        return true;</span>
+    }
+    
+    private String calculateNewEndTime(String currentEndTime, int extraHours) {
+<span class="nc bnc" id="L204" title="All 4 branches missed.">        if (currentEndTime == null || currentEndTime.trim().isEmpty()) {</span>
+<span class="nc" id="L205">            return currentEndTime;</span>
+        }
+        
+        try {
+<span class="nc" id="L209">            String[] parts = currentEndTime.split(&quot;:&quot;);</span>
+<span class="nc" id="L210">            int hours = Integer.parseInt(parts[0]);</span>
+<span class="nc" id="L211">            int minutes = Integer.parseInt(parts[1]);</span>
+            
+<span class="nc" id="L213">            hours += extraHours;</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">            if (hours &gt;= 24) {</span>
+<span class="nc" id="L215">                hours = hours % 24;</span>
+            }
+            
+<span class="nc" id="L218">            return String.format(&quot;%02d:%02d&quot;, hours, minutes);</span>
+<span class="nc" id="L219">        } catch (Exception e) {</span>
+<span class="nc" id="L220">            System.err.println(&quot;Error calculating new end time: &quot; + e.getMessage());</span>
+<span class="nc" id="L221">            return currentEndTime;</span>
+        }
+    }
+    
+    private Room findRoomByNumber(String roomNumber) {
+<span class="nc bnc" id="L226" title="All 2 branches missed.">        if (roomNumber == null) {</span>
+<span class="nc" id="L227">            return null;</span>
+        }
+<span class="nc" id="L229">        List&lt;Room&gt; allRooms = roomService.getAllRooms();</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        for (Room room : allRooms) {</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">            if (room.getRoomNumber().equals(roomNumber)) {</span>
+<span class="nc" id="L232">                return room;</span>
+            }
+<span class="nc" id="L234">        }</span>
+<span class="nc" id="L235">        return null;</span>
+    }
+    
+    private void notifyObservers(Booking booking) {
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        if (observers != null) {</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">            for (BookingObserver observer : observers) {</span>
+<span class="nc" id="L241">                observer.onBookingUpdated(booking);</span>
+<span class="nc" id="L242">            }</span>
+        }
+<span class="nc" id="L244">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

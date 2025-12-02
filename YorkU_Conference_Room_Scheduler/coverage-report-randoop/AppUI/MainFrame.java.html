@@ -1,0 +1,1510 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainFrame.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">AppUI</a> &gt; <span class="el_source">MainFrame.java</span></div><h1>MainFrame.java</h1><pre class="source lang-java linenums">package AppUI;
+
+import java.awt.EventQueue;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import Backend.ChiefEventCoordinator;
+
+import Backend.Accounts;
+import Backend.Booking;
+import Backend.BookingController;
+import Backend.BookingCSV;
+import Backend.BookingTimeUtil;
+import Backend.ReservationSystem;
+import Backend.Room;
+import Backend.RoomService;
+import Backend.User;
+import Backend.UserCSV;
+import Backend.UserFactory;
+import Backend.ValidationUtil;
+
+public class MainFrame {
+    private JFrame frame;
+    
+<span class="nc" id="L31">    IntroWindow introWindow = new IntroWindow();</span>
+<span class="nc" id="L32">    CheckInWindow checkInWindow = new CheckInWindow();</span>
+<span class="nc" id="L33">    LoginWindow loginWindow = new LoginWindow();</span>
+<span class="nc" id="L34">    RegisterWindow registerWindow = new RegisterWindow();</span>
+<span class="nc" id="L35">    DashboardWindow dashboardWindow = new DashboardWindow();</span>
+    
+<span class="nc" id="L37">    ReserveRoomWindow reserveRoomWindow = new ReserveRoomWindow();</span>
+<span class="nc" id="L38">    BookingManagementWindow bookingManagementWindow = new BookingManagementWindow();</span>
+<span class="nc" id="L39">    AdminConsoleWindow adminConsoleWindow = new AdminConsoleWindow();</span>
+<span class="nc" id="L40">    CECWindow cecWindow = new CECWindow();</span>
+    
+    // Backend references
+<span class="nc" id="L43">    private UserCSV userCSV = UserCSV.getInstance();</span>
+<span class="nc" id="L44">    private UserFactory userFactory = new UserFactory();</span>
+<span class="nc" id="L45">    private RoomService roomService = new RoomService();</span>
+<span class="nc" id="L46">    private ReservationSystem reservationSystem = ReservationSystem.getInstance();</span>
+<span class="nc" id="L47">    private BookingCSV bookingCSV = BookingCSV.getInstance();</span>
+    
+    // Currently logged in user
+    private Accounts currentUser;
+    
+    // Currently selected room in admin console
+<span class="nc" id="L53">    private Room selectedRoom = null;</span>
+<span class="nc" id="L54">    private Accounts selectedAccount = null;</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L57">        EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+                try {
+<span class="nc" id="L60">                    MainFrame window = new MainFrame();</span>
+<span class="nc" id="L61">                    window.frame.setVisible(true);</span>
+<span class="nc" id="L62">                } catch (Exception e) {</span>
+<span class="nc" id="L63">                    e.printStackTrace();</span>
+<span class="nc" id="L64">                }</span>
+<span class="nc" id="L65">            }</span>
+        });
+<span class="nc" id="L67">    }</span>
+
+<span class="nc" id="L69">    public MainFrame() {</span>
+<span class="nc" id="L70">        initialize();</span>
+<span class="nc" id="L71">    }</span>
+
+    private void initialize() {
+<span class="nc" id="L74">        frame = new JFrame();</span>
+<span class="nc" id="L75">        frame.setBounds(100, 100, 703, 409);</span>
+<span class="nc" id="L76">        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+        
+<span class="nc" id="L78">        frame.setContentPane(introWindow.getPane());</span>
+<span class="nc" id="L79">        wireIntroHandlers();</span>
+<span class="nc" id="L80">        wireLoginHandlers();</span>
+<span class="nc" id="L81">        wireRegisterHandlers();</span>
+<span class="nc" id="L82">        wireCheckInHandlers();</span>
+<span class="nc" id="L83">        wireDashboardHandlers();</span>
+<span class="nc" id="L84">        wireReserveRoomHandlers();</span>
+<span class="nc" id="L85">        wireBookingManagementHandlers();</span>
+<span class="nc" id="L86">        wireAdminConsoleWindowHandlers();</span>
+<span class="nc" id="L87">        wireCECWindowHandlers();</span>
+        
+        // Register observers for booking changes (REQ8, REQ9)
+<span class="nc" id="L90">        BookingController controller = BookingController.getInstance();</span>
+<span class="nc" id="L91">        controller.addObserver(new BookingManagementObserver(this));</span>
+<span class="nc" id="L92">        controller.addObserver(new ReserveRoomObserver(this));</span>
+<span class="nc" id="L93">    }</span>
+    
+    private void wireIntroHandlers() {
+<span class="nc" id="L96">        introWindow.getBtnIntroCheckIn().addActionListener(e -&gt; {</span>
+<span class="nc" id="L97">            System.out.println(&quot;Intro: Check In selected&quot;);</span>
+<span class="nc" id="L98">            frame.setContentPane(checkInWindow.getPane());</span>
+<span class="nc" id="L99">            refreshFrame();</span>
+<span class="nc" id="L100">        });</span>
+
+<span class="nc" id="L102">        introWindow.getBtnIntroReserve().addActionListener(e -&gt; {</span>
+<span class="nc" id="L103">            System.out.println(&quot;Intro: Reserve selected&quot;);</span>
+<span class="nc" id="L104">            frame.setContentPane(loginWindow.getPane());</span>
+<span class="nc" id="L105">            refreshFrame();</span>
+<span class="nc" id="L106">        });</span>
+<span class="nc" id="L107">    }</span>
+    
+    private void wireCheckInHandlers() {
+<span class="nc" id="L110">        checkInWindow.getBtnBackToIntro().addActionListener(e -&gt; {</span>
+<span class="nc" id="L111">            System.out.println(&quot;Back to Intro clicked&quot;);</span>
+            // Clear check-in fields
+<span class="nc" id="L113">            checkInWindow.getBookingIdTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L114">            checkInWindow.getEmailTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L115">            checkInWindow.getOccupantsTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L116">            checkInWindow.getRoomNumberTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L117">            checkInWindow.getBookingTimeTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L118">            frame.setContentPane(introWindow.getPane());</span>
+<span class="nc" id="L119">            refreshFrame();</span>
+<span class="nc" id="L120">        });</span>
+
+<span class="nc" id="L122">        checkInWindow.getBtnSimulateScan().addActionListener(e -&gt; {</span>
+<span class="nc" id="L123">            String bookingId = checkInWindow.getBookingIdTextBox().getText().trim();</span>
+<span class="nc" id="L124">            String email = checkInWindow.getEmailTextBox().getText().trim();</span>
+<span class="nc" id="L125">            String occupants = checkInWindow.getOccupantsTextBox().getText().trim();</span>
+
+<span class="nc" id="L127">            System.out.println(&quot;Check in&quot;);</span>
+<span class="nc" id="L128">            System.out.println(&quot;Booking ID: &quot; + bookingId);</span>
+<span class="nc" id="L129">            System.out.println(&quot;Email: &quot; + email);</span>
+<span class="nc" id="L130">            System.out.println(&quot;Occupants: &quot; + occupants);</span>
+
+            // Validate input
+<span class="nc bnc" id="L133" title="All 4 branches missed.">            if (bookingId.isEmpty() || email.isEmpty()) {</span>
+<span class="nc" id="L134">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please enter both Booking ID and Email.&quot;,
+                    &quot;Missing Information&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L138">                return;</span>
+            }
+
+            // Find booking from database using ReservationSystem
+<span class="nc" id="L142">            Booking booking = reservationSystem.findBooking(bookingId);</span>
+            
+<span class="nc bnc" id="L144" title="All 2 branches missed.">            if (booking == null) {</span>
+<span class="nc" id="L145">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Booking not found. Please check the Booking ID.&quot;,
+                    &quot;Booking Not Found&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L149">                checkInWindow.getRoomNumberTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L150">                checkInWindow.getBookingTimeTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L151">                return;</span>
+            }
+
+            // Verify email matches
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            if (!booking.getUser().getEmail().equalsIgnoreCase(email)) {</span>
+<span class="nc" id="L156">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Email does not match the booking. Please verify your email.&quot;,
+                    &quot;Email Mismatch&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L160">                checkInWindow.getRoomNumberTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L161">                checkInWindow.getBookingTimeTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L162">                return;</span>
+            }
+
+            // Display booking information
+<span class="nc bnc" id="L166" title="All 2 branches missed.">            String roomNumber = booking.getRoomNumber() != null ? booking.getRoomNumber() : &quot;Not assigned&quot;;</span>
+<span class="nc" id="L167">            String bookingTime = &quot;&quot;;</span>
+<span class="nc bnc" id="L168" title="All 4 branches missed.">            if (booking.getBookingStartTime() != null &amp;&amp; booking.getBookingEndTime() != null) {</span>
+<span class="nc" id="L169">                bookingTime = booking.getBookingStartTime() + &quot; - &quot; + booking.getBookingEndTime();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            } else if (booking.getBookingDate() != null) {</span>
+<span class="nc" id="L171">                bookingTime = booking.getBookingDate();</span>
+            } else {
+<span class="nc" id="L173">                bookingTime = &quot;Time not specified&quot;;</span>
+            }
+
+<span class="nc" id="L176">            checkInWindow.getRoomNumberTextBox().setText(roomNumber);</span>
+<span class="nc" id="L177">            checkInWindow.getBookingTimeTextBox().setText(bookingTime);</span>
+
+            // Perform check-in
+<span class="nc" id="L180">            boolean checkInSuccess = reservationSystem.checkIn(bookingId, email);</span>
+            
+<span class="nc bnc" id="L182" title="All 2 branches missed.">            if (checkInSuccess) {</span>
+<span class="nc" id="L183">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Check-in successful! Room: &quot; + roomNumber,
+                    &quot;Check-In Successful&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+<span class="nc" id="L188">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Check-in failed. Please contact support.&quot;,
+                    &quot;Check-In Failed&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+            }
+<span class="nc" id="L193">        });</span>
+<span class="nc" id="L194">    }</span>
+    
+    private void wireLoginHandlers() {
+<span class="nc" id="L197">        loginWindow.getBtnBackToIntro().addActionListener(e -&gt; {</span>
+<span class="nc" id="L198">            System.out.println(&quot;Back to Intro clicked&quot;);</span>
+<span class="nc" id="L199">            clearLoginFields();</span>
+<span class="nc" id="L200">            frame.setContentPane(introWindow.getPane());</span>
+<span class="nc" id="L201">            refreshFrame();</span>
+<span class="nc" id="L202">        });</span>
+
+<span class="nc" id="L204">        loginWindow.getBtnLogin().addActionListener(e -&gt; {</span>
+<span class="nc" id="L205">            System.out.println(&quot;Login Button Clicked&quot;);</span>
+            
+<span class="nc" id="L207">            String email = loginWindow.getTxtBoxEmail().getText().trim();</span>
+<span class="nc" id="L208">            String password = String.valueOf(loginWindow.getTxtBoxPassword().getPassword());</span>
+            
+<span class="nc bnc" id="L210" title="All 4 branches missed.">            if (email.isEmpty() || password.isEmpty()) {</span>
+<span class="nc" id="L211">                JOptionPane.showMessageDialog(frame, </span>
+                    &quot;Please enter both email and password.&quot;, 
+                    &quot;Login Error&quot;, 
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L215">                return;</span>
+            }
+            
+<span class="nc" id="L218">            Accounts account = userCSV.findByEmail(email);</span>
+            
+<span class="nc bnc" id="L220" title="All 4 branches missed.">            if (account != null &amp;&amp; account.getPassword().equals(password)) {</span>
+<span class="nc" id="L221">                currentUser = account;</span>
+<span class="nc" id="L222">                JOptionPane.showMessageDialog(frame, </span>
+<span class="nc" id="L223">                    &quot;Login Successful! Welcome, &quot; + account.getAccountType() + &quot;.&quot;, </span>
+                    &quot;Success&quot;, 
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+<span class="nc" id="L227">                currentUser = account;</span>
+<span class="nc" id="L228">                clearLoginFields();</span>
+<span class="nc" id="L229">                String accountType = account.getAccountType();</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">                if(accountType.equals(&quot;Admin&quot;)) {</span>
+<span class="nc" id="L231">                    dashboardWindow.getBtnDashCECPanel().setVisible(false);</span>
+<span class="nc" id="L232">                    dashboardWindow.getBtnDashAdminConsole().setVisible(true);</span>
+<span class="nc" id="L233">                    dashboardWindow.getBtnDashAdminConsole().setLocation(dashboardWindow.getBtnDashCECPanel().getLocation());</span>
+                }
+<span class="nc bnc" id="L235" title="All 2 branches missed.">                else if (accountType.equals(&quot;Chief Event Coordinator&quot;)) {</span>
+<span class="nc" id="L236">                    dashboardWindow.getBtnDashAdminConsole().setVisible(true);</span>
+<span class="nc" id="L237">                    dashboardWindow.getBtnDashCECPanel().setVisible(true);</span>
+                }
+                else {
+<span class="nc" id="L240">                    dashboardWindow.getBtnDashAdminConsole().setVisible(false);</span>
+<span class="nc" id="L241">                    dashboardWindow.getBtnDashCECPanel().setVisible(false);</span>
+                } 
+<span class="nc" id="L243">                frame.setContentPane(dashboardWindow.getPane());</span>
+<span class="nc" id="L244">                refreshFrame();</span>
+<span class="nc" id="L245">            } else {</span>
+<span class="nc" id="L246">                JOptionPane.showMessageDialog(frame, </span>
+                    &quot;Invalid email or password.&quot;, 
+                    &quot;Login Failed&quot;, 
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L250">                loginWindow.getTxtBoxPassword().setText(&quot;&quot;);</span>
+            }
+<span class="nc" id="L252">        });</span>
+
+<span class="nc" id="L254">        loginWindow.getBtnRegister().addActionListener(e -&gt; {</span>
+<span class="nc" id="L255">            System.out.println(&quot;Registering new Account...&quot;);</span>
+<span class="nc" id="L256">            clearLoginFields();</span>
+<span class="nc" id="L257">            frame.setContentPane(registerWindow.getPane());</span>
+<span class="nc" id="L258">            refreshFrame();</span>
+<span class="nc" id="L259">        });</span>
+<span class="nc" id="L260">    }</span>
+    
+    private void wireRegisterHandlers() {
+<span class="nc" id="L263">        registerWindow.getBtnBackToLogin().addActionListener(e -&gt; {</span>
+<span class="nc" id="L264">            System.out.println(&quot;Back to Login clicked&quot;);</span>
+<span class="nc" id="L265">            clearRegisterFields();</span>
+<span class="nc" id="L266">            frame.setContentPane(loginWindow.getPane());</span>
+<span class="nc" id="L267">            refreshFrame();</span>
+<span class="nc" id="L268">        });</span>
+
+<span class="nc" id="L270">        registerWindow.getBtnRegister().addActionListener(e -&gt; {</span>
+<span class="nc" id="L271">            System.out.println(&quot;Register Button Clicked&quot;);</span>
+            
+<span class="nc" id="L273">            String email = registerWindow.getTxtBoxEmail().getText().trim();</span>
+<span class="nc" id="L274">            String password = String.valueOf(registerWindow.getTxtBoxPassword().getPassword());</span>
+<span class="nc" id="L275">            String accountType = (String) registerWindow.getAccountTypeComboBox().getSelectedItem();</span>
+<span class="nc" id="L276">            String orgId = String.valueOf(registerWindow.getTxtBoxOrgID().getPassword()).trim();</span>
+            
+<span class="nc bnc" id="L278" title="All 2 branches missed.">            if (accountType.equals(&quot;(Select Account Type)&quot;)) {</span>
+<span class="nc" id="L279">                JOptionPane.showMessageDialog(frame, </span>
+                    &quot;Please select an account type.&quot;, 
+                    &quot;Registration Error&quot;, 
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L283">                return;</span>
+            }
+            
+         // Validate email (account type specific)
+<span class="nc bnc" id="L287" title="All 2 branches missed.">            if (!ValidationUtil.isValidEmail(email, accountType)) {</span>
+<span class="nc" id="L288">                JOptionPane.showMessageDialog(frame, </span>
+<span class="nc" id="L289">                    ValidationUtil.getEmailRequirements(accountType), </span>
+                    &quot;Invalid Email&quot;, 
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L292">                return;</span>
+            }
+            
+<span class="nc bnc" id="L295" title="All 2 branches missed.">            if (userCSV.emailExists(email)) {</span>
+<span class="nc" id="L296">                JOptionPane.showMessageDialog(frame, </span>
+                    &quot;An account with this email already exists. Please login instead.&quot;, 
+                    &quot;Email Already Registered&quot;, 
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L300">                return;</span>
+            }
+            
+<span class="nc bnc" id="L303" title="All 2 branches missed.">            if (!ValidationUtil.isValidPassword(password)) {</span>
+<span class="nc" id="L304">                JOptionPane.showMessageDialog(frame, </span>
+<span class="nc" id="L305">                    ValidationUtil.getPasswordRequirements(), </span>
+                    &quot;Invalid Password&quot;, 
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L308">                return;</span>
+            }
+            
+         // Validate org ID (account type specific)
+<span class="nc bnc" id="L312" title="All 2 branches missed.">            if (!ValidationUtil.isValidOrgId(orgId, accountType)) {</span>
+<span class="nc" id="L313">                JOptionPane.showMessageDialog(frame, </span>
+<span class="nc" id="L314">                    ValidationUtil.getOrgIdRequirements(accountType), </span>
+                    &quot;Invalid Organization ID&quot;, 
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L317">                return;</span>
+            }
+            
+            try {
+<span class="nc" id="L321">                User newUser = userFactory.createUser(email, password, accountType, orgId);</span>
+<span class="nc" id="L322">                userCSV.write(newUser);</span>
+                
+<span class="nc" id="L324">                JOptionPane.showMessageDialog(frame, </span>
+                    &quot;Registration Successful! Please login with your credentials.&quot;, 
+                    &quot;Success&quot;, 
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+<span class="nc" id="L329">                clearRegisterFields();</span>
+<span class="nc" id="L330">                frame.setContentPane(loginWindow.getPane());</span>
+<span class="nc" id="L331">                refreshFrame();</span>
+                
+<span class="nc" id="L333">            } catch (Exception ex) {</span>
+<span class="nc" id="L334">                JOptionPane.showMessageDialog(frame, </span>
+<span class="nc" id="L335">                    &quot;Registration failed: &quot; + ex.getMessage(), </span>
+                    &quot;Registration Error&quot;, 
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L338">                ex.printStackTrace();</span>
+<span class="nc" id="L339">            }</span>
+<span class="nc" id="L340">        });</span>
+<span class="nc" id="L341">    }</span>
+    
+    private void wireDashboardHandlers() {
+<span class="nc" id="L344">        dashboardWindow.getBtnDashReserve().addActionListener(e -&gt; {</span>
+<span class="nc" id="L345">            System.out.println(&quot;Dashboard: Book Room clicked&quot;);</span>
+<span class="nc" id="L346">            refreshReserveRoomTable();</span>
+<span class="nc" id="L347">            frame.setContentPane(reserveRoomWindow.getPane());</span>
+<span class="nc" id="L348">            refreshFrame();</span>
+<span class="nc" id="L349">        });</span>
+        
+<span class="nc" id="L351">        dashboardWindow.getBtnDashMyBookings().addActionListener(e -&gt; {</span>
+<span class="nc" id="L352">            System.out.println(&quot;Dashboard: Manage Bookings clicked&quot;);</span>
+<span class="nc" id="L353">            refreshBookingTable();</span>
+<span class="nc" id="L354">            frame.setContentPane(bookingManagementWindow.getPane());</span>
+<span class="nc" id="L355">            refreshFrame();</span>
+<span class="nc" id="L356">        });</span>
+        
+<span class="nc" id="L358">        dashboardWindow.getBtnDashAdminConsole().addActionListener(e -&gt; {</span>
+<span class="nc" id="L359">            System.out.println(&quot;Dashboard: Admin Console clicked&quot;);</span>
+<span class="nc" id="L360">            refreshRoomTable();</span>
+<span class="nc" id="L361">            clearAdminConsoleFields();</span>
+<span class="nc" id="L362">            frame.setContentPane(adminConsoleWindow.getPane());</span>
+<span class="nc" id="L363">            refreshFrame();</span>
+<span class="nc" id="L364">        });</span>
+        
+<span class="nc" id="L366">        dashboardWindow.getBtnDashCECPanel().addActionListener(e -&gt; {</span>
+<span class="nc" id="L367">            System.out.println(&quot;Dashboard: CEC Panel clicked&quot;);</span>
+<span class="nc" id="L368">            refreshUserTable();</span>
+<span class="nc" id="L369">            clearCECFields();</span>
+<span class="nc" id="L370">            frame.setContentPane(cecWindow.getPane());</span>
+<span class="nc" id="L371">            refreshFrame();</span>
+<span class="nc" id="L372">        });</span>
+<span class="nc" id="L373">        dashboardWindow.getBtnDashLogout().addActionListener(e -&gt; {</span>
+<span class="nc" id="L374">            System.out.println(&quot;Dashboard: Logout clicked&quot;);</span>
+<span class="nc" id="L375">            currentUser = null;</span>
+<span class="nc" id="L376">            frame.setContentPane(introWindow.getPane());</span>
+<span class="nc" id="L377">            refreshFrame();</span>
+<span class="nc" id="L378">        });</span>
+<span class="nc" id="L379">    }</span>
+    
+    private void wireReserveRoomHandlers() {
+<span class="nc" id="L382">        reserveRoomWindow.getBtnBackToDashboard().addActionListener(e -&gt; {</span>
+<span class="nc" id="L383">            System.out.println(&quot;Reserve Room: Back to dashboard clicked&quot;);</span>
+<span class="nc" id="L384">            frame.setContentPane(dashboardWindow.getPane());</span>
+<span class="nc" id="L385">            refreshFrame();</span>
+<span class="nc" id="L386">        });</span>
+        
+        // Add listener to room table selection to update time slot table
+<span class="nc" id="L389">        reserveRoomWindow.getRoomTable().getSelectionModel().addListSelectionListener(e -&gt; {</span>
+<span class="nc bnc" id="L390" title="All 2 branches missed.">            if (!e.getValueIsAdjusting()) {</span>
+<span class="nc" id="L391">                int selectedRow = reserveRoomWindow.getRoomTable().getSelectedRow();</span>
+<span class="nc" id="L392">                String roomNumber = null;</span>
+<span class="nc bnc" id="L393" title="All 2 branches missed.">                if (selectedRow &gt;= 0) {</span>
+<span class="nc" id="L394">                    Object roomValue = reserveRoomWindow.getRoomTable().getValueAt(selectedRow, 0);</span>
+<span class="nc bnc" id="L395" title="All 2 branches missed.">                    if (roomValue != null) {</span>
+<span class="nc" id="L396">                        roomNumber = String.valueOf(roomValue).trim();</span>
+<span class="nc" id="L397">                        System.out.println(&quot;Room selected: '&quot; + roomNumber + &quot;'&quot;);</span>
+                    }
+                }
+<span class="nc" id="L400">                String date = reserveRoomWindow.getBookDateTextBox().getText().trim();</span>
+<span class="nc" id="L401">                System.out.println(&quot;Date from text box: '&quot; + date + &quot;'&quot;);</span>
+<span class="nc" id="L402">                refreshTimeSlotTable(roomNumber, date);</span>
+            }
+<span class="nc" id="L404">        });</span>
+        
+        // Add listener to date text box to update time slot table when date changes
+<span class="nc" id="L407">        reserveRoomWindow.getBookDateTextBox().getDocument().addDocumentListener(new DocumentListener() {</span>
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+<span class="nc" id="L410">                updateTimeSlotTable();</span>
+<span class="nc" id="L411">            }</span>
+            
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+<span class="nc" id="L415">                updateTimeSlotTable();</span>
+<span class="nc" id="L416">            }</span>
+            
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+<span class="nc" id="L420">                updateTimeSlotTable();</span>
+<span class="nc" id="L421">            }</span>
+            
+            private void updateTimeSlotTable() {
+<span class="nc" id="L424">                String roomNumber = reserveRoomWindow.getRoomTextBox().getText().trim();</span>
+<span class="nc" id="L425">                String date = reserveRoomWindow.getBookDateTextBox().getText().trim();</span>
+<span class="nc" id="L426">                refreshTimeSlotTable(roomNumber, date);</span>
+<span class="nc" id="L427">            }</span>
+        });
+        
+<span class="nc" id="L430">        reserveRoomWindow.getBtnCalculate().addActionListener(e -&gt; {</span>
+            // Validate user is logged in
+<span class="nc bnc" id="L432" title="All 4 branches missed.">            if (currentUser == null || !(currentUser instanceof User)) {</span>
+<span class="nc" id="L433">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please login to calculate rates.&quot;,
+                    &quot;Login Required&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L437">                return;</span>
+            }
+            
+            // Calculate hourly rate based on user type
+<span class="nc" id="L441">            User user = (User) currentUser;</span>
+<span class="nc" id="L442">            double rate = reservationSystem.calculateHourlyRate(user);</span>
+            
+<span class="nc" id="L444">            System.out.println(&quot;Reserve Room: Calculate clicked, Rate = &quot; + rate);</span>
+<span class="nc" id="L445">            reserveRoomWindow.getHourlyRateTextBox().setText(String.valueOf(rate));</span>
+<span class="nc" id="L446">            refreshFrame();</span>
+<span class="nc" id="L447">        });</span>
+        
+<span class="nc" id="L449">        reserveRoomWindow.getBtnBook().addActionListener(e -&gt; {</span>
+<span class="nc" id="L450">            System.out.println(&quot;Reserve Room: Book and Pay clicked&quot;);</span>
+<span class="nc" id="L451">            PaymentWindow paymentWindow = new PaymentWindow(</span>
+<span class="nc" id="L452">                Double.parseDouble(reserveRoomWindow.getHourlyRateTextBox().getText()));</span>
+<span class="nc" id="L453">            frame.setContentPane(paymentWindow.getPane());</span>
+<span class="nc" id="L454">            wirePaymentWindowHandlers(paymentWindow);</span>
+<span class="nc" id="L455">            refreshFrame();</span>
+<span class="nc" id="L456">        });</span>
+<span class="nc" id="L457">    }</span>
+    
+    private void wireBookingManagementHandlers() {
+<span class="nc" id="L460">        bookingManagementWindow.getBtnBackToDashboard().addActionListener(e -&gt; {</span>
+<span class="nc" id="L461">            System.out.println(&quot;Booking management: Back to dashboard clicked&quot;);</span>
+<span class="nc" id="L462">            frame.setContentPane(dashboardWindow.getPane());</span>
+<span class="nc" id="L463">            refreshFrame();</span>
+<span class="nc" id="L464">        });</span>
+        
+<span class="nc" id="L466">        bookingManagementWindow.getBtnApplyEdit().addActionListener(e -&gt; {</span>
+<span class="nc" id="L467">            String bookingId = bookingManagementWindow.getSelectedBookingIdTextBox().getText().trim();</span>
+            
+<span class="nc bnc" id="L469" title="All 6 branches missed.">            if (bookingId == null || bookingId.isEmpty() || bookingId.equals(&quot;null&quot;)) {</span>
+<span class="nc" id="L470">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please select a booking to edit.&quot;,
+                    &quot;No Booking Selected&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L474">                return;</span>
+            }
+            
+            // Get new values from text fields
+<span class="nc" id="L478">            String newBuilding = bookingManagementWindow.getNewBuildingTextBox().getText().trim();</span>
+<span class="nc" id="L479">            String newRoomNumber = bookingManagementWindow.getNewRoomNumberTextBox().getText().trim();</span>
+<span class="nc" id="L480">            String newDate = bookingManagementWindow.getNewDateTextBox().getText().trim();</span>
+<span class="nc" id="L481">            String newStartTime = bookingManagementWindow.getNewStartTimeTextBox().getText().trim();</span>
+<span class="nc" id="L482">            String newEndTime = bookingManagementWindow.getNewEndTimeTextBox().getText().trim();</span>
+            
+<span class="nc bnc" id="L484" title="All 6 branches missed.">            if (newBuilding.isEmpty() &amp;&amp; newRoomNumber.isEmpty() &amp;&amp; newDate.isEmpty() &amp;&amp; </span>
+<span class="nc bnc" id="L485" title="All 4 branches missed.">                newStartTime.isEmpty() &amp;&amp; newEndTime.isEmpty()) {</span>
+<span class="nc" id="L486">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please enter at least one field to update.&quot;,
+                    &quot;No Changes Specified&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L490">                return;</span>
+            }
+            
+            try {
+                // If room number is provided, look up the building name from the room
+<span class="nc bnc" id="L495" title="All 2 branches missed.">                if (!newRoomNumber.isEmpty()) {</span>
+<span class="nc" id="L496">                    Room room = roomService.getRoomByNumber(newRoomNumber);</span>
+<span class="nc bnc" id="L497" title="All 2 branches missed.">                    if (room != null) {</span>
+                        // Use the room's building name if building name is not provided
+<span class="nc bnc" id="L499" title="All 2 branches missed.">                        if (newBuilding.isEmpty()) {</span>
+<span class="nc" id="L500">                            newBuilding = room.getBuildingName();</span>
+                        }
+                        // Validate that the provided building name matches the room's building
+<span class="nc bnc" id="L503" title="All 2 branches missed.">                        else if (!newBuilding.equals(room.getBuildingName())) {</span>
+<span class="nc" id="L504">                            JOptionPane.showMessageDialog(frame,</span>
+                                &quot;Building name does not match the room. Room &quot; + newRoomNumber + 
+<span class="nc" id="L506">                                &quot; is in &quot; + room.getBuildingName() + &quot;.&quot;,</span>
+                                &quot;Invalid Building&quot;,
+                                JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L509">                            return;</span>
+                        }
+                    } else {
+<span class="nc" id="L512">                        JOptionPane.showMessageDialog(frame,</span>
+                            &quot;Room &quot; + newRoomNumber + &quot; not found.&quot;,
+                            &quot;Room Not Found&quot;,
+                            JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L516">                        return;</span>
+                    }
+                }
+                
+                // Use BookingController to execute edit command
+<span class="nc" id="L521">                BookingController controller = BookingController.getInstance();</span>
+<span class="nc" id="L522">                boolean success = controller.editBooking(bookingId, </span>
+<span class="nc bnc" id="L523" title="All 2 branches missed.">                    newBuilding.isEmpty() ? null : newBuilding,</span>
+<span class="nc bnc" id="L524" title="All 2 branches missed.">                    newRoomNumber.isEmpty() ? null : newRoomNumber,</span>
+<span class="nc bnc" id="L525" title="All 2 branches missed.">                    newDate.isEmpty() ? null : newDate,</span>
+<span class="nc bnc" id="L526" title="All 2 branches missed.">                    newStartTime.isEmpty() ? null : newStartTime,</span>
+<span class="nc bnc" id="L527" title="All 2 branches missed.">                    newEndTime.isEmpty() ? null : newEndTime);</span>
+                
+<span class="nc bnc" id="L529" title="All 2 branches missed.">                if (success) {</span>
+<span class="nc" id="L530">                    JOptionPane.showMessageDialog(frame,</span>
+                        &quot;Booking &quot; + bookingId + &quot; has been updated successfully.&quot;,
+                        &quot;Booking Updated&quot;,
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Refresh the booking table
+<span class="nc" id="L536">                    refreshBookingTable();</span>
+                    
+                    // Clear edit fields
+<span class="nc" id="L539">                    bookingManagementWindow.getNewBuildingTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L540">                    bookingManagementWindow.getNewRoomNumberTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L541">                    bookingManagementWindow.getNewDateTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L542">                    bookingManagementWindow.getNewStartTimeTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L543">                    bookingManagementWindow.getNewEndTimeTextBox().setText(&quot;&quot;);</span>
+                } else {
+<span class="nc" id="L545">                    JOptionPane.showMessageDialog(frame,</span>
+                        &quot;Failed to update booking. The booking may not be in a valid state for editing.&quot;,
+                        &quot;Update Failed&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+                }
+<span class="nc" id="L550">            } catch (Exception ex) {</span>
+<span class="nc" id="L551">                JOptionPane.showMessageDialog(frame,</span>
+<span class="nc" id="L552">                    &quot;Error updating booking: &quot; + ex.getMessage(),</span>
+                    &quot;Error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L555">                ex.printStackTrace();</span>
+<span class="nc" id="L556">            }</span>
+<span class="nc" id="L557">        });</span>
+        
+<span class="nc" id="L559">        bookingManagementWindow.getBtnExtendBooking().addActionListener(e -&gt; {</span>
+<span class="nc" id="L560">            String bookingId = bookingManagementWindow.getSelectedBookingIdTextBox().getText().trim();</span>
+<span class="nc" id="L561">            String extraHoursText = bookingManagementWindow.getExtendByHoursTextBox().getText().trim();</span>
+            
+<span class="nc bnc" id="L563" title="All 6 branches missed.">            if (bookingId == null || bookingId.isEmpty() || bookingId.equals(&quot;null&quot;)) {</span>
+<span class="nc" id="L564">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please select a booking to extend.&quot;,
+                    &quot;No Booking Selected&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L568">                return;</span>
+            }
+            
+<span class="nc bnc" id="L571" title="All 2 branches missed.">            if (extraHoursText.isEmpty()) {</span>
+<span class="nc" id="L572">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please enter the number of hours to extend.&quot;,
+                    &quot;No Duration Specified&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L576">                return;</span>
+            }
+            
+            try {
+<span class="nc" id="L580">                int extraHours = Integer.parseInt(extraHoursText);</span>
+<span class="nc bnc" id="L581" title="All 2 branches missed.">                if (extraHours &lt;= 0) {</span>
+<span class="nc" id="L582">                    JOptionPane.showMessageDialog(frame,</span>
+                        &quot;Please enter a positive number of hours.&quot;,
+                        &quot;Invalid Duration&quot;,
+                        JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L586">                    return;</span>
+                }
+                
+                // Use BookingController to execute extend command
+<span class="nc" id="L590">                BookingController controller = BookingController.getInstance();</span>
+<span class="nc" id="L591">                boolean success = controller.extendBooking(bookingId, extraHours);</span>
+                
+<span class="nc bnc" id="L593" title="All 2 branches missed.">                if (success) {</span>
+<span class="nc" id="L594">                    JOptionPane.showMessageDialog(frame,</span>
+                        &quot;Booking &quot; + bookingId + &quot; has been extended by &quot; + extraHours + &quot; hours.&quot;,
+                        &quot;Booking Extended&quot;,
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    // Refresh the booking table
+<span class="nc" id="L600">                    refreshBookingTable();</span>
+                    
+                    // Clear extend field
+<span class="nc" id="L603">                    bookingManagementWindow.getExtendByHoursTextBox().setText(&quot;&quot;);</span>
+                } else {
+                    // Get more details about why extension failed
+<span class="nc" id="L606">                    Booking booking = bookingCSV.findById(bookingId);</span>
+<span class="nc" id="L607">                    String errorMsg = &quot;Failed to extend booking. &quot;;</span>
+<span class="nc bnc" id="L608" title="All 2 branches missed.">                    if (booking != null) {</span>
+<span class="nc" id="L609">                        errorMsg += &quot;Booking status: '&quot; + booking.getStatus() + &quot;'. &quot;;</span>
+<span class="nc" id="L610">                        String bookingDate = booking.getBookingDate();</span>
+<span class="nc" id="L611">                        String bookingEndTime = booking.getBookingEndTime();</span>
+                        
+<span class="nc bnc" id="L613" title="All 4 branches missed.">                        if (bookingEndTime == null || bookingEndTime.trim().isEmpty()) {</span>
+<span class="nc" id="L614">                            errorMsg += &quot;Booking end time is not set.&quot;;</span>
+<span class="nc bnc" id="L615" title="All 4 branches missed.">                        } else if (bookingDate == null || bookingDate.trim().isEmpty()) {</span>
+<span class="nc" id="L616">                            errorMsg += &quot;Booking date is not set.&quot;;</span>
+<span class="nc bnc" id="L617" title="All 2 branches missed.">                        } else if (BookingTimeUtil.hasEndTimePassed(bookingDate, bookingEndTime)) {</span>
+<span class="nc" id="L618">                            errorMsg += &quot;Booking end time (&quot; + bookingEndTime + &quot; on &quot; + bookingDate + &quot;) has already passed.&quot;;</span>
+                        } else {
+<span class="nc" id="L620">                            errorMsg += &quot;The extended time slot may already be reserved by another booking.&quot;;</span>
+                        }
+<span class="nc" id="L622">                    } else {</span>
+<span class="nc" id="L623">                        errorMsg += &quot;Booking not found.&quot;;</span>
+                    }
+                    
+<span class="nc" id="L626">                    JOptionPane.showMessageDialog(frame,</span>
+                        errorMsg,
+                        &quot;Extension Failed&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+                }
+<span class="nc" id="L631">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L632">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please enter a valid number of hours.&quot;,
+                    &quot;Invalid Input&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L636">            } catch (Exception ex) {</span>
+<span class="nc" id="L637">                JOptionPane.showMessageDialog(frame,</span>
+<span class="nc" id="L638">                    &quot;Error extending booking: &quot; + ex.getMessage(),</span>
+                    &quot;Error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L641">                ex.printStackTrace();</span>
+<span class="nc" id="L642">            }</span>
+<span class="nc" id="L643">        });</span>
+        
+<span class="nc" id="L645">        bookingManagementWindow.getBtnCancelBooking().addActionListener(e -&gt; {</span>
+<span class="nc" id="L646">            String bookingId = bookingManagementWindow.getSelectedBookingIdTextBox().getText().trim();</span>
+            
+<span class="nc bnc" id="L648" title="All 6 branches missed.">            if (bookingId == null || bookingId.isEmpty() || bookingId.equals(&quot;null&quot;)) {</span>
+<span class="nc" id="L649">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please select a booking to cancel.&quot;,
+                    &quot;No Booking Selected&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L653">                return;</span>
+            }
+            
+            // Confirm cancellation
+<span class="nc" id="L657">            int confirm = JOptionPane.showConfirmDialog(frame,</span>
+                &quot;Are you sure you want to cancel booking &quot; + bookingId + &quot;?&quot;,
+                &quot;Confirm Cancellation&quot;,
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+            
+<span class="nc bnc" id="L663" title="All 2 branches missed.">            if (confirm == JOptionPane.YES_OPTION) {</span>
+                try {
+                    // Use BookingController to execute cancel command (REQ8)
+<span class="nc" id="L666">                    BookingController controller = BookingController.getInstance();</span>
+<span class="nc" id="L667">                    boolean cancelled = controller.cancelBooking(bookingId);</span>
+                    
+<span class="nc bnc" id="L669" title="All 2 branches missed.">                    if (cancelled) {</span>
+<span class="nc" id="L670">                        JOptionPane.showMessageDialog(frame,</span>
+                            &quot;Booking &quot; + bookingId + &quot; has been cancelled successfully.&quot;,
+                            &quot;Booking Cancelled&quot;,
+                            JOptionPane.INFORMATION_MESSAGE);
+                        
+                        // Refresh the booking table
+<span class="nc" id="L676">                        refreshBookingTable();</span>
+                        
+                        // Clear the selected booking fields
+<span class="nc" id="L679">                        bookingManagementWindow.getSelectedBookingIdTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L680">                        bookingManagementWindow.getSelectedRoomTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L681">                        bookingManagementWindow.getSelectedDateTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L682">                        bookingManagementWindow.getSelectedTimeTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L683">                        bookingManagementWindow.getNewDateTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L684">                        bookingManagementWindow.getNewStartTimeTextBox().setText(&quot;&quot;);</span>
+                    } else {
+                        // Get more details about why cancellation failed
+<span class="nc" id="L687">                        Booking booking = bookingCSV.findById(bookingId);</span>
+<span class="nc" id="L688">                        String errorMsg = &quot;Failed to cancel booking. &quot;;</span>
+<span class="nc bnc" id="L689" title="All 2 branches missed.">                        if (booking != null) {</span>
+<span class="nc" id="L690">                            errorMsg += &quot;Booking status: '&quot; + booking.getStatus() + &quot;'. &quot;;</span>
+<span class="nc" id="L691">                            errorMsg += &quot;Booking must be in 'Reserved' state and start time must not have passed.&quot;;</span>
+                        } else {
+<span class="nc" id="L693">                            errorMsg += &quot;Booking not found.&quot;;</span>
+                        }
+                        
+<span class="nc" id="L696">                        JOptionPane.showMessageDialog(frame,</span>
+                            errorMsg,
+                            &quot;Cancellation Failed&quot;,
+                            JOptionPane.ERROR_MESSAGE);
+                    }
+<span class="nc" id="L701">                } catch (Exception ex) {</span>
+<span class="nc" id="L702">                    JOptionPane.showMessageDialog(frame,</span>
+<span class="nc" id="L703">                        &quot;Error cancelling booking: &quot; + ex.getMessage(),</span>
+                        &quot;Error&quot;,
+                        JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L706">                    ex.printStackTrace();</span>
+<span class="nc" id="L707">                }</span>
+            }
+<span class="nc" id="L709">        });</span>
+        
+<span class="nc" id="L711">        bookingManagementWindow.getBtnRefresh().addActionListener(e -&gt; {</span>
+<span class="nc" id="L712">            System.out.println(&quot;Refresh clicked&quot;);</span>
+<span class="nc" id="L713">            refreshBookingTable();</span>
+<span class="nc" id="L714">            refreshFrame();</span>
+<span class="nc" id="L715">        });</span>
+<span class="nc" id="L716">    }</span>
+    
+    private void wireAdminConsoleWindowHandlers() {
+<span class="nc" id="L719">        adminConsoleWindow.getBtnBackToDashboard().addActionListener(e -&gt; {</span>
+<span class="nc" id="L720">            System.out.println(&quot;Admin Console: Back to dashboard clicked&quot;);</span>
+<span class="nc" id="L721">            selectedRoom = null;</span>
+<span class="nc" id="L722">            frame.setContentPane(dashboardWindow.getPane());</span>
+<span class="nc" id="L723">            refreshFrame();</span>
+<span class="nc" id="L724">        });</span>
+        
+        // Table row selection handler
+<span class="nc" id="L727">        adminConsoleWindow.getRoomTable().getSelectionModel().addListSelectionListener(e -&gt; {</span>
+<span class="nc bnc" id="L728" title="All 2 branches missed.">            if (!e.getValueIsAdjusting()) {</span>
+<span class="nc" id="L729">                int row = adminConsoleWindow.getRoomTable().getSelectedRow();</span>
+<span class="nc bnc" id="L730" title="All 2 branches missed.">                if (row != -1) {</span>
+<span class="nc" id="L731">                    String roomNumber = (String) adminConsoleWindow.getRoomTable().getValueAt(row, 0);</span>
+<span class="nc" id="L732">                    String building = (String) adminConsoleWindow.getRoomTable().getValueAt(row, 1);</span>
+                    
+<span class="nc bnc" id="L734" title="All 4 branches missed.">                    if (roomNumber != null &amp;&amp; building != null) {</span>
+<span class="nc" id="L735">                        selectedRoom = roomService.getRoomByLocation(building, roomNumber);</span>
+                    }
+                }
+            }
+<span class="nc" id="L739">        });</span>
+        
+        // Add Room button
+<span class="nc" id="L742">        adminConsoleWindow.getBtnAddRoom().addActionListener(e -&gt; {</span>
+<span class="nc" id="L743">            System.out.println(&quot;Admin Console: Add Room clicked&quot;);</span>
+            
+<span class="nc" id="L745">            String roomNumber = adminConsoleWindow.getRoomIdTextBox().getText().trim();</span>
+<span class="nc" id="L746">            String building = adminConsoleWindow.getBuildingTextBox().getText().trim();</span>
+<span class="nc" id="L747">            String capacityStr = adminConsoleWindow.getCapacityTextBox().getText().trim();</span>
+            
+<span class="nc bnc" id="L749" title="All 6 branches missed.">            if (roomNumber.isEmpty() || building.isEmpty() || capacityStr.isEmpty()) {</span>
+<span class="nc" id="L750">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please fill in Room ID, Building, and Capacity.&quot;,
+                    &quot;Missing Information&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L754">                return;</span>
+            }
+            
+            int capacity;
+            try {
+<span class="nc" id="L759">                capacity = Integer.parseInt(capacityStr);</span>
+<span class="nc bnc" id="L760" title="All 2 branches missed.">                if (capacity &lt;= 0) {</span>
+<span class="nc" id="L761">                    throw new NumberFormatException();</span>
+                }
+<span class="nc" id="L763">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L764">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please enter a valid positive number for capacity.&quot;,
+                    &quot;Invalid Capacity&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L768">                return;</span>
+<span class="nc" id="L769">            }</span>
+            
+<span class="nc" id="L771">            Room newRoom = roomService.addRoom(capacity, building, roomNumber);</span>
+            
+<span class="nc bnc" id="L773" title="All 2 branches missed.">            if (newRoom != null) {</span>
+<span class="nc" id="L774">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Room added successfully!&quot;,
+                    &quot;Success&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L778">                refreshRoomTable();</span>
+<span class="nc" id="L779">                clearAdminConsoleFields();</span>
+            } else {
+<span class="nc" id="L781">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Room already exists at this location.&quot;,
+                    &quot;Add Room Failed&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+            }
+<span class="nc" id="L786">        });</span>
+        
+     // Save Changes button (update condition)
+<span class="nc" id="L789">        adminConsoleWindow.getBtnSaveChanges().addActionListener(e -&gt; {</span>
+<span class="nc" id="L790">            System.out.println(&quot;Admin Console: Save Changes clicked&quot;);</span>
+            
+<span class="nc bnc" id="L792" title="All 2 branches missed.">            if (selectedRoom == null) {</span>
+<span class="nc" id="L793">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please select a room from the table first.&quot;,
+                    &quot;No Room Selected&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L797">                return;</span>
+            }
+            
+<span class="nc" id="L800">            String selectedCondition = (String) adminConsoleWindow.getConditionDropdown().getSelectedItem();</span>
+<span class="nc" id="L801">            String currentCondition = selectedRoom.getCondition();</span>
+            
+            // Map dropdown value to state name
+<span class="nc" id="L804">            String targetState = mapDropdownToState(selectedCondition);</span>
+            
+<span class="nc bnc" id="L806" title="All 2 branches missed.">            if (targetState.equals(currentCondition)) {</span>
+<span class="nc" id="L807">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Room is already in &quot; + selectedCondition + &quot; condition.&quot;,
+                    &quot;No Change&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L811">                return;</span>
+            }
+            
+<span class="nc" id="L814">            boolean success = changeRoomCondition(selectedRoom, targetState);</span>
+            
+<span class="nc bnc" id="L816" title="All 2 branches missed.">            if (success) {</span>
+<span class="nc" id="L817">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Room condition updated to &quot; + selectedCondition + &quot;.&quot;,
+                    &quot;Success&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L821">                refreshRoomTable();</span>
+<span class="nc" id="L822">                refreshFrame();</span>
+            } else {
+<span class="nc" id="L824">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Cannot change condition from &quot; + currentCondition + &quot; to &quot; + selectedCondition + 
+                    &quot;. Please use the appropriate action or ensure the transition is valid.&quot;,
+                    &quot;Invalid Transition&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+            }
+<span class="nc" id="L830">        });</span>
+        
+        // Enable Room button
+<span class="nc" id="L833">        adminConsoleWindow.getBtnEnableRoom().addActionListener(e -&gt; {</span>
+<span class="nc" id="L834">            System.out.println(&quot;Admin Console: Enable Room clicked&quot;);</span>
+            
+<span class="nc bnc" id="L836" title="All 2 branches missed.">            if (selectedRoom == null) {</span>
+<span class="nc" id="L837">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please select a room from the table first.&quot;,
+                    &quot;No Room Selected&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L841">                return;</span>
+            }
+            
+<span class="nc bnc" id="L844" title="All 2 branches missed.">            if (selectedRoom.getStatus().equals(&quot;ENABLED&quot;)) {</span>
+<span class="nc" id="L845">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Room is already enabled.&quot;,
+                    &quot;Already Enabled&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L849">                return;</span>
+            }
+            
+<span class="nc" id="L852">            roomService.enableRoom(selectedRoom.getRoomId());</span>
+<span class="nc" id="L853">            JOptionPane.showMessageDialog(frame,</span>
+                &quot;Room enabled successfully!&quot;,
+                &quot;Success&quot;,
+                JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L857">            refreshRoomTable();</span>
+<span class="nc" id="L858">            adminConsoleWindow.getStatusTextBox().setText(&quot;Enabled&quot;);</span>
+<span class="nc" id="L859">        });</span>
+        
+        // Disable Room button
+<span class="nc" id="L862">        adminConsoleWindow.getBtnDisableRoom().addActionListener(e -&gt; {</span>
+<span class="nc" id="L863">            System.out.println(&quot;Admin Console: Disable Room clicked&quot;);</span>
+            
+<span class="nc bnc" id="L865" title="All 2 branches missed.">            if (selectedRoom == null) {</span>
+<span class="nc" id="L866">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please select a room from the table first.&quot;,
+                    &quot;No Room Selected&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L870">                return;</span>
+            }
+            
+<span class="nc bnc" id="L873" title="All 2 branches missed.">            if (selectedRoom.getStatus().equals(&quot;DISABLED&quot;)) {</span>
+<span class="nc" id="L874">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Room is already disabled.&quot;,
+                    &quot;Already Disabled&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L878">                return;</span>
+            }
+            
+<span class="nc" id="L881">            roomService.disableRoom(selectedRoom.getRoomId());</span>
+<span class="nc" id="L882">            JOptionPane.showMessageDialog(frame,</span>
+                &quot;Room disabled successfully!&quot;,
+                &quot;Success&quot;,
+                JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L886">            refreshRoomTable();</span>
+<span class="nc" id="L887">            adminConsoleWindow.getStatusTextBox().setText(&quot;Disabled&quot;);</span>
+<span class="nc" id="L888">        });</span>
+        
+        // Refresh button
+<span class="nc" id="L891">        adminConsoleWindow.getBtnRefreshRooms().addActionListener(e -&gt; {</span>
+<span class="nc" id="L892">            System.out.println(&quot;Admin Console: Refresh rooms clicked&quot;);</span>
+<span class="nc" id="L893">            refreshRoomTable();</span>
+<span class="nc" id="L894">            clearAdminConsoleFields();</span>
+<span class="nc" id="L895">            selectedRoom = null;</span>
+<span class="nc" id="L896">        });</span>
+<span class="nc" id="L897">    }</span>
+    
+    private void wireCECWindowHandlers() {
+<span class="nc" id="L900">        cecWindow.getBtnBackToDashboard().addActionListener(e -&gt; {</span>
+<span class="nc" id="L901">            System.out.println(&quot;CEC: Back to dashboard clicked&quot;);</span>
+<span class="nc" id="L902">            selectedAccount = null;</span>
+<span class="nc" id="L903">            frame.setContentPane(dashboardWindow.getPane());</span>
+<span class="nc" id="L904">            refreshFrame();</span>
+<span class="nc" id="L905">        });</span>
+        
+     // Table row selection handler
+<span class="nc" id="L908">        cecWindow.getAdminTable().getSelectionModel().addListSelectionListener(e -&gt; {</span>
+<span class="nc bnc" id="L909" title="All 2 branches missed.">            if (!e.getValueIsAdjusting()) {</span>
+<span class="nc" id="L910">                int row = cecWindow.getAdminTable().getSelectedRow();</span>
+<span class="nc bnc" id="L911" title="All 2 branches missed.">                if (row != -1) {</span>
+<span class="nc" id="L912">                    DefaultTableModel model = (DefaultTableModel) cecWindow.getAdminTable().getModel();</span>
+<span class="nc" id="L913">                    Object userIdObj = model.getValueAt(row, 0);</span>
+<span class="nc" id="L914">                    Object emailObj = model.getValueAt(row, 1);</span>
+                    
+<span class="nc" id="L916">                    System.out.println(&quot;Row selected: &quot; + row + &quot;, UserID: &quot; + userIdObj);</span>
+                    
+<span class="nc bnc" id="L918" title="All 4 branches missed.">                    if (userIdObj != null &amp;&amp; emailObj != null) {</span>
+<span class="nc" id="L919">                        String email = emailObj.toString();</span>
+                        
+                        // Find by email instead of UUID
+<span class="nc" id="L922">                        selectedAccount = userCSV.findByEmail(email);</span>
+                        
+<span class="nc bnc" id="L924" title="All 2 branches missed.">                        if (selectedAccount != null) {</span>
+<span class="nc" id="L925">                            cecWindow.getAdminIdTextBox().setText(selectedAccount.getAccountId().toString());</span>
+<span class="nc" id="L926">                            cecWindow.getAdminStatusTextBox().setText(selectedAccount.getAccountType());</span>
+<span class="nc" id="L927">                            System.out.println(&quot;Selected account: &quot; + selectedAccount.getEmail());</span>
+                        } else {
+<span class="nc" id="L929">                            System.out.println(&quot;Account not found for email: &quot; + email);</span>
+                        }
+                    }
+                }
+            }
+<span class="nc" id="L934">        });</span>
+        
+        // Grant Admin button
+<span class="nc" id="L937">        cecWindow.getBtnGrantAdmin().addActionListener(e -&gt; {</span>
+<span class="nc" id="L938">            System.out.println(&quot;CEC: Grant Admin clicked&quot;);</span>
+            
+<span class="nc bnc" id="L940" title="All 2 branches missed.">            if (selectedAccount == null) {</span>
+<span class="nc" id="L941">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please select a user from the table first.&quot;,
+                    &quot;No User Selected&quot;,
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L945">                return;</span>
+            }
+            
+<span class="nc bnc" id="L948" title="All 2 branches missed.">            if (selectedAccount.getAccountType().equals(&quot;Admin&quot;)) {</span>
+<span class="nc" id="L949">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;User is already an Admin.&quot;,
+                    &quot;Already Admin&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L953">                return;</span>
+            }
+            
+<span class="nc bnc" id="L956" title="All 2 branches missed.">            if (selectedAccount.getAccountType().equals(&quot;Chief Event Coordinator&quot;)) {</span>
+<span class="nc" id="L957">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Cannot modify Chief Event Coordinator account.&quot;,
+                    &quot;Invalid Operation&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L961">                return;</span>
+            }
+            
+         // Update account type to Admin in CSV directly
+<span class="nc" id="L965">            userCSV.updateAccountTypeByEmail(selectedAccount.getEmail(), &quot;Admin&quot;);</span>
+
+<span class="nc" id="L967">            JOptionPane.showMessageDialog(frame,</span>
+<span class="nc" id="L968">                &quot;User &quot; + selectedAccount.getEmail() + &quot; has been granted Admin privileges.&quot;,</span>
+                &quot;Admin Granted&quot;,
+                JOptionPane.INFORMATION_MESSAGE);
+
+<span class="nc" id="L972">            refreshUserTable();</span>
+<span class="nc" id="L973">            clearCECFields();</span>
+<span class="nc" id="L974">            selectedAccount = null;</span>
+<span class="nc" id="L975">            refreshFrame();</span>
+<span class="nc" id="L976">        });</span>
+        
+        /*
+        // Disable Admin button - Commented out as per requirements
+        cecWindow.getBtnDisableAdmin().addActionListener(e -&gt; {
+            System.out.println(&quot;CEC: Disable Admin clicked for &quot; + 
+                cecWindow.getAdminIdTextBox().getText());
+        });
+        */
+        
+        // Refresh button
+<span class="nc" id="L987">        cecWindow.getBtnRefreshAdmins().addActionListener(e -&gt; {</span>
+<span class="nc" id="L988">            System.out.println(&quot;CEC: Refresh clicked (admins + logs)&quot;);</span>
+<span class="nc" id="L989">            refreshUserTable();</span>
+<span class="nc" id="L990">            clearCECFields();</span>
+<span class="nc" id="L991">            selectedAccount = null;</span>
+<span class="nc" id="L992">            refreshFrame();</span>
+<span class="nc" id="L993">        });</span>
+<span class="nc" id="L994">    }</span>
+    
+    private void wirePaymentWindowHandlers(PaymentWindow paymentWindow) {
+<span class="nc" id="L997">        paymentWindow.getBtnConfirmPayment().addActionListener(e -&gt; {</span>
+<span class="nc" id="L998">            String method = (String) paymentWindow.getPaymentMethodComboBox().getSelectedItem();</span>
+            
+            // Validate payment method selected
+<span class="nc bnc" id="L1001" title="All 4 branches missed.">            if (method == null || method.equals(&quot;Select a method...&quot;)) {</span>
+<span class="nc" id="L1002">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Please select a payment method.&quot;,
+                    &quot;Payment Method Required&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1006">                return;</span>
+            }
+            
+            // Get booking information from ReserveRoomWindow
+<span class="nc" id="L1010">            String roomNumber = reserveRoomWindow.getRoomTextBox().getText().trim();</span>
+<span class="nc" id="L1011">            String bookingDate = reserveRoomWindow.getBookDateTextBox().getText().trim();</span>
+<span class="nc" id="L1012">            String bookingTime = reserveRoomWindow.getBookTimeTextBox().getText().trim();</span>
+<span class="nc" id="L1013">            String rateText = reserveRoomWindow.getHourlyRateTextBox().getText().trim();</span>
+            
+            // Validate required fields
+<span class="nc bnc" id="L1016" title="All 8 branches missed.">            if (roomNumber.isEmpty() || bookingDate.isEmpty() || bookingTime.isEmpty() || rateText.isEmpty()) {</span>
+<span class="nc" id="L1017">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Missing booking information. Please go back and complete the reservation form.&quot;,
+                    &quot;Incomplete Booking&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1021">                return;</span>
+            }
+            
+            // Validate current user
+<span class="nc bnc" id="L1025" title="All 4 branches missed.">            if (currentUser == null || !(currentUser instanceof User)) {</span>
+<span class="nc" id="L1026">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;User session expired. Please login again.&quot;,
+                    &quot;Session Error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1030">                return;</span>
+            }
+            
+            try {
+<span class="nc" id="L1034">                User user = (User) currentUser;</span>
+<span class="nc" id="L1035">                double rate = Double.parseDouble(rateText);</span>
+                
+                // Parse time range (e.g., &quot;09:00 - 11:00&quot; or just &quot;09:00&quot;)
+<span class="nc" id="L1038">                String startTime = bookingTime;</span>
+<span class="nc" id="L1039">                String endTime = null;</span>
+<span class="nc" id="L1040">                int hours = 1; // Default to 1 hour</span>
+                
+<span class="nc bnc" id="L1042" title="All 2 branches missed.">                if (bookingTime.contains(&quot; - &quot;)) {</span>
+<span class="nc" id="L1043">                    String[] times = bookingTime.split(&quot; - &quot;);</span>
+<span class="nc" id="L1044">                    startTime = times[0].trim();</span>
+<span class="nc bnc" id="L1045" title="All 2 branches missed.">                    endTime = times.length &gt; 1 ? times[1].trim() : null;</span>
+                    
+                    // Calculate hours from time difference
+<span class="nc bnc" id="L1048" title="All 2 branches missed.">                    if (endTime != null) {</span>
+                        try {
+<span class="nc" id="L1050">                            String[] startParts = startTime.split(&quot;:&quot;);</span>
+<span class="nc" id="L1051">                            String[] endParts = endTime.split(&quot;:&quot;);</span>
+<span class="nc" id="L1052">                            int startHour = Integer.parseInt(startParts[0]);</span>
+<span class="nc bnc" id="L1053" title="All 2 branches missed.">                            int startMin = startParts.length &gt; 1 ? Integer.parseInt(startParts[1]) : 0;</span>
+<span class="nc" id="L1054">                            int endHour = Integer.parseInt(endParts[0]);</span>
+<span class="nc bnc" id="L1055" title="All 2 branches missed.">                            int endMin = endParts.length &gt; 1 ? Integer.parseInt(endParts[1]) : 0;</span>
+                            
+<span class="nc" id="L1057">                            int startTotalMinutes = startHour * 60 + startMin;</span>
+<span class="nc" id="L1058">                            int endTotalMinutes = endHour * 60 + endMin;</span>
+<span class="nc" id="L1059">                            int diffMinutes = endTotalMinutes - startTotalMinutes;</span>
+                            
+                            // Round up to nearest hour
+<span class="nc" id="L1062">                            hours = (int) Math.ceil(diffMinutes / 60.0);</span>
+<span class="nc bnc" id="L1063" title="All 2 branches missed.">                            if (hours &lt; 1) hours = 1;</span>
+<span class="nc" id="L1064">                        } catch (Exception ex) {</span>
+                            // If parsing fails, default to 1 hour
+<span class="nc" id="L1066">                            hours = 1;</span>
+<span class="nc" id="L1067">                        }</span>
+                    }
+                }
+                
+                // If end time is not provided, calculate it as start time + 1 hour
+<span class="nc bnc" id="L1072" title="All 4 branches missed.">                if (endTime == null || endTime.trim().isEmpty()) {</span>
+                    try {
+<span class="nc" id="L1074">                        String[] startParts = startTime.split(&quot;:&quot;);</span>
+<span class="nc" id="L1075">                        int startHour = Integer.parseInt(startParts[0]);</span>
+<span class="nc bnc" id="L1076" title="All 2 branches missed.">                        int startMin = startParts.length &gt; 1 ? Integer.parseInt(startParts[1]) : 0;</span>
+                        
+                        // Add 1 hour
+<span class="nc" id="L1079">                        startHour += 1;</span>
+<span class="nc bnc" id="L1080" title="All 2 branches missed.">                        if (startHour &gt;= 24) {</span>
+<span class="nc" id="L1081">                            startHour = startHour % 24;</span>
+                        }
+                        
+<span class="nc" id="L1084">                        endTime = String.format(&quot;%02d:%02d&quot;, startHour, startMin);</span>
+<span class="nc" id="L1085">                        hours = 1; // Default to 1 hour</span>
+<span class="nc" id="L1086">                        System.out.println(&quot;Calculated end time from start time: &quot; + startTime + &quot; -&gt; &quot; + endTime);</span>
+<span class="nc" id="L1087">                    } catch (Exception ex) {</span>
+<span class="nc" id="L1088">                        System.err.println(&quot;Error calculating end time: &quot; + ex.getMessage());</span>
+                        // If calculation fails, default to start time + 1 hour as string
+<span class="nc" id="L1090">                        endTime = startTime; // This will be handled by the backend</span>
+<span class="nc" id="L1091">                    }</span>
+                }
+                
+                // Create booking using ReservationSystem
+<span class="nc" id="L1095">                Booking booking = reservationSystem.createBooking(</span>
+                    user,
+                    hours,
+                    rate,
+                    roomNumber,
+                    bookingDate,
+                    startTime,
+                    endTime
+                );
+                
+<span class="nc" id="L1105">                System.out.println(&quot;Payment confirmed for &quot; + paymentWindow.getAmountTextBox().getText()</span>
+                                   + &quot; via &quot; + method);
+<span class="nc" id="L1107">                System.out.println(&quot;Booking created: &quot; + booking.getBookingId());</span>
+                
+<span class="nc" id="L1109">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Payment processed and booking confirmed!\n&quot; +
+<span class="nc" id="L1111">                    &quot;Booking ID: &quot; + booking.getBookingId() + &quot;\n&quot; +</span>
+                    &quot;Room: &quot; + roomNumber + &quot;\n&quot; +
+                    &quot;Date: &quot; + bookingDate + &quot;\n&quot; +
+                    &quot;Time: &quot; + bookingTime,
+                    &quot;Booking Successful&quot;,
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                // Clear reservation form
+<span class="nc" id="L1119">                reserveRoomWindow.getRoomTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1120">                reserveRoomWindow.getBookDateTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1121">                reserveRoomWindow.getBookTimeTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1122">                reserveRoomWindow.getHourlyRateTextBox().setText(&quot;&quot;);</span>
+                
+<span class="nc" id="L1124">                frame.setContentPane(dashboardWindow.getPane());</span>
+<span class="nc" id="L1125">                refreshFrame();</span>
+<span class="nc" id="L1126">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L1127">                JOptionPane.showMessageDialog(frame,</span>
+                    &quot;Invalid rate value. Please calculate the rate again.&quot;,
+                    &quot;Invalid Rate&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1131">            } catch (Exception ex) {</span>
+<span class="nc" id="L1132">                JOptionPane.showMessageDialog(frame,</span>
+<span class="nc" id="L1133">                    &quot;Error creating booking: &quot; + ex.getMessage(),</span>
+                    &quot;Booking Error&quot;,
+                    JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L1136">                ex.printStackTrace();</span>
+<span class="nc" id="L1137">            }</span>
+<span class="nc" id="L1138">        });</span>
+        
+<span class="nc" id="L1140">        paymentWindow.getBtnCancelPayment().addActionListener(e -&gt; {</span>
+<span class="nc" id="L1141">            System.out.println(&quot;Payment cancelled back to Reserve Room&quot;);</span>
+<span class="nc" id="L1142">            frame.setContentPane(reserveRoomWindow.getPane());</span>
+<span class="nc" id="L1143">            refreshFrame();</span>
+<span class="nc" id="L1144">        });</span>
+<span class="nc" id="L1145">    }</span>
+    
+    // Helper method to refresh reserve room table with rooms from RoomDatabase.csv
+    private void refreshReserveRoomTable() {
+        // Get all rooms from RoomDatabase.csv
+<span class="nc" id="L1150">        List&lt;Room&gt; allRooms = roomService.getAllRooms();</span>
+<span class="nc" id="L1151">        DefaultTableModel model = (DefaultTableModel) reserveRoomWindow.getRoomTable().getModel();</span>
+        
+        // Clear existing rows
+<span class="nc" id="L1154">        model.setRowCount(0);</span>
+        
+        // Add all rooms from RoomDatabase.csv
+<span class="nc bnc" id="L1157" title="All 2 branches missed.">        for (Room room : allRooms) {</span>
+            // Determine status based on room status
+            // Note: Time slot availability is checked separately when booking
+            String status;
+<span class="nc bnc" id="L1161" title="All 2 branches missed.">            if (room.getStatus().equals(&quot;ENABLED&quot;)) {</span>
+                // Room is enabled - show current condition
+                // Time slot availability will be checked when user selects a date/time
+<span class="nc" id="L1164">                status = room.getCondition(); // Show current condition (Available, Reserved, InUse, etc.)</span>
+            } else {
+<span class="nc" id="L1166">                status = &quot;Inactive&quot;;</span>
+            }
+            
+<span class="nc" id="L1169">            model.addRow(new Object[]{</span>
+<span class="nc" id="L1170">                room.getRoomNumber(),</span>
+<span class="nc" id="L1171">                room.getBuildingName(),</span>
+<span class="nc" id="L1172">                room.getCapacity(),</span>
+                status
+            });
+<span class="nc" id="L1175">        }</span>
+        
+        // Add empty rows to fill table if needed
+<span class="nc" id="L1178">        int emptyRows = Math.max(0, 15 - allRooms.size());</span>
+<span class="nc bnc" id="L1179" title="All 2 branches missed.">        for (int i = 0; i &lt; emptyRows; i++) {</span>
+<span class="nc" id="L1180">            model.addRow(new Object[]{null, null, null, null});</span>
+        }
+<span class="nc" id="L1182">    }</span>
+    
+    // Helper method to refresh time slot table for currently selected room and date
+    // Made public so observers can call it
+    public void refreshTimeSlotTableForSelectedRoom() {
+<span class="nc" id="L1187">        String roomNumber = reserveRoomWindow.getRoomTextBox().getText().trim();</span>
+<span class="nc" id="L1188">        String date = reserveRoomWindow.getBookDateTextBox().getText().trim();</span>
+<span class="nc" id="L1189">        refreshTimeSlotTable(roomNumber, date);</span>
+<span class="nc" id="L1190">    }</span>
+    
+    // Helper method to refresh time slot table based on selected room and date
+    private void refreshTimeSlotTable(String roomNumber, String date) {
+<span class="nc" id="L1194">        DefaultTableModel model = (DefaultTableModel) reserveRoomWindow.getTimeSlotTable().getModel();</span>
+        
+        // Time slots from 09:00 to 16:00 in 30-minute intervals
+<span class="nc" id="L1197">        String[] timeSlots = {</span>
+            &quot;09:00&quot;, &quot;09:30&quot;, &quot;10:00&quot;, &quot;10:30&quot;, &quot;11:00&quot;, &quot;11:30&quot;,
+            &quot;12:00&quot;, &quot;12:30&quot;, &quot;13:00&quot;, &quot;13:30&quot;, &quot;14:00&quot;, &quot;14:30&quot;,
+            &quot;15:00&quot;, &quot;15:30&quot;, &quot;16:00&quot;
+        };
+        
+        // Clear existing rows
+<span class="nc" id="L1204">        model.setRowCount(0);</span>
+        
+        // Normalize inputs
+<span class="nc bnc" id="L1207" title="All 2 branches missed.">        String normalizedRoomNumber = (roomNumber != null) ? roomNumber.trim() : &quot;&quot;;</span>
+<span class="nc bnc" id="L1208" title="All 2 branches missed.">        String normalizedDate = (date != null) ? date.trim() : &quot;&quot;;</span>
+        
+<span class="nc" id="L1210">        System.out.println(&quot;refreshTimeSlotTable called with Room='&quot; + normalizedRoomNumber + &quot;', Date='&quot; + normalizedDate + &quot;'&quot;);</span>
+        
+        // If no room or date selected, show all as available
+<span class="nc bnc" id="L1213" title="All 4 branches missed.">        if (normalizedRoomNumber.isEmpty() || normalizedDate.isEmpty()) {</span>
+<span class="nc" id="L1214">            System.out.println(&quot;refreshTimeSlotTable: No room or date, showing all available&quot;);</span>
+<span class="nc bnc" id="L1215" title="All 2 branches missed.">            for (String time : timeSlots) {</span>
+<span class="nc" id="L1216">                model.addRow(new Object[]{time, &quot;Available&quot;});</span>
+            }
+<span class="nc" id="L1218">            return;</span>
+        }
+        
+        // Get existing bookings for this room on this date from BookingDatabase.csv
+<span class="nc" id="L1222">        List&lt;Map&lt;String, String&gt;&gt; existingBookings = bookingCSV.getBookingsForRoomAndDate(normalizedRoomNumber, normalizedDate);</span>
+        
+<span class="nc" id="L1224">        System.out.println(&quot;refreshTimeSlotTable: Room='&quot; + normalizedRoomNumber + &quot;', Date='&quot; + normalizedDate + &quot;', Found &quot; + existingBookings.size() + &quot; bookings&quot;);</span>
+        
+        // Debug: Print all bookings found
+<span class="nc bnc" id="L1227" title="All 2 branches missed.">        for (Map&lt;String, String&gt; booking : existingBookings) {</span>
+<span class="nc" id="L1228">            System.out.println(&quot;  Booking: startTime='&quot; + booking.get(&quot;startTime&quot;) + &quot;', endTime='&quot; + booking.get(&quot;endTime&quot;) + &quot;'&quot;);</span>
+<span class="nc" id="L1229">        }</span>
+        
+        // Populate time slot table
+<span class="nc bnc" id="L1232" title="All 2 branches missed.">        for (String timeSlot : timeSlots) {</span>
+<span class="nc" id="L1233">            String availability = &quot;Available&quot;;</span>
+            
+            // Check if this time slot conflicts with any existing booking
+<span class="nc bnc" id="L1236" title="All 2 branches missed.">            for (Map&lt;String, String&gt; booking : existingBookings) {</span>
+<span class="nc" id="L1237">                String bookingStartTime = booking.get(&quot;startTime&quot;);</span>
+<span class="nc" id="L1238">                String bookingEndTime = booking.get(&quot;endTime&quot;);</span>
+                
+<span class="nc bnc" id="L1240" title="All 4 branches missed.">                if (bookingStartTime == null || bookingStartTime.trim().isEmpty()) {</span>
+<span class="nc" id="L1241">                    continue; // Skip if no start time</span>
+                }
+                
+<span class="nc" id="L1244">                bookingStartTime = bookingStartTime.trim();</span>
+                
+                // First check: if the time slot exactly matches the booking start time, it's reserved
+<span class="nc bnc" id="L1247" title="All 2 branches missed.">                if (timeSlot.equals(bookingStartTime)) {</span>
+<span class="nc" id="L1248">                    availability = &quot;Reserved&quot;;</span>
+<span class="nc" id="L1249">                    System.out.println(&quot;Time slot &quot; + timeSlot + &quot; is RESERVED (matches start time: &quot; + bookingStartTime + &quot;)&quot;);</span>
+<span class="nc" id="L1250">                    break;</span>
+                }
+                
+                // Second check: if we have an end time, check if time slot falls within the booking range
+<span class="nc bnc" id="L1254" title="All 4 branches missed.">                if (bookingEndTime != null &amp;&amp; !bookingEndTime.trim().isEmpty()) {</span>
+<span class="nc" id="L1255">                    bookingEndTime = bookingEndTime.trim();</span>
+<span class="nc bnc" id="L1256" title="All 2 branches missed.">                    if (isTimeInRange(timeSlot, bookingStartTime, bookingEndTime)) {</span>
+<span class="nc" id="L1257">                        availability = &quot;Reserved&quot;;</span>
+<span class="nc" id="L1258">                        System.out.println(&quot;Time slot &quot; + timeSlot + &quot; is RESERVED (within range: &quot; + bookingStartTime + &quot; - &quot; + bookingEndTime + &quot;)&quot;);</span>
+<span class="nc" id="L1259">                        break;</span>
+                    }
+                }
+<span class="nc" id="L1262">            }</span>
+            
+<span class="nc" id="L1264">            model.addRow(new Object[]{timeSlot, availability});</span>
+        }
+<span class="nc" id="L1266">    }</span>
+    
+    // Helper method to check if a time is within a range
+    private boolean isTimeInRange(String time, String startTime, String endTime) {
+        try {
+<span class="nc" id="L1271">            int timeMinutes = parseTimeToMinutes(time);</span>
+<span class="nc" id="L1272">            int startMinutes = parseTimeToMinutes(startTime);</span>
+<span class="nc" id="L1273">            int endMinutes = parseTimeToMinutes(endTime);</span>
+            
+            // Check if time is within the range (inclusive start, inclusive end for time slots)
+            // A time slot is reserved if it falls within or exactly matches the booking range
+<span class="nc bnc" id="L1277" title="All 4 branches missed.">            return timeMinutes &gt;= startMinutes &amp;&amp; timeMinutes &lt;= endMinutes;</span>
+<span class="nc" id="L1278">        } catch (Exception e) {</span>
+            // If parsing fails, do simple string comparison
+<span class="nc" id="L1280">            System.err.println(&quot;Error parsing time: &quot; + e.getMessage());</span>
+<span class="nc bnc" id="L1281" title="All 4 branches missed.">            return time.equals(startTime) || time.equals(endTime);</span>
+        }
+    }
+    
+    // Helper method to parse time string (HH:MM) to minutes since midnight
+    private int parseTimeToMinutes(String time) {
+<span class="nc bnc" id="L1287" title="All 4 branches missed.">        if (time == null || time.trim().isEmpty()) {</span>
+<span class="nc" id="L1288">            return 0;</span>
+        }
+<span class="nc" id="L1290">        String[] parts = time.trim().split(&quot;:&quot;);</span>
+<span class="nc bnc" id="L1291" title="All 2 branches missed.">        if (parts.length &gt;= 2) {</span>
+<span class="nc" id="L1292">            int hours = Integer.parseInt(parts[0]);</span>
+<span class="nc" id="L1293">            int minutes = Integer.parseInt(parts[1]);</span>
+<span class="nc" id="L1294">            return hours * 60 + minutes;</span>
+        }
+<span class="nc" id="L1296">        return 0;</span>
+    }
+    
+    // Helper method to refresh booking table from BookingDatabase.csv
+    // Made public so observers can call it
+    public void refreshBookingTable() {
+<span class="nc" id="L1302">        System.out.println(&quot;refreshBookingTable: Loading all bookings from BookingDatabase.csv&quot;);</span>
+        
+<span class="nc" id="L1304">        DefaultTableModel model = (DefaultTableModel) bookingManagementWindow.getBookingTable().getModel();</span>
+        
+        // Clear existing rows
+<span class="nc" id="L1307">        model.setRowCount(0);</span>
+        
+        // Get all booking records directly from CSV (no user lookup needed)
+<span class="nc" id="L1310">        List&lt;Map&lt;String, String&gt;&gt; bookingRecords = bookingCSV.getAllBookingRecords();</span>
+        
+<span class="nc" id="L1312">        System.out.println(&quot;refreshBookingTable: Found &quot; + bookingRecords.size() + &quot; booking records in CSV&quot;);</span>
+        
+        // Debug: Print all end times
+<span class="nc bnc" id="L1315" title="All 2 branches missed.">        for (Map&lt;String, String&gt; record : bookingRecords) {</span>
+<span class="nc" id="L1316">            System.out.println(&quot;refreshBookingTable: Booking &quot; + record.get(&quot;bookingId&quot;) + </span>
+<span class="nc" id="L1317">                             &quot; - End time: &quot; + record.get(&quot;endTime&quot;));</span>
+<span class="nc" id="L1318">        }</span>
+        
+        // Add all booking records to table
+<span class="nc bnc" id="L1321" title="All 2 branches missed.">        for (Map&lt;String, String&gt; record : bookingRecords) {</span>
+<span class="nc" id="L1322">            String bookingId = record.get(&quot;bookingId&quot;);</span>
+<span class="nc" id="L1323">            String roomId = record.get(&quot;roomId&quot;);</span>
+<span class="nc" id="L1324">            String buildingName = record.get(&quot;buildingName&quot;);</span>
+<span class="nc" id="L1325">            String roomNumber = record.get(&quot;roomNumber&quot;);</span>
+<span class="nc" id="L1326">            String date = record.get(&quot;date&quot;);</span>
+<span class="nc" id="L1327">            String startTime = record.get(&quot;startTime&quot;);</span>
+<span class="nc" id="L1328">            String endTime = record.get(&quot;endTime&quot;);</span>
+<span class="nc" id="L1329">            String status = record.get(&quot;status&quot;);</span>
+            
+<span class="nc" id="L1331">            System.out.println(&quot;Adding booking to table: &quot; + bookingId + &quot; - &quot; + roomNumber + &quot; - &quot; + date);</span>
+            
+<span class="nc" id="L1333">            model.addRow(new Object[]{</span>
+                bookingId,
+                roomId,
+                buildingName,
+                roomNumber,
+                date,
+                startTime,
+<span class="nc bnc" id="L1340" title="All 4 branches missed.">                endTime != null &amp;&amp; !endTime.equals(&quot;N/A&quot;) ? endTime : &quot;&quot;,</span>
+                status
+            });
+<span class="nc" id="L1343">        }</span>
+        
+        // Add empty rows to fill table if needed
+<span class="nc" id="L1346">        int emptyRows = Math.max(0, 10 - bookingRecords.size());</span>
+<span class="nc bnc" id="L1347" title="All 2 branches missed.">        for (int i = 0; i &lt; emptyRows; i++) {</span>
+<span class="nc" id="L1348">            model.addRow(new Object[]{null, null, null, null, null, null, null});</span>
+        }
+        
+        // Force table to repaint and revalidate
+<span class="nc" id="L1352">        bookingManagementWindow.getBookingTable().repaint();</span>
+<span class="nc" id="L1353">        bookingManagementWindow.getBookingTable().revalidate();</span>
+        
+        // Fire table data changed event to ensure UI updates
+<span class="nc" id="L1356">        model.fireTableDataChanged();</span>
+        
+<span class="nc" id="L1358">        System.out.println(&quot;Table refreshed. Total rows in table: &quot; + model.getRowCount());</span>
+<span class="nc" id="L1359">        System.out.println(&quot;Table model row count: &quot; + model.getRowCount() + &quot;, column count: &quot; + model.getColumnCount());</span>
+<span class="nc" id="L1360">    }</span>
+    
+    // Helper method to refresh room table from CSV
+    private void refreshRoomTable() {
+<span class="nc" id="L1364">        List&lt;Room&gt; rooms = roomService.getAllRooms();</span>
+<span class="nc" id="L1365">        DefaultTableModel model = (DefaultTableModel) adminConsoleWindow.getRoomTable().getModel();</span>
+        
+        // Clear existing rows
+<span class="nc" id="L1368">        model.setRowCount(0);</span>
+        
+        // Add rooms from database
+<span class="nc bnc" id="L1371" title="All 2 branches missed.">        for (Room room : rooms) {</span>
+<span class="nc" id="L1372">            model.addRow(new Object[]{</span>
+<span class="nc" id="L1373">                room.getRoomNumber(),</span>
+<span class="nc" id="L1374">                room.getBuildingName(),</span>
+<span class="nc" id="L1375">                room.getCapacity(),</span>
+<span class="nc" id="L1376">                mapStateToDropdown(room.getCondition()),</span>
+<span class="nc bnc" id="L1377" title="All 2 branches missed.">                room.getStatus().equals(&quot;ENABLED&quot;) ? &quot;Enabled&quot; : &quot;Disabled&quot;</span>
+            });
+<span class="nc" id="L1379">        }</span>
+        
+        // Add empty rows to fill table
+<span class="nc" id="L1382">        int emptyRows = 10 - rooms.size();</span>
+<span class="nc bnc" id="L1383" title="All 4 branches missed.">        for (int i = 0; i &lt; emptyRows &amp;&amp; i &lt; 10; i++) {</span>
+<span class="nc" id="L1384">            model.addRow(new Object[]{null, null, null, null, null});</span>
+        }
+<span class="nc" id="L1386">    }</span>
+    
+    // Map state name to dropdown display value
+    private String mapStateToDropdown(String stateName) {
+<span class="nc bnc" id="L1390" title="All 6 branches missed.">        switch (stateName) {</span>
+<span class="nc" id="L1391">            case &quot;Available&quot;: return &quot;Available&quot;;</span>
+<span class="nc" id="L1392">            case &quot;Reserved&quot;: return &quot;Reserved&quot;;</span>
+<span class="nc" id="L1393">            case &quot;InUse&quot;: return &quot;In Use&quot;;</span>
+<span class="nc" id="L1394">            case &quot;Maintenance&quot;: return &quot;Closed for Maintenance&quot;;</span>
+<span class="nc" id="L1395">            case &quot;NoShow&quot;: return &quot;No-Show&quot;;</span>
+<span class="nc" id="L1396">            default: return stateName;</span>
+        }
+    }
+    
+    // Map dropdown display value to state name
+    private String mapDropdownToState(String dropdownValue) {
+<span class="nc bnc" id="L1402" title="All 6 branches missed.">        switch (dropdownValue) {</span>
+<span class="nc" id="L1403">            case &quot;Available&quot;: return &quot;Available&quot;;</span>
+<span class="nc" id="L1404">            case &quot;Reserved&quot;: return &quot;Reserved&quot;;</span>
+<span class="nc" id="L1405">            case &quot;In Use&quot;: return &quot;InUse&quot;;</span>
+<span class="nc" id="L1406">            case &quot;Closed for Maintenance&quot;: return &quot;Maintenance&quot;;</span>
+<span class="nc" id="L1407">            case &quot;No-Show&quot;: return &quot;NoShow&quot;;</span>
+<span class="nc" id="L1408">            default: return dropdownValue;</span>
+        }
+    }
+    
+ // Change room condition using RoomService
+    private boolean changeRoomCondition(Room room, String targetState) {
+<span class="nc" id="L1414">        String currentState = room.getCondition();</span>
+        
+<span class="nc bnc" id="L1416" title="All 6 branches missed.">        switch (targetState) {</span>
+            case &quot;Available&quot;:
+<span class="nc bnc" id="L1418" title="All 2 branches missed.">                if (currentState.equals(&quot;Maintenance&quot;)) {</span>
+<span class="nc" id="L1419">                    return roomService.clearRoomMaintenance(room.getRoomId());</span>
+<span class="nc bnc" id="L1420" title="All 4 branches missed.">                } else if (currentState.equals(&quot;Reserved&quot;) || currentState.equals(&quot;NoShow&quot;)) {</span>
+<span class="nc" id="L1421">                    return roomService.cancelBooking(room.getRoomId());</span>
+<span class="nc bnc" id="L1422" title="All 2 branches missed.">                } else if (currentState.equals(&quot;InUse&quot;)) {</span>
+<span class="nc" id="L1423">                    return roomService.checkOut(room.getRoomId());</span>
+                }
+                break;
+            case &quot;Maintenance&quot;:
+                // Admin can set to maintenance from Available, Reserved, InUse, or NoShow
+<span class="nc bnc" id="L1428" title="All 2 branches missed.">                if (currentState.equals(&quot;Available&quot;)) {</span>
+<span class="nc" id="L1429">                    return roomService.setRoomMaintenance(room.getRoomId());</span>
+<span class="nc bnc" id="L1430" title="All 4 branches missed.">                } else if (currentState.equals(&quot;Reserved&quot;) || currentState.equals(&quot;InUse&quot;)) {</span>
+                    // Cancel existing booking first, then set to maintenance
+<span class="nc" id="L1432">                    roomService.cancelBooking(room.getRoomId());</span>
+<span class="nc" id="L1433">                    return roomService.setRoomMaintenance(room.getRoomId());</span>
+<span class="nc bnc" id="L1434" title="All 2 branches missed.">                } else if (currentState.equals(&quot;NoShow&quot;)) {</span>
+                    // Process no-show to available first, then set to maintenance
+<span class="nc" id="L1436">                    roomService.cancelBooking(room.getRoomId());</span>
+<span class="nc" id="L1437">                    return roomService.setRoomMaintenance(room.getRoomId());</span>
+                }
+                break;
+            case &quot;Reserved&quot;:
+                // Admin cannot manually set to Reserved - must go through booking
+<span class="nc" id="L1442">                return false;</span>
+            case &quot;InUse&quot;:
+<span class="nc bnc" id="L1444" title="All 2 branches missed.">                if (currentState.equals(&quot;Reserved&quot;)) {</span>
+<span class="nc" id="L1445">                    return roomService.checkIn(room.getRoomId());</span>
+                }
+                break;
+            case &quot;NoShow&quot;:
+<span class="nc bnc" id="L1449" title="All 2 branches missed.">                if (currentState.equals(&quot;Reserved&quot;)) {</span>
+<span class="nc" id="L1450">                    return roomService.processNoShow(room.getRoomId());</span>
+                }
+                break;
+        }
+<span class="nc" id="L1454">        return false;</span>
+    }
+    
+    private void clearLoginFields() {
+<span class="nc" id="L1458">        loginWindow.getTxtBoxEmail().setText(&quot;&quot;);</span>
+<span class="nc" id="L1459">        loginWindow.getTxtBoxPassword().setText(&quot;&quot;);</span>
+<span class="nc" id="L1460">    }</span>
+    
+    private void clearRegisterFields() {
+<span class="nc" id="L1463">        registerWindow.getTxtBoxEmail().setText(&quot;&quot;);</span>
+<span class="nc" id="L1464">        registerWindow.getTxtBoxPassword().setText(&quot;&quot;);</span>
+<span class="nc" id="L1465">        registerWindow.getAccountTypeComboBox().setSelectedIndex(0);</span>
+<span class="nc" id="L1466">        registerWindow.getTxtBoxOrgID().setText(&quot;&quot;);</span>
+<span class="nc" id="L1467">    }</span>
+    
+    private void clearAdminConsoleFields() {
+<span class="nc" id="L1470">        adminConsoleWindow.getRoomIdTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1471">        adminConsoleWindow.getBuildingTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1472">        adminConsoleWindow.getCapacityTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1473">        adminConsoleWindow.getConditionDropdown().setSelectedIndex(0);</span>
+<span class="nc" id="L1474">        adminConsoleWindow.getStatusTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1475">    }</span>
+
+    private void refreshFrame() {
+<span class="nc" id="L1478">        frame.revalidate();</span>
+<span class="nc" id="L1479">        frame.repaint();</span>
+<span class="nc" id="L1480">    }</span>
+    private void clearCECFields() {
+<span class="nc" id="L1482">        cecWindow.getAdminIdTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1483">        cecWindow.getAdminStatusTextBox().setText(&quot;&quot;);</span>
+<span class="nc" id="L1484">    }</span>
+
+    // Helper method to refresh user table in CEC window from CSV
+    private void refreshUserTable() {
+<span class="nc" id="L1488">        java.util.List&lt;Accounts&gt; accounts = userCSV.findAll();</span>
+<span class="nc" id="L1489">        DefaultTableModel model = (DefaultTableModel) cecWindow.getAdminTable().getModel();</span>
+        
+        // Clear existing rows
+<span class="nc" id="L1492">        model.setRowCount(0);</span>
+        
+        // Add all accounts from database
+<span class="nc bnc" id="L1495" title="All 2 branches missed.">        for (Accounts account : accounts) {</span>
+<span class="nc" id="L1496">            model.addRow(new Object[]{</span>
+<span class="nc" id="L1497">                account.getAccountId().toString(),</span>
+<span class="nc" id="L1498">                account.getEmail(),</span>
+<span class="nc" id="L1499">                account.getAccountType()</span>
+            });
+<span class="nc" id="L1501">        }</span>
+        
+        // Notify table that data has changed
+<span class="nc" id="L1504">        model.fireTableDataChanged();</span>
+<span class="nc" id="L1505">        cecWindow.getAdminTable().repaint();</span>
+        
+<span class="nc" id="L1507">        System.out.println(&quot;User table refreshed. Total accounts: &quot; + accounts.size());</span>
+<span class="nc" id="L1508">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
