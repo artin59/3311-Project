@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationSystem.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">ReservationSystem.java</span></div><h1>ReservationSystem.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+public class ReservationSystem {
+    
+    private static ReservationSystem instance;
+    private UserFactory userFactory;
+    private PricingPolicyFactory pricingFactory;
+    private Map&lt;String, Booking&gt; bookings;
+    private BookingCSV bookingCSV;
+    
+<span class="fc" id="L16">    private ReservationSystem() {</span>
+<span class="fc" id="L17">        this.userFactory = new UserFactory();</span>
+<span class="fc" id="L18">        this.pricingFactory = new PricingPolicyFactory();</span>
+<span class="fc" id="L19">        this.bookings = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L20">        this.bookingCSV = BookingCSV.getInstance();</span>
+        // Load existing bookings from database
+<span class="fc" id="L22">        loadBookingsFromDatabase();</span>
+<span class="fc" id="L23">    }</span>
+    
+    public static ReservationSystem getInstance() {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (instance == null) {</span>
+<span class="fc" id="L27">            instance = new ReservationSystem();</span>
+        }
+<span class="fc" id="L29">        return instance;</span>
+    }
+    
+    public User createUserForLogin(String name, String type) {
+        // Look up user by email (name) from database
+<span class="fc" id="L34">        UserCSV userCSV = UserCSV.getInstance();</span>
+<span class="fc" id="L35">        Accounts account = userCSV.findByEmail(name);</span>
+        
+<span class="pc bpc" id="L37" title="3 of 4 branches missed.">        if (account != null &amp;&amp; account instanceof User) {</span>
+<span class="nc" id="L38">            User user = (User) account;</span>
+            // Verify the user type matches
+<span class="nc" id="L40">            String accountType = user.getAccountType();</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (accountType.equals(type)) {</span>
+<span class="nc" id="L42">                return user;</span>
+            }
+        }
+        
+        // If not found, throw exception - user should exist in database
+<span class="fc" id="L47">        throw new IllegalArgumentException(&quot;User not found with email: &quot; + name + &quot; and type: &quot; + type);</span>
+    }
+    
+    public double calculateHourlyRate(User user) {
+        // Use Strategy pattern to get appropriate pricing strategy for user type
+<span class="fc" id="L52">        PricingPolicy policy = pricingFactory.createPolicy(user);</span>
+<span class="fc" id="L53">        return policy.calculateRate(user);</span>
+    }
+    
+    public Booking createBooking(User user, int hours, double rate) {
+<span class="fc" id="L57">        String bookingId = generateBookingId();</span>
+<span class="fc" id="L58">        Booking booking = new Booking(bookingId, user, hours, rate, </span>
+                                     null, null, null, null);
+        
+        // Store in memory
+<span class="fc" id="L62">        bookings.put(bookingId, booking);</span>
+        
+        // Note: This method creates a booking without room information
+        // It will not be saved to CSV until room information is added
+        // Use createBooking(user, hours, rate, roomNumber, date, startTime, endTime) instead
+        
+<span class="fc" id="L68">        return booking;</span>
+    }
+    
+    public Booking createBooking(User user, int hours, double rate, 
+                                String roomNumber, String bookingDate, 
+                                String bookingStartTime, String bookingEndTime) {
+        // Validate room information is provided
+<span class="pc bpc" id="L75" title="2 of 4 branches missed.">        if (roomNumber == null || roomNumber.isEmpty()) {</span>
+<span class="nc" id="L76">            throw new IllegalArgumentException(&quot;Room number is required to create a booking&quot;);</span>
+        }
+        
+        // First, book the room through RoomService to validate and update RoomDatabase.csv
+<span class="fc" id="L80">        RoomService roomService = new RoomService();</span>
+<span class="fc" id="L81">        Room room = findRoomByNumber(roomNumber);</span>
+        
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L84">            throw new IllegalArgumentException(&quot;Room not found: &quot; + roomNumber);</span>
+        }
+        
+        // Check if room is enabled
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (!room.getStatus().equals(&quot;ENABLED&quot;)) {</span>
+<span class="nc" id="L89">            throw new IllegalStateException(&quot;Room is not enabled for booking: &quot; + roomNumber);</span>
+        }
+        
+        // Check for time conflicts with existing bookings
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (bookingCSV.hasTimeConflict(roomNumber, bookingDate, bookingStartTime, bookingEndTime)) {</span>
+<span class="nc" id="L94">            throw new IllegalStateException(&quot;Room &quot; + roomNumber + &quot; is already reserved for the time slot &quot; + </span>
+                                          bookingStartTime + &quot; - &quot; + bookingEndTime + &quot; on &quot; + bookingDate);
+        }
+        
+        // Generate booking ID first
+<span class="nc" id="L99">        String bookingId = generateBookingId();</span>
+        
+        // Book the room (this updates RoomDatabase.csv with BookingID)
+        // Note: We allow booking even if room is in Reserved state, as long as times don't conflict
+<span class="nc" id="L103">        boolean roomBooked = roomService.bookRoom(room.getRoomId(), bookingId, user.getAccountId(), </span>
+                                                  bookingDate, bookingStartTime, bookingEndTime);
+        
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (!roomBooked) {</span>
+<span class="nc" id="L107">            throw new IllegalStateException(&quot;Failed to book room: &quot; + roomNumber);</span>
+        }
+        
+        // Create booking object
+<span class="nc" id="L111">        Booking booking = new Booking(bookingId, user, hours, rate, </span>
+                                     roomNumber, bookingDate, bookingStartTime, bookingEndTime);
+        
+        // Store in memory
+<span class="nc" id="L115">        bookings.put(bookingId, booking);</span>
+        
+        // Save booking to BookingDatabase.csv
+        // Note: RoomDatabase.csv is already updated by RoomService.bookRoom() above
+<span class="nc" id="L119">        bookingCSV.write(booking);</span>
+        
+<span class="nc" id="L121">        return booking;</span>
+    }
+    
+    private Room findRoomByNumber(String roomNumber) {
+<span class="fc" id="L125">        RoomService roomService = new RoomService();</span>
+<span class="fc" id="L126">        List&lt;Room&gt; allRooms = roomService.getAllRooms();</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        for (Room room : allRooms) {</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">            if (room.getRoomNumber().equals(roomNumber)) {</span>
+<span class="nc" id="L129">                return room;</span>
+            }
+<span class="fc" id="L131">        }</span>
+<span class="fc" id="L132">        return null;</span>
+    }
+    
+    public Booking findBooking(String id) {
+        // First check in-memory cache
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        if (bookings.containsKey(id)) {</span>
+<span class="fc" id="L138">            return bookings.get(id);</span>
+        }
+        
+        // If not in memory, load from database
+<span class="fc" id="L142">        Booking booking = bookingCSV.findById(id);</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if (booking != null) {</span>
+<span class="nc" id="L144">            bookings.put(id, booking);</span>
+        }
+        
+<span class="fc" id="L147">        return booking;</span>
+    }
+    
+    public void updateBooking(Booking booking) {
+        // Update in memory
+<span class="fc" id="L152">        bookings.put(booking.getBookingId(), booking);</span>
+        
+        // Update in database
+<span class="fc" id="L155">        bookingCSV.update(booking);</span>
+<span class="fc" id="L156">    }</span>
+    
+    public boolean checkIn(String bookingId, String email) {
+<span class="fc" id="L159">        Booking booking = findBooking(bookingId);</span>
+        
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">        if (booking == null) {</span>
+<span class="fc" id="L162">            return false;</span>
+        }
+        
+        // Verify email matches
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (!booking.getUser().getEmail().equalsIgnoreCase(email)) {</span>
+<span class="nc" id="L167">            return false;</span>
+        }
+        
+        // Update booking status
+<span class="nc" id="L171">        booking.setStatus(&quot;InUse&quot;);</span>
+<span class="nc" id="L172">        updateBooking(booking);</span>
+        
+        // Update room state if room exists
+        // Note: Room number format might be &quot;Building - RoomNumber&quot; or just &quot;RoomNumber&quot;
+        // For now, we'll search all rooms and match by room number
+<span class="nc bnc" id="L177" title="All 4 branches missed.">        if (booking.getRoomNumber() != null &amp;&amp; !booking.getRoomNumber().isEmpty()) {</span>
+<span class="nc" id="L178">            RoomService roomService = new RoomService();</span>
+<span class="nc" id="L179">            List&lt;Room&gt; allRooms = roomService.getAllRooms();</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">            for (Room room : allRooms) {</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">                if (room.getRoomNumber().equals(booking.getRoomNumber()) || </span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">                    room.getLocation().contains(booking.getRoomNumber())) {</span>
+<span class="nc" id="L183">                    room.checkIn();</span>
+<span class="nc" id="L184">                    RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L185">                    roomCSV.update(room);</span>
+<span class="nc" id="L186">                    break;</span>
+                }
+<span class="nc" id="L188">            }</span>
+        }
+        
+<span class="nc" id="L191">        return true;</span>
+    }
+    
+    private void loadBookingsFromDatabase() {
+        // Load all bookings from database into memory
+        // This is called during initialization
+        // For large datasets, you might want to load on-demand instead
+<span class="fc" id="L198">    }</span>
+    
+    private String generateBookingId() {
+<span class="fc" id="L201">        return &quot;B&quot; + UUID.randomUUID().toString().substring(0, 8).toUpperCase();</span>
+    }
+    
+    
+    // Getter methods for factories (if needed)
+    public UserFactory getUserFactory() {
+<span class="fc" id="L207">        return userFactory;</span>
+    }
+    
+    public PricingPolicyFactory getPricingFactory() {
+<span class="fc" id="L211">        return pricingFactory;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

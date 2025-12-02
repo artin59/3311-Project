@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserCSV.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">UserCSV.java</span></div><h1>UserCSV.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.UUID;
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
+
+public class UserCSV {
+    
+<span class="fc" id="L11">    private static UserCSV instance = new UserCSV();</span>
+<span class="fc" id="L12">    private final String PATH = &quot;../Database.csv&quot;;</span>
+        
+<span class="fc" id="L14">    private UserCSV() { </span>
+        try {
+<span class="fc" id="L16">            File file = new File(PATH);</span>
+            
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">            if (!file.exists()) {</span>
+<span class="nc" id="L19">                CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, false), ',');</span>
+<span class="nc" id="L20">                csvWrite.write(&quot;ID&quot;);</span>
+<span class="nc" id="L21">                csvWrite.write(&quot;Type&quot;);</span>
+<span class="nc" id="L22">                csvWrite.write(&quot;Org ID&quot;);</span>
+<span class="nc" id="L23">                csvWrite.write(&quot;Email&quot;);</span>
+<span class="nc" id="L24">                csvWrite.write(&quot;Password&quot;);</span>
+<span class="nc" id="L25">                csvWrite.write(&quot;Date Created&quot;);</span>
+<span class="nc" id="L26">                csvWrite.endRecord();</span>
+<span class="nc" id="L27">                csvWrite.close();</span>
+                
+<span class="nc" id="L29">                this.write(ChiefEventCoordinator.getCEOInstance());</span>
+            }
+<span class="nc" id="L31">        } catch (Exception e) {</span>
+<span class="nc" id="L32">            e.printStackTrace();</span>
+<span class="fc" id="L33">        }</span>
+<span class="fc" id="L34">    }</span>
+    
+    public static UserCSV getInstance() {
+<span class="fc" id="L37">        return instance;</span>
+    }
+    
+    public void write(Accounts a) {
+        try {
+<span class="fc" id="L42">            CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, true), ',');</span>
+<span class="fc" id="L43">            csvWrite.write(String.valueOf(a.getAccountId()));</span>
+<span class="fc" id="L44">            csvWrite.write(a.getAccountType());</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">            csvWrite.write((a instanceof User) ? ((User) a).getOrgID() : &quot;-&quot;);</span>
+<span class="fc" id="L46">            csvWrite.write(a.getEmail());</span>
+<span class="fc" id="L47">            csvWrite.write(a.getPassword());</span>
+<span class="fc" id="L48">            csvWrite.write(String.valueOf(a.getCreatedDate()));</span>
+<span class="fc" id="L49">            csvWrite.endRecord();</span>
+<span class="fc" id="L50">            csvWrite.close();</span>
+<span class="nc" id="L51">        } catch (Exception e) {</span>
+<span class="nc" id="L52">            e.printStackTrace();</span>
+<span class="fc" id="L53">        }</span>
+<span class="fc" id="L54">    }</span>
+    
+    public Accounts find(UUID id) {
+        Accounts account;
+        try {
+<span class="fc" id="L59">            CsvReader csvRead = new CsvReader(PATH);</span>
+<span class="fc" id="L60">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                if (csvRead.get(&quot;ID&quot;).equals(String.valueOf(id))) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                    if (csvRead.get(&quot;Type&quot;).equals(&quot;Admin&quot;)) {    </span>
+<span class="nc" id="L65">                        account = new Admin(csvRead.get(&quot;Email&quot;), csvRead.get(&quot;Password&quot;)); </span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                    } else if (csvRead.get(&quot;Type&quot;).equals(&quot;Chief Event Coordinator&quot;)) {</span>
+<span class="nc" id="L67">                        csvRead.close();</span>
+<span class="nc" id="L68">                        return ChiefEventCoordinator.getCEOInstance();</span>
+                    } else {
+<span class="nc" id="L70">                        UserFactory factory = new UserFactory();</span>
+<span class="nc" id="L71">                        account = factory.createUser(</span>
+<span class="nc" id="L72">                            csvRead.get(&quot;Email&quot;), </span>
+<span class="nc" id="L73">                            csvRead.get(&quot;Password&quot;), </span>
+<span class="nc" id="L74">                            csvRead.get(&quot;Type&quot;), </span>
+<span class="nc" id="L75">                            csvRead.get(&quot;Org ID&quot;)</span>
+                        );
+                    }
+<span class="nc" id="L78">                    csvRead.close();</span>
+<span class="nc" id="L79">                    return account;</span>
+                }
+            }
+<span class="fc" id="L82">            csvRead.close();</span>
+<span class="nc" id="L83">        } catch (Exception e) {</span>
+<span class="nc" id="L84">            e.printStackTrace();</span>
+<span class="fc" id="L85">        }</span>
+<span class="fc" id="L86">        return null;     </span>
+    }
+    
+    public Accounts findByEmail(String email) {
+        Accounts account;
+        try {
+<span class="fc" id="L92">            CsvReader csvRead = new CsvReader(PATH);</span>
+<span class="fc" id="L93">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                if (csvRead.get(&quot;Email&quot;).equalsIgnoreCase(email)) {</span>
+<span class="nc" id="L97">                    String type = csvRead.get(&quot;Type&quot;);</span>
+<span class="nc" id="L98">                    String storedEmail = csvRead.get(&quot;Email&quot;);</span>
+<span class="nc" id="L99">                    String storedPassword = csvRead.get(&quot;Password&quot;);</span>
+<span class="nc" id="L100">                    String orgId = csvRead.get(&quot;Org ID&quot;);</span>
+                    
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                    if (type.equals(&quot;Admin&quot;)) {    </span>
+<span class="nc" id="L103">                        account = new Admin(storedEmail, storedPassword); </span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                    } else if (type.equals(&quot;Chief Event Coordinator&quot;)) {</span>
+<span class="nc" id="L105">                        csvRead.close();</span>
+<span class="nc" id="L106">                        return ChiefEventCoordinator.getCEOInstance();</span>
+                    } else {
+<span class="nc" id="L108">                        UserFactory factory = new UserFactory();</span>
+<span class="nc" id="L109">                        account = factory.createUser(storedEmail, storedPassword, type, orgId);</span>
+                    }
+<span class="nc" id="L111">                    csvRead.close();</span>
+<span class="nc" id="L112">                    return account;</span>
+                }
+            }
+<span class="fc" id="L115">            csvRead.close();</span>
+<span class="nc" id="L116">        } catch (Exception e) {</span>
+<span class="nc" id="L117">            e.printStackTrace();</span>
+<span class="fc" id="L118">        }</span>
+<span class="fc" id="L119">        return null;     </span>
+    }
+    
+    public boolean emailExists(String email) {
+        try {
+<span class="fc" id="L124">            CsvReader csvRead = new CsvReader(PATH);</span>
+<span class="fc" id="L125">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">                if (csvRead.get(&quot;Email&quot;).equalsIgnoreCase(email)) {</span>
+<span class="nc" id="L129">                    csvRead.close();</span>
+<span class="nc" id="L130">                    return true;</span>
+                }
+            }
+<span class="fc" id="L133">            csvRead.close();</span>
+<span class="nc" id="L134">        } catch (Exception e) {</span>
+<span class="nc" id="L135">            e.printStackTrace();</span>
+<span class="fc" id="L136">        }</span>
+<span class="fc" id="L137">        return false;</span>
+    }
+    
+    public java.util.List&lt;Accounts&gt; findAll() {
+<span class="fc" id="L141">        java.util.List&lt;Accounts&gt; accounts = new java.util.ArrayList&lt;&gt;();</span>
+        try {
+<span class="fc" id="L143">            CsvReader csvRead = new CsvReader(PATH);</span>
+<span class="fc" id="L144">            csvRead.readHeaders();</span>
+            
+<span class="fc bfc" id="L146" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L147">                String type = csvRead.get(&quot;Type&quot;);</span>
+<span class="fc" id="L148">                String storedEmail = csvRead.get(&quot;Email&quot;);</span>
+<span class="fc" id="L149">                String storedPassword = csvRead.get(&quot;Password&quot;);</span>
+<span class="fc" id="L150">                String orgId = csvRead.get(&quot;Org ID&quot;);</span>
+                
+                Accounts account;
+<span class="fc bfc" id="L153" title="All 2 branches covered.">                if (type.equals(&quot;Admin&quot;)) {    </span>
+<span class="fc" id="L154">                    account = new Admin(storedEmail, storedPassword); </span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">                } else if (type.equals(&quot;Chief Event Coordinator&quot;)) {</span>
+<span class="fc" id="L156">                    account = ChiefEventCoordinator.getCEOInstance();</span>
+                } else {
+<span class="fc" id="L158">                    UserFactory factory = new UserFactory();</span>
+<span class="fc" id="L159">                    account = factory.createUser(storedEmail, storedPassword, type, orgId);</span>
+                }
+<span class="fc" id="L161">                accounts.add(account);</span>
+<span class="fc" id="L162">            }</span>
+<span class="fc" id="L163">            csvRead.close();</span>
+<span class="nc" id="L164">        } catch (Exception e) {</span>
+<span class="nc" id="L165">            e.printStackTrace();</span>
+<span class="fc" id="L166">        }</span>
+<span class="fc" id="L167">        return accounts;</span>
+    }
+    
+    public void update(Accounts updatedAccount) {
+<span class="fc" id="L171">        java.util.List&lt;Accounts&gt; allAccounts = findAll();</span>
+        
+        try {
+            // Rewrite entire file with headers
+<span class="fc" id="L175">            CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, false), ',');</span>
+<span class="fc" id="L176">            csvWrite.write(&quot;ID&quot;);</span>
+<span class="fc" id="L177">            csvWrite.write(&quot;Type&quot;);</span>
+<span class="fc" id="L178">            csvWrite.write(&quot;Org ID&quot;);</span>
+<span class="fc" id="L179">            csvWrite.write(&quot;Email&quot;);</span>
+<span class="fc" id="L180">            csvWrite.write(&quot;Password&quot;);</span>
+<span class="fc" id="L181">            csvWrite.write(&quot;Date Created&quot;);</span>
+<span class="fc" id="L182">            csvWrite.endRecord();</span>
+            
+<span class="fc bfc" id="L184" title="All 2 branches covered.">            for (Accounts account : allAccounts) {</span>
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">                if (account.getAccountId().equals(updatedAccount.getAccountId())) {</span>
+                    // Write updated account
+<span class="nc" id="L187">                    writeAccountRecord(csvWrite, updatedAccount);</span>
+                } else {
+                    // Write existing account
+<span class="fc" id="L190">                    writeAccountRecord(csvWrite, account);</span>
+                }
+<span class="fc" id="L192">            }</span>
+<span class="fc" id="L193">            csvWrite.close();</span>
+<span class="nc" id="L194">        } catch (Exception e) {</span>
+<span class="nc" id="L195">            e.printStackTrace();</span>
+<span class="fc" id="L196">        }</span>
+<span class="fc" id="L197">    }</span>
+    
+    private void writeAccountRecord(CsvWriter csvWrite, Accounts account) throws Exception {
+<span class="fc" id="L200">        csvWrite.write(String.valueOf(account.getAccountId()));</span>
+<span class="fc" id="L201">        csvWrite.write(account.getAccountType());</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">        csvWrite.write((account instanceof User) ? ((User) account).getOrgID() : &quot;-&quot;);</span>
+<span class="fc" id="L203">        csvWrite.write(account.getEmail());</span>
+<span class="fc" id="L204">        csvWrite.write(account.getPassword());</span>
+<span class="fc" id="L205">        csvWrite.write(String.valueOf(account.getCreatedDate()));</span>
+<span class="fc" id="L206">        csvWrite.endRecord();</span>
+<span class="fc" id="L207">    }</span>
+    public void updateAccountTypeByEmail(String email, String newType) {
+        try {
+<span class="fc" id="L210">            java.util.List&lt;String[]&gt; allRows = new java.util.ArrayList&lt;&gt;();</span>
+<span class="fc" id="L211">            CsvReader csvRead = new CsvReader(PATH);</span>
+<span class="fc" id="L212">            csvRead.readHeaders();</span>
+            
+<span class="fc" id="L214">            String[] headers = csvRead.getHeaders();</span>
+<span class="fc" id="L215">            allRows.add(headers);</span>
+            
+            // Read all rows and update the matching one
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            while (csvRead.readRecord()) {</span>
+<span class="fc" id="L219">                String rowEmail = csvRead.get(&quot;Email&quot;);</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">                if (rowEmail.equalsIgnoreCase(email)) {</span>
+<span class="nc" id="L221">                    String[] row = new String[headers.length];</span>
+<span class="nc" id="L222">                    row[0] = csvRead.get(&quot;ID&quot;);</span>
+<span class="nc" id="L223">                    row[1] = newType; </span>
+<span class="nc" id="L224">                    row[2] = csvRead.get(&quot;Org ID&quot;); </span>
+<span class="nc" id="L225">                    row[3] = csvRead.get(&quot;Email&quot;);</span>
+<span class="nc" id="L226">                    row[4] = csvRead.get(&quot;Password&quot;);</span>
+<span class="nc" id="L227">                    row[5] = csvRead.get(&quot;Date Created&quot;);</span>
+<span class="nc" id="L228">                    allRows.add(row);</span>
+<span class="nc" id="L229">                    System.out.println(&quot;Found account with email &quot; + email + &quot; - updating type to &quot; + newType);</span>
+<span class="nc" id="L230">                } else {</span>
+                    // Keep existing row as-is
+<span class="fc" id="L232">                    String[] row = new String[headers.length];</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">                    for (int i = 0; i &lt; headers.length; i++) {</span>
+<span class="fc" id="L234">                        row[i] = csvRead.get(i);</span>
+                    }
+<span class="fc" id="L236">                    allRows.add(row);</span>
+                }
+<span class="fc" id="L238">            }</span>
+<span class="fc" id="L239">            csvRead.close();</span>
+            
+            // Write everything back
+<span class="fc" id="L242">            CsvWriter csvWrite = new CsvWriter(new FileWriter(PATH, false), ',');</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">            for (String[] row : allRows) {</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">                for (String value : row) {</span>
+<span class="fc" id="L245">                    csvWrite.write(value);</span>
+                }
+<span class="fc" id="L247">                csvWrite.endRecord();</span>
+<span class="fc" id="L248">            }</span>
+<span class="fc" id="L249">            csvWrite.close();</span>
+            
+<span class="fc" id="L251">            System.out.println(&quot;Account type updated to &quot; + newType + &quot; for email &quot; + email);</span>
+            
+<span class="nc" id="L253">        } catch (Exception e) {</span>
+<span class="nc" id="L254">            e.printStackTrace();</span>
+<span class="fc" id="L255">        }</span>
+<span class="fc" id="L256">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PaymentWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">AppUI</a> &gt; <span class="el_source">PaymentWindow.java</span></div><h1>PaymentWindow.java</h1><pre class="source lang-java linenums">package AppUI;
+
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+public class PaymentWindow {
+	
+	// Payment pane
+	private JPanel paymentPane;
+
+	private JTextField amountTextBox;
+
+	private JComboBox&lt;String&gt; paymentMethodComboBox;
+	
+	private JTextField nameOnCardTextBox;
+	private JTextField cardNumberTextBox;
+	private JTextField expiryTextBox;
+	private JTextField cvvTextBox;
+	private JTextField billingRefTextBox;
+
+	private JButton btnConfirmPayment;
+	private JButton btnCancelPayment;
+	
+<span class="nc" id="L32">	public PaymentWindow(double amountToPay) {</span>
+<span class="nc" id="L33">		buildWindow(amountToPay);</span>
+
+<span class="nc" id="L35">	}</span>
+	
+	public void buildWindow(double amountToPay) {
+
+	    // =====================================================
+	    // 1. Base panel setup
+	    // =====================================================
+<span class="nc" id="L42">	    paymentPane = new JPanel();</span>
+<span class="nc" id="L43">	    paymentPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="nc" id="L44">	    paymentPane.setLayout(null);</span>
+
+	    // =====================================================
+	    // 2. Title
+	    // =====================================================
+
+<span class="nc" id="L50">	    JLabel paymentTitleLabel = new JLabel(&quot;Payment &amp; Confirmation&quot;);</span>
+<span class="nc" id="L51">	    paymentTitleLabel.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 26));</span>
+<span class="nc" id="L52">	    paymentTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L53">	    paymentTitleLabel.setBounds(120, 20, 450, 35);</span>
+<span class="nc" id="L54">	    paymentPane.add(paymentTitleLabel);</span>
+
+	    // =====================================================
+	    // 3. Amount due (from parameter)
+	    // =====================================================
+
+<span class="nc" id="L60">	    JLabel amountLabel = new JLabel(&quot;Amount Due:&quot;);</span>
+<span class="nc" id="L61">	    amountLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L62">	    amountLabel.setBounds(160, 80, 120, 25);</span>
+<span class="nc" id="L63">	    paymentPane.add(amountLabel);</span>
+
+<span class="nc" id="L65">	    amountTextBox = new JTextField();</span>
+<span class="nc" id="L66">	    amountTextBox.setEditable(false);</span>
+<span class="nc" id="L67">	    amountTextBox.setFont(new Font(&quot;Tahoma&quot;, Font.BOLD, 16));</span>
+<span class="nc" id="L68">	    amountTextBox.setBounds(290, 82, 200, 25);</span>
+<span class="nc" id="L69">	    amountTextBox.setHorizontalAlignment(SwingConstants.RIGHT);</span>
+<span class="nc" id="L70">	    amountTextBox.setText(String.format(&quot;$%.2f&quot;, amountToPay));</span>
+<span class="nc" id="L71">	    paymentPane.add(amountTextBox);</span>
+
+	    // =====================================================
+	    // 4. Payment method
+	    // =====================================================
+
+<span class="nc" id="L77">	    JLabel methodLabel = new JLabel(&quot;Payment Method:&quot;);</span>
+<span class="nc" id="L78">	    methodLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L79">	    methodLabel.setBounds(160, 125, 140, 25);</span>
+<span class="nc" id="L80">	    paymentPane.add(methodLabel);</span>
+
+<span class="nc" id="L82">	    paymentMethodComboBox = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L83">	    paymentMethodComboBox.setBounds(320, 127, 210, 25);</span>
+<span class="nc" id="L84">	    paymentMethodComboBox.addItem(&quot;Select a method...&quot;);</span>
+<span class="nc" id="L85">	    paymentMethodComboBox.addItem(&quot;Credit Card&quot;);</span>
+<span class="nc" id="L86">	    paymentMethodComboBox.addItem(&quot;Debit Card&quot;);</span>
+<span class="nc" id="L87">	    paymentMethodComboBox.addItem(&quot;Institutional Billing&quot;);</span>
+<span class="nc" id="L88">	    paymentPane.add(paymentMethodComboBox);</span>
+
+	    // =====================================================
+	    // 5. Standard payment info fields
+	    // =====================================================
+
+	    // Name on card / payer
+<span class="nc" id="L95">	    JLabel nameOnCardLabel = new JLabel(&quot;Name on Card:&quot;);</span>
+<span class="nc" id="L96">	    nameOnCardLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L97">	    nameOnCardLabel.setBounds(160, 170, 130, 25);</span>
+<span class="nc" id="L98">	    paymentPane.add(nameOnCardLabel);</span>
+
+<span class="nc" id="L100">	    nameOnCardTextBox = new JTextField();</span>
+<span class="nc" id="L101">	    nameOnCardTextBox.setBounds(320, 172, 210, 22);</span>
+<span class="nc" id="L102">	    paymentPane.add(nameOnCardTextBox);</span>
+
+	    // Card number
+<span class="nc" id="L105">	    JLabel cardNumberLabel = new JLabel(&quot;Card Number:&quot;);</span>
+<span class="nc" id="L106">	    cardNumberLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L107">	    cardNumberLabel.setBounds(160, 205, 130, 25);</span>
+<span class="nc" id="L108">	    paymentPane.add(cardNumberLabel);</span>
+
+<span class="nc" id="L110">	    cardNumberTextBox = new JTextField();</span>
+<span class="nc" id="L111">	    cardNumberTextBox.setBounds(320, 207, 210, 22);</span>
+<span class="nc" id="L112">	    paymentPane.add(cardNumberTextBox);</span>
+
+	    // Expiry
+<span class="nc" id="L115">	    JLabel expiryLabel = new JLabel(&quot;Expiry (MM/YY):&quot;);</span>
+<span class="nc" id="L116">	    expiryLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L117">	    expiryLabel.setBounds(160, 240, 150, 25);</span>
+<span class="nc" id="L118">	    paymentPane.add(expiryLabel);</span>
+
+<span class="nc" id="L120">	    expiryTextBox = new JTextField();</span>
+<span class="nc" id="L121">	    expiryTextBox.setBounds(320, 242, 70, 22);</span>
+<span class="nc" id="L122">	    paymentPane.add(expiryTextBox);</span>
+
+	    // CVV
+<span class="nc" id="L125">	    JLabel cvvLabel = new JLabel(&quot;CVV:&quot;);</span>
+<span class="nc" id="L126">	    cvvLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L127">	    cvvLabel.setBounds(410, 240, 50, 25);</span>
+<span class="nc" id="L128">	    paymentPane.add(cvvLabel);</span>
+
+<span class="nc" id="L130">	    cvvTextBox = new JTextField();</span>
+<span class="nc" id="L131">	    cvvTextBox.setBounds(450, 242, 80, 22);</span>
+<span class="nc" id="L132">	    paymentPane.add(cvvTextBox);</span>
+
+	    // Billing reference (Institutional Billing)
+<span class="nc" id="L135">	    JLabel billingRefLabel = new JLabel(&quot;Billing Reference:&quot;);</span>
+<span class="nc" id="L136">	    billingRefLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L137">	    billingRefLabel.setBounds(160, 275, 150, 25);</span>
+<span class="nc" id="L138">	    paymentPane.add(billingRefLabel);</span>
+
+<span class="nc" id="L140">	    billingRefTextBox = new JTextField();</span>
+<span class="nc" id="L141">	    billingRefTextBox.setBounds(320, 277, 210, 22);</span>
+<span class="nc" id="L142">	    paymentPane.add(billingRefTextBox);</span>
+
+	    // =====================================================
+	    // 6. Buttons
+	    // =====================================================
+
+<span class="nc" id="L148">	    btnConfirmPayment = new JButton(&quot;Confirm Payment&quot;);</span>
+<span class="nc" id="L149">	    btnConfirmPayment.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.PLAIN, 20));</span>
+<span class="nc" id="L150">	    btnConfirmPayment.setBounds(160, 320, 200, 35);</span>
+<span class="nc" id="L151">	    paymentPane.add(btnConfirmPayment);</span>
+
+<span class="nc" id="L153">	    btnCancelPayment = new JButton(&quot;Cancel&quot;);</span>
+<span class="nc" id="L154">	    btnCancelPayment.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 18));</span>
+<span class="nc" id="L155">	    btnCancelPayment.setBounds(380, 320, 150, 35);</span>
+<span class="nc" id="L156">	    paymentPane.add(btnCancelPayment);</span>
+
+	    // =====================================================
+	    // 7. Wire method-based field enabling
+	    // =====================================================
+
+<span class="nc" id="L162">	    paymentMethodComboBox.addActionListener(e -&gt; {</span>
+<span class="nc" id="L163">	    	updatePaymentFields();</span>
+<span class="nc" id="L164">	    	System.out.println(&quot;updating payment listeners&quot;);</span>
+	    	
+<span class="nc" id="L166">	    });</span>
+<span class="nc" id="L167">	    updatePaymentFields(); // initial state</span>
+<span class="nc" id="L168">	}</span>
+	
+	
+	
+	
+	
+	private void updatePaymentFields() {
+<span class="nc bnc" id="L175" title="All 2 branches missed.">	    if (paymentMethodComboBox == null) return;</span>
+
+<span class="nc" id="L177">	    String method = (String) paymentMethodComboBox.getSelectedItem();</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">	    if (method == null) method = &quot;&quot;;</span>
+	    
+<span class="nc" id="L180">	    Color onColor = Color.WHITE;</span>
+<span class="nc" id="L181">	    Color offColor = Color.LIGHT_GRAY;</span>
+	    
+<span class="nc bnc" id="L183" title="All 3 branches missed.">	    switch (method) {</span>
+	        case &quot;Credit Card&quot;:
+	        case &quot;Debit Card&quot;:
+	            // Enable card fields
+<span class="nc" id="L187">	            nameOnCardTextBox.setEnabled(true);</span>
+<span class="nc" id="L188">	            cardNumberTextBox.setEnabled(true);</span>
+<span class="nc" id="L189">	            expiryTextBox.setEnabled(true);</span>
+<span class="nc" id="L190">	            cvvTextBox.setEnabled(true);</span>
+<span class="nc" id="L191">	            nameOnCardTextBox.setBackground(onColor);</span>
+<span class="nc" id="L192">	            cardNumberTextBox.setBackground(onColor);</span>
+<span class="nc" id="L193">	            expiryTextBox.setBackground(onColor);</span>
+<span class="nc" id="L194">	            cvvTextBox.setBackground(onColor);</span>
+
+	            // Disable billing reference
+<span class="nc" id="L197">	            billingRefTextBox.setEnabled(false);</span>
+<span class="nc" id="L198">	            billingRefTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L199">	            billingRefTextBox.setBackground(offColor);</span>
+
+<span class="nc" id="L201">	            break;</span>
+
+	        case &quot;Institutional Billing&quot;:
+	            // Disable card fields
+<span class="nc" id="L205">	            nameOnCardTextBox.setEnabled(false);</span>
+<span class="nc" id="L206">	            cardNumberTextBox.setEnabled(false);</span>
+<span class="nc" id="L207">	            expiryTextBox.setEnabled(false);</span>
+<span class="nc" id="L208">	            cvvTextBox.setEnabled(false);</span>
+
+<span class="nc" id="L210">	            nameOnCardTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L211">	            cardNumberTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L212">	            expiryTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L213">	            cvvTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L214">	            nameOnCardTextBox.setBackground(offColor);</span>
+<span class="nc" id="L215">	            cardNumberTextBox.setBackground(offColor);</span>
+<span class="nc" id="L216">	            expiryTextBox.setBackground(offColor);</span>
+<span class="nc" id="L217">	            cvvTextBox.setBackground(offColor);</span>
+
+	            // Enable billing reference
+<span class="nc" id="L220">	            billingRefTextBox.setEnabled(true);</span>
+<span class="nc" id="L221">	            billingRefTextBox.setBackground(onColor);</span>
+<span class="nc" id="L222">	            break;</span>
+
+	        default: // &quot;Select a method...&quot; or anything else
+	            // Disable everything
+<span class="nc" id="L226">	            nameOnCardTextBox.setEnabled(false);</span>
+<span class="nc" id="L227">	            cardNumberTextBox.setEnabled(false);</span>
+<span class="nc" id="L228">	            expiryTextBox.setEnabled(false);</span>
+<span class="nc" id="L229">	            cvvTextBox.setEnabled(false);</span>
+<span class="nc" id="L230">	            billingRefTextBox.setEnabled(false);</span>
+
+<span class="nc" id="L232">	            nameOnCardTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L233">	            cardNumberTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L234">	            expiryTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L235">	            cvvTextBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L236">	            billingRefTextBox.setText(&quot;&quot;);</span>
+	            
+<span class="nc" id="L238">	            nameOnCardTextBox.setBackground(onColor);</span>
+<span class="nc" id="L239">	            cardNumberTextBox.setBackground(onColor);</span>
+<span class="nc" id="L240">	            expiryTextBox.setBackground(onColor);</span>
+<span class="nc" id="L241">	            cvvTextBox.setBackground(onColor);</span>
+<span class="nc" id="L242">	            billingRefTextBox.setBackground(onColor);</span>
+	            break;
+	    }
+<span class="nc" id="L245">	}</span>
+
+	public JPanel getPane() {
+<span class="nc" id="L248">		return paymentPane;</span>
+	}
+
+	public JTextField getAmountTextBox() {
+<span class="nc" id="L252">		return amountTextBox;</span>
+	}
+
+	public JComboBox&lt;String&gt; getPaymentMethodComboBox() {
+<span class="nc" id="L256">		return paymentMethodComboBox;</span>
+	}
+
+	public JTextField getNameOnCardTextBox() {
+<span class="nc" id="L260">		return nameOnCardTextBox;</span>
+	}
+
+	public JTextField getCardNumberTextBox() {
+<span class="nc" id="L264">		return cardNumberTextBox;</span>
+	}
+
+	public JTextField getExpiryTextBox() {
+<span class="nc" id="L268">		return expiryTextBox;</span>
+	}
+
+	public JTextField getCvvTextBox() {
+<span class="nc" id="L272">		return cvvTextBox;</span>
+	}
+
+	public JTextField getBillingRefTextBox() {
+<span class="nc" id="L276">		return billingRefTextBox;</span>
+	}
+
+	public JButton getBtnConfirmPayment() {
+<span class="nc" id="L280">		return btnConfirmPayment;</span>
+	}
+
+	public JButton getBtnCancelPayment() {
+<span class="nc" id="L284">		return btnCancelPayment;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

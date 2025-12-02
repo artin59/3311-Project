@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoomService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">RoomService.java</span></div><h1>RoomService.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class RoomService {
+    
+    private RoomCSV roomCSV;
+    
+<span class="fc" id="L11">    public RoomService() {</span>
+<span class="fc" id="L12">        this.roomCSV = RoomCSV.getInstance();</span>
+<span class="fc" id="L13">    }</span>
+    
+    // Create a new room (Admin function)
+    public Room addRoom(int capacity, String buildingName, String roomNumber) {
+        // Check if room already exists at this location
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if (roomCSV.roomExists(buildingName, roomNumber)) {</span>
+<span class="fc" id="L19">            System.out.println(&quot;Room already exists at &quot; + buildingName + &quot; - &quot; + roomNumber);</span>
+<span class="fc" id="L20">            return null;</span>
+        }
+        
+<span class="nc" id="L23">        Room newRoom = new Room(capacity, buildingName, roomNumber);</span>
+<span class="nc" id="L24">        roomCSV.write(newRoom);</span>
+<span class="nc" id="L25">        System.out.println(&quot;Room added: &quot; + newRoom);</span>
+<span class="nc" id="L26">        return newRoom;</span>
+    }
+    
+    // Get all rooms
+    public List&lt;Room&gt; getAllRooms() {
+<span class="fc" id="L31">        return roomCSV.findAll();</span>
+    }
+    
+    // Get room by ID
+    public Room getRoomById(UUID roomId) {
+<span class="fc" id="L36">        return roomCSV.findById(roomId);</span>
+    }
+    
+    // Get room by location
+    public Room getRoomByLocation(String buildingName, String roomNumber) {
+<span class="fc" id="L41">        return roomCSV.findByLocation(buildingName, roomNumber);</span>
+    }
+    
+    // Get room by number (searches all rooms)
+    public Room getRoomByNumber(String roomNumber) {
+<span class="fc" id="L46">        List&lt;Room&gt; allRooms = getAllRooms();</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        for (Room room : allRooms) {</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">            if (room.getRoomNumber().equals(roomNumber)) {</span>
+<span class="nc" id="L49">                return room;</span>
+            }
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">        return null;</span>
+    }
+    
+    // Get available rooms (enabled AND in Available state)
+    public List&lt;Room&gt; getAvailableRooms() {
+<span class="fc" id="L57">        List&lt;Room&gt; allRooms = roomCSV.findAll();</span>
+<span class="fc" id="L58">        List&lt;Room&gt; availableRooms = new ArrayList&lt;&gt;();</span>
+        
+        // Return all enabled rooms - time slot conflicts should be checked separately
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        for (Room room : allRooms) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (room.getStatus().equals(&quot;ENABLED&quot;)) {</span>
+<span class="fc" id="L63">                availableRooms.add(room);</span>
+            }
+<span class="fc" id="L65">        }</span>
+<span class="fc" id="L66">        return availableRooms;</span>
+    }
+    
+    // Get available rooms filtered by capacity
+    public List&lt;Room&gt; getAvailableRooms(int minCapacity) {
+<span class="fc" id="L71">        List&lt;Room&gt; availableRooms = getAvailableRooms();</span>
+<span class="fc" id="L72">        List&lt;Room&gt; filteredRooms = new ArrayList&lt;&gt;();</span>
+        
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (Room room : availableRooms) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            if (room.getCapacity() &gt;= minCapacity) {</span>
+<span class="fc" id="L76">                filteredRooms.add(room);</span>
+            }
+<span class="fc" id="L78">        }</span>
+<span class="fc" id="L79">        return filteredRooms;</span>
+    }
+    
+    // Get available rooms filtered by capacity and building
+    public List&lt;Room&gt; getAvailableRooms(int minCapacity, String buildingName) {
+<span class="fc" id="L84">        List&lt;Room&gt; filteredByCapacity = getAvailableRooms(minCapacity);</span>
+<span class="fc" id="L85">        List&lt;Room&gt; filteredRooms = new ArrayList&lt;&gt;();</span>
+        
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (Room room : filteredByCapacity) {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            if (room.getBuildingName().equalsIgnoreCase(buildingName)) {</span>
+<span class="fc" id="L89">                filteredRooms.add(room);</span>
+            }
+<span class="fc" id="L91">        }</span>
+<span class="fc" id="L92">        return filteredRooms;</span>
+    }
+    
+    // Get available rooms with full filters (capacity, building, time range)
+    public List&lt;Room&gt; getAvailableRooms(int minCapacity, String buildingName, 
+                                         String date, String startTime, String endTime) {
+<span class="fc" id="L98">        List&lt;Room&gt; filteredRooms = getAvailableRooms(minCapacity, buildingName);</span>
+<span class="fc" id="L99">        List&lt;Room&gt; availableRooms = new ArrayList&lt;&gt;();</span>
+        
+        // Filter out rooms that have time conflicts
+<span class="fc" id="L102">        BookingCSV bookingCSV = BookingCSV.getInstance();</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (Room room : filteredRooms) {</span>
+            // Check if room has a time conflict for the requested time slot
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">            if (!bookingCSV.hasTimeConflict(room.getRoomNumber(), date, startTime, endTime)) {</span>
+<span class="fc" id="L106">                availableRooms.add(room);</span>
+            }
+<span class="fc" id="L108">        }</span>
+        
+<span class="fc" id="L110">        return availableRooms;</span>
+    }
+    
+    // Check if a room is available for a specific time slot
+    public boolean isRoomAvailableForTime(UUID roomId, String date, String startTime, String endTime) {
+<span class="fc" id="L115">        Room room = roomCSV.findById(roomId);</span>
+<span class="pc bpc" id="L116" title="3 of 4 branches missed.">        if (room == null || !room.getStatus().equals(&quot;ENABLED&quot;)) {</span>
+<span class="fc" id="L117">            return false;</span>
+        }
+        
+<span class="nc" id="L120">        BookingCSV bookingCSV = BookingCSV.getInstance();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        return !bookingCSV.hasTimeConflict(room.getRoomNumber(), date, startTime, endTime);</span>
+    }
+    
+    // Book a room
+    public boolean bookRoom(UUID roomId, String bookingId, UUID userId, String date, String startTime, String endTime) {
+<span class="fc" id="L126">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L129">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L130">            return false;</span>
+        }
+        
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (!room.getStatus().equals(&quot;ENABLED&quot;)) {</span>
+<span class="nc" id="L134">            System.out.println(&quot;Room is not enabled for booking.&quot;);</span>
+<span class="nc" id="L135">            return false;</span>
+        }
+        
+<span class="nc" id="L138">        room.book(bookingId, userId, date, startTime, endTime);</span>
+<span class="nc" id="L139">        roomCSV.update(room);</span>
+<span class="nc" id="L140">        return true;</span>
+    }
+    
+    // Check in to a room
+    public boolean checkIn(UUID roomId) {
+<span class="fc" id="L145">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L148">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L149">            return false;</span>
+        }
+        
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        if (!room.getCondition().equals(&quot;Reserved&quot;)) {</span>
+<span class="nc" id="L153">            System.out.println(&quot;Room is not in Reserved state. Cannot check in.&quot;);</span>
+<span class="nc" id="L154">            return false;</span>
+        }
+        
+<span class="nc" id="L157">        room.checkIn();</span>
+<span class="nc" id="L158">        roomCSV.update(room);</span>
+<span class="nc" id="L159">        return true;</span>
+    }
+    
+    // Check out of a room
+    public boolean checkOut(UUID roomId) {
+<span class="fc" id="L164">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L167">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L168">            return false;</span>
+        }
+        
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (!room.getCondition().equals(&quot;InUse&quot;)) {</span>
+<span class="nc" id="L172">            System.out.println(&quot;Room is not in use. Cannot check out.&quot;);</span>
+<span class="nc" id="L173">            return false;</span>
+        }
+        
+        // Reset occupancy when checking out
+<span class="nc" id="L177">        room.resetOccupancy();</span>
+        
+<span class="nc" id="L179">        room.checkOut();</span>
+<span class="nc" id="L180">        roomCSV.update(room);</span>
+<span class="nc" id="L181">        return true;</span>
+    }
+    
+    // Cancel a booking
+    public boolean cancelBooking(UUID roomId) {
+<span class="fc" id="L186">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L189">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L190">            return false;</span>
+        }
+        
+<span class="nc" id="L193">        room.cancelBooking();</span>
+<span class="nc" id="L194">        roomCSV.update(room);</span>
+<span class="nc" id="L195">        return true;</span>
+    }
+    
+    // Extend a booking
+    public boolean extendBooking(UUID roomId, int additionalHours) {
+<span class="fc" id="L200">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L203">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L204">            return false;</span>
+        }
+        
+<span class="nc" id="L207">        room.extendBooking(additionalHours);</span>
+<span class="nc" id="L208">        roomCSV.update(room);</span>
+<span class="nc" id="L209">        return true;</span>
+    }
+    
+    // Admin: Enable a room
+    public boolean enableRoom(UUID roomId) {
+<span class="fc" id="L214">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L217">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L218">            return false;</span>
+        }
+        
+<span class="nc" id="L221">        room.enable();</span>
+<span class="nc" id="L222">        roomCSV.update(room);</span>
+<span class="nc" id="L223">        return true;</span>
+    }
+    
+    // Admin: Disable a room
+    public boolean disableRoom(UUID roomId) {
+<span class="fc" id="L228">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L231">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L232">            return false;</span>
+        }
+        
+<span class="nc" id="L235">        room.disable();</span>
+<span class="nc" id="L236">        roomCSV.update(room);</span>
+<span class="nc" id="L237">        return true;</span>
+    }
+    
+    // Admin: Set room to maintenance
+    public boolean setRoomMaintenance(UUID roomId) {
+<span class="fc" id="L242">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L245">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L246">            return false;</span>
+        }
+        
+<span class="nc" id="L249">        room.setMaintenance();</span>
+<span class="nc" id="L250">        roomCSV.update(room);</span>
+<span class="nc" id="L251">        return true;</span>
+    }
+    
+    // Admin: Clear room maintenance
+    public boolean clearRoomMaintenance(UUID roomId) {
+<span class="fc" id="L256">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L258" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L259">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L260">            return false;</span>
+        }
+        
+<span class="nc" id="L263">        room.clearMaintenance();</span>
+<span class="nc" id="L264">        roomCSV.update(room);</span>
+<span class="nc" id="L265">        return true;</span>
+    }
+    
+    // Process no-show (called by scheduler or manually)
+    public boolean processNoShow(UUID roomId) {
+<span class="fc" id="L270">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L272" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L273">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L274">            return false;</span>
+        }
+        
+<span class="nc bnc" id="L277" title="All 2 branches missed.">        if (!room.getCondition().equals(&quot;Reserved&quot;)) {</span>
+<span class="nc" id="L278">            System.out.println(&quot;Room is not in Reserved state. Cannot process no-show.&quot;);</span>
+<span class="nc" id="L279">            return false;</span>
+        }
+        
+        // Trigger no-show through the Reserved state
+<span class="nc" id="L283">        ReservedState.getInstance().triggerNoShow(room.getRoomContext());</span>
+        
+        // Process the no-show state (transitions to Available)
+<span class="nc" id="L286">        room.getRoomContext().handle();</span>
+        
+<span class="nc" id="L288">        roomCSV.update(room);</span>
+<span class="nc" id="L289">        return true;</span>
+    }
+    
+    // Get rooms by status
+    public List&lt;Room&gt; getRoomsByStatus(String status) {
+<span class="fc" id="L294">        List&lt;Room&gt; allRooms = roomCSV.findAll();</span>
+<span class="fc" id="L295">        List&lt;Room&gt; filteredRooms = new ArrayList&lt;&gt;();</span>
+        
+<span class="fc bfc" id="L297" title="All 2 branches covered.">        for (Room room : allRooms) {</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">            if (room.getStatus().equalsIgnoreCase(status)) {</span>
+<span class="nc" id="L299">                filteredRooms.add(room);</span>
+            }
+<span class="fc" id="L301">        }</span>
+<span class="fc" id="L302">        return filteredRooms;</span>
+    }
+    
+    // Get rooms by condition
+    public List&lt;Room&gt; getRoomsByCondition(String condition) {
+<span class="fc" id="L307">        List&lt;Room&gt; allRooms = roomCSV.findAll();</span>
+<span class="fc" id="L308">        List&lt;Room&gt; filteredRooms = new ArrayList&lt;&gt;();</span>
+        
+<span class="fc bfc" id="L310" title="All 2 branches covered.">        for (Room room : allRooms) {</span>
+<span class="fc bfc" id="L311" title="All 2 branches covered.">            if (room.getCondition().equalsIgnoreCase(condition)) {</span>
+<span class="fc" id="L312">                filteredRooms.add(room);</span>
+            }
+<span class="fc" id="L314">        }</span>
+<span class="fc" id="L315">        return filteredRooms;</span>
+    }
+    public boolean checkInWithOccupancy(UUID roomId, int numberOfPeople) {
+<span class="fc" id="L318">        Room room = roomCSV.findById(roomId);</span>
+        
+<span class="pc bpc" id="L320" title="1 of 2 branches missed.">        if (room == null) {</span>
+<span class="fc" id="L321">            System.out.println(&quot;Room not found.&quot;);</span>
+<span class="fc" id="L322">            return false;</span>
+        }
+        
+<span class="nc bnc" id="L325" title="All 2 branches missed.">        if (!room.getCondition().equals(&quot;Reserved&quot;)) {</span>
+<span class="nc" id="L326">            System.out.println(&quot;Room is not in Reserved state. Cannot check in.&quot;);</span>
+<span class="nc" id="L327">            return false;</span>
+        }
+        
+        // Check if room has capacity for the people
+<span class="nc bnc" id="L331" title="All 2 branches missed.">        if (!room.hasCapacityFor(numberOfPeople)) {</span>
+<span class="nc" id="L332">            System.out.println(&quot;Cannot check in. Room capacity: &quot; + room.getCapacity() </span>
+<span class="nc" id="L333">                              + &quot;, Current occupancy: &quot; + room.getCurrentOccupancy()</span>
+                              + &quot;, Trying to add: &quot; + numberOfPeople);
+<span class="nc" id="L335">            return false;</span>
+        }
+        
+        // Add people to the room
+<span class="nc bnc" id="L339" title="All 2 branches missed.">        if (!room.checkInPeople(numberOfPeople)) {</span>
+<span class="nc" id="L340">            return false;</span>
+        }
+        
+        // Change state to InUse
+<span class="nc" id="L344">        room.checkIn();</span>
+<span class="nc" id="L345">        roomCSV.update(room);</span>
+<span class="nc" id="L346">        return true;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

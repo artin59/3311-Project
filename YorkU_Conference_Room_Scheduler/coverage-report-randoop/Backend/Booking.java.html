@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Booking.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">Booking.java</span></div><h1>Booking.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.UUID;
+
+public class Booking {
+    private String bookingId;
+    private User user;
+    private int hours;
+    private double rate;
+    private double totalCost;
+    private String roomNumber;
+    private String bookingDate;
+    private String bookingStartTime;
+    private String bookingEndTime;
+    private String status; // Reserved, InUse, Cancelled, Completed
+    
+    public Booking(String bookingId, User user, int hours, double rate, 
+<span class="fc" id="L18">                   String roomNumber, String bookingDate, String bookingStartTime, String bookingEndTime) {</span>
+<span class="fc" id="L19">        this.bookingId = bookingId;</span>
+<span class="fc" id="L20">        this.user = user;</span>
+<span class="fc" id="L21">        this.hours = hours;</span>
+<span class="fc" id="L22">        this.rate = rate;</span>
+<span class="fc" id="L23">        this.totalCost = hours * rate;</span>
+<span class="fc" id="L24">        this.roomNumber = roomNumber;</span>
+<span class="fc" id="L25">        this.bookingDate = bookingDate;</span>
+<span class="fc" id="L26">        this.bookingStartTime = bookingStartTime;</span>
+<span class="fc" id="L27">        this.bookingEndTime = bookingEndTime;</span>
+<span class="fc" id="L28">        this.status = &quot;Reserved&quot;;</span>
+<span class="fc" id="L29">    }</span>
+    
+    // Getters
+    public String getBookingId() {
+<span class="fc" id="L33">        return bookingId;</span>
+    }
+    
+    public User getUser() {
+<span class="fc" id="L37">        return user;</span>
+    }
+    
+    public int getHours() {
+<span class="fc" id="L41">        return hours;</span>
+    }
+    
+    public double getRate() {
+<span class="fc" id="L45">        return rate;</span>
+    }
+    
+    public double getTotalCost() {
+<span class="fc" id="L49">        return totalCost;</span>
+    }
+    
+    public String getRoomNumber() {
+<span class="fc" id="L53">        return roomNumber;</span>
+    }
+    
+    public String getBookingDate() {
+<span class="fc" id="L57">        return bookingDate;</span>
+    }
+    
+    public String getBookingStartTime() {
+<span class="fc" id="L61">        return bookingStartTime;</span>
+    }
+    
+    public String getBookingEndTime() {
+<span class="fc" id="L65">        return bookingEndTime;</span>
+    }
+    
+    public String getStatus() {
+<span class="fc" id="L69">        return status;</span>
+    }
+    
+    // Setters
+    public void setStatus(String status) {
+<span class="fc" id="L74">        this.status = status;</span>
+<span class="fc" id="L75">    }</span>
+    
+    public void setRoomNumber(String roomNumber) {
+<span class="fc" id="L78">        this.roomNumber = roomNumber;</span>
+<span class="fc" id="L79">    }</span>
+    
+    public void setBookingDate(String bookingDate) {
+<span class="fc" id="L82">        this.bookingDate = bookingDate;</span>
+<span class="fc" id="L83">    }</span>
+    
+    public void setBookingStartTime(String bookingStartTime) {
+<span class="fc" id="L86">        this.bookingStartTime = bookingStartTime;</span>
+<span class="fc" id="L87">    }</span>
+    
+    public void setBookingEndTime(String bookingEndTime) {
+<span class="fc" id="L90">        this.bookingEndTime = bookingEndTime;</span>
+<span class="fc" id="L91">    }</span>
+    
+    public void setHours(int hours) {
+<span class="fc" id="L94">        this.hours = hours;</span>
+<span class="fc" id="L95">        this.totalCost = hours * rate;</span>
+<span class="fc" id="L96">    }</span>
+    
+    public void setRate(double rate) {
+<span class="fc" id="L99">        this.rate = rate;</span>
+<span class="fc" id="L100">        this.totalCost = hours * rate;</span>
+<span class="fc" id="L101">    }</span>
+    
+    public void setTotalCost(double totalCost) {
+<span class="fc" id="L104">        this.totalCost = totalCost;</span>
+<span class="fc" id="L105">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

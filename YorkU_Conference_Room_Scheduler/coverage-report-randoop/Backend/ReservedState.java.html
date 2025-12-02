@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservedState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">ReservedState.java</span></div><h1>ReservedState.java</h1><pre class="source lang-java linenums">package Backend;
+
+public class ReservedState implements RoomState {
+    
+<span class="fc" id="L5">    private static ReservedState instance = new ReservedState();</span>
+    
+    private ReservedState() {}
+    
+    public static ReservedState getInstance() {
+<span class="fc" id="L10">        return instance;</span>
+    }
+    
+    @Override
+    public String getStateName() {
+<span class="fc" id="L15">        return &quot;Reserved&quot;;</span>
+    }
+    
+    @Override
+    public void handle(RoomContext context) {
+<span class="fc" id="L20">        System.out.println(&quot;Room &quot; + context.getRoomId() + &quot; is reserved.&quot;);</span>
+<span class="fc" id="L21">    }</span>
+    
+    @Override
+    public boolean canBook() {
+<span class="fc" id="L25">        return false;</span>
+    }
+    
+    @Override
+    public void checkIn(RoomContext context) {
+<span class="fc" id="L30">        context.setState(InUseState.getInstance());</span>
+<span class="fc" id="L31">        System.out.println(&quot;Checked in to room &quot; + context.getRoomId() + &quot;. Room is now in use.&quot;);</span>
+<span class="fc" id="L32">    }</span>
+    
+    @Override
+    public void cancelBooking(RoomContext context) {
+<span class="fc" id="L36">        context.clearBookingInfo();</span>
+<span class="fc" id="L37">        context.setState(AvailableState.getInstance());</span>
+<span class="fc" id="L38">        System.out.println(&quot;Booking cancelled for room &quot; + context.getRoomId() + &quot;. Room is now available.&quot;);</span>
+<span class="fc" id="L39">    }</span>
+    
+    @Override
+    public void extendBooking(RoomContext context, int additionalHours) {
+<span class="fc" id="L43">        System.out.println(&quot;Booking extended by &quot; + additionalHours + &quot; hours for room &quot; + context.getRoomId());</span>
+<span class="fc" id="L44">    }</span>
+    
+    // Called when 30 minutes past start time and no check-in
+    public void triggerNoShow(RoomContext context) {
+<span class="fc" id="L48">        context.setState(NoShowState.getInstance());</span>
+<span class="fc" id="L49">        System.out.println(&quot;No-show triggered for room &quot; + context.getRoomId());</span>
+<span class="fc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

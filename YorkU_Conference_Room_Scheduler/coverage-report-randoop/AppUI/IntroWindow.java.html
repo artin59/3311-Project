@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IntroWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">AppUI</a> &gt; <span class="el_source">IntroWindow.java</span></div><h1>IntroWindow.java</h1><pre class="source lang-java linenums">package AppUI;
+
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+public class IntroWindow {
+	
+	private JPanel introPane;
+
+	private JButton btnIntroCheckIn;
+	private JButton btnIntroReserve;
+	private JLabel introTitleLabel;
+	private JLabel introSubtitleLabel;
+	
+<span class="nc" id="L20">	public IntroWindow() {</span>
+<span class="nc" id="L21">		buildWindow();</span>
+<span class="nc" id="L22">	}</span>
+
+	
+	public void buildWindow() {
+	    // =====================================================
+	    // 1. Base panel setup
+	    // =====================================================
+<span class="nc" id="L29">	    introPane = new JPanel();</span>
+<span class="nc" id="L30">	    introPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="nc" id="L31">	    introPane.setLayout(null);</span>
+
+	    // =====================================================
+	    // 2. Title &amp; subtitle
+	    // =====================================================
+
+<span class="nc" id="L37">	    introTitleLabel = new JLabel(&quot;Conference Room System&quot;);</span>
+<span class="nc" id="L38">	    introTitleLabel.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 32));</span>
+<span class="nc" id="L39">	    introTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L40">	    introTitleLabel.setBounds(79, 75, 529, 40);</span>
+<span class="nc" id="L41">	    introPane.add(introTitleLabel);</span>
+
+<span class="nc" id="L43">	    introSubtitleLabel = new JLabel(&quot;Select an option to continue&quot;);</span>
+<span class="nc" id="L44">	    introSubtitleLabel.setFont(new Font(&quot;Tahoma&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L45">	    introSubtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L46">	    introSubtitleLabel.setBounds(79, 125, 529, 30);</span>
+<span class="nc" id="L47">	    introPane.add(introSubtitleLabel);</span>
+
+	    // =====================================================
+	    // 3. Big action buttons
+	    // =====================================================
+
+	    // Check-In button
+<span class="nc" id="L54">	    btnIntroCheckIn = new JButton(&quot;Check In&quot;);</span>
+<span class="nc" id="L55">	    btnIntroCheckIn.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.PLAIN, 24));</span>
+<span class="nc" id="L56">	    btnIntroCheckIn.setBounds(79, 170, 225, 80);</span>
+<span class="nc" id="L57">	    introPane.add(btnIntroCheckIn);</span>
+
+	    // Reserve a Room button
+<span class="nc" id="L60">	    btnIntroReserve = new JButton(&quot;Reserve a Room&quot;);</span>
+<span class="nc" id="L61">	    btnIntroReserve.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.PLAIN, 24));</span>
+<span class="nc" id="L62">	    btnIntroReserve.setBounds(383, 170, 225, 80);</span>
+<span class="nc" id="L63">	    introPane.add(btnIntroReserve);</span>
+<span class="nc" id="L64">	}</span>
+
+
+	public JPanel getPane() {
+<span class="nc" id="L68">		return introPane;</span>
+	}
+
+
+	public JButton getBtnIntroCheckIn() {
+<span class="nc" id="L73">		return btnIntroCheckIn;</span>
+	}
+
+
+	public JButton getBtnIntroReserve() {
+<span class="nc" id="L78">		return btnIntroReserve;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

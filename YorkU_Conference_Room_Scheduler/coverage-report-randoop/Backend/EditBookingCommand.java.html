@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditBookingCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">EditBookingCommand.java</span></div><h1>EditBookingCommand.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.List;
+
+/**
+ * Command to edit a booking
+ * REQ8: EditBookingCommand updates room/time details, recalculates price via the pricing strategies,
+ * and adjusts payment as needed.
+ */
+public class EditBookingCommand implements Command {
+    private String bookingId;
+    private String newBuildingName;
+    private String newRoomNumber;
+    private String newDate;
+    private String newStartTime;
+    private String newEndTime;
+    private BookingRepository repository;
+    private PricingPolicyFactory pricingFactory;
+    private PaymentService paymentService;
+    private RoomService roomService;
+    private List&lt;BookingObserver&gt; observers;
+    
+    // For undo
+    private Booking originalBooking;
+    private String originalRoomNumber;
+    private String originalDate;
+    private String originalStartTime;
+    private String originalEndTime;
+    private double originalCost;
+    
+    public EditBookingCommand(String bookingId, String newBuildingName, String newRoomNumber, 
+                             String newDate, String newStartTime, String newEndTime,
+                             BookingRepository repository, PricingPolicyFactory pricingFactory,
+                             PaymentService paymentService, RoomService roomService,
+<span class="fc" id="L35">                             List&lt;BookingObserver&gt; observers) {</span>
+<span class="fc" id="L36">        this.bookingId = bookingId;</span>
+<span class="fc" id="L37">        this.newBuildingName = newBuildingName;</span>
+<span class="fc" id="L38">        this.newRoomNumber = newRoomNumber;</span>
+<span class="fc" id="L39">        this.newDate = newDate;</span>
+<span class="fc" id="L40">        this.newStartTime = newStartTime;</span>
+<span class="fc" id="L41">        this.newEndTime = newEndTime;</span>
+<span class="fc" id="L42">        this.repository = repository;</span>
+<span class="fc" id="L43">        this.pricingFactory = pricingFactory;</span>
+<span class="fc" id="L44">        this.paymentService = paymentService;</span>
+<span class="fc" id="L45">        this.roomService = roomService;</span>
+<span class="fc" id="L46">        this.observers = observers;</span>
+<span class="fc" id="L47">    }</span>
+    
+    @Override
+    public boolean execute() {
+        // Find the booking
+<span class="nc" id="L52">        Booking booking = repository.findById(bookingId);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (booking == null) {</span>
+<span class="nc" id="L54">            System.err.println(&quot;EditBookingCommand: Booking not found: &quot; + bookingId);</span>
+<span class="nc" id="L55">            return false;</span>
+        }
+        
+        // Store original values for undo
+<span class="nc" id="L59">        originalBooking = booking;</span>
+<span class="nc" id="L60">        originalRoomNumber = booking.getRoomNumber();</span>
+<span class="nc" id="L61">        originalDate = booking.getBookingDate();</span>
+<span class="nc" id="L62">        originalStartTime = booking.getBookingStartTime();</span>
+<span class="nc" id="L63">        originalEndTime = booking.getBookingEndTime();</span>
+<span class="nc" id="L64">        originalCost = booking.getTotalCost();</span>
+        
+        // Check if booking is in pre-start state (REQ8 requirement)
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (!BookingTimeUtil.isPreStartState(booking)) {</span>
+<span class="nc" id="L68">            System.err.println(&quot;EditBookingCommand: Booking &quot; + bookingId + </span>
+                             &quot; is not in pre-start state. Cannot edit.&quot;);
+<span class="nc" id="L70">            return false;</span>
+        }
+        
+        // Check for time conflicts if room or time changed
+<span class="nc bnc" id="L74" title="All 6 branches missed.">        if ((newRoomNumber != null &amp;&amp; !newRoomNumber.equals(originalRoomNumber)) ||</span>
+<span class="nc bnc" id="L75" title="All 4 branches missed.">            (newDate != null &amp;&amp; !newDate.equals(originalDate)) ||</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            (newStartTime != null &amp;&amp; !newStartTime.equals(originalStartTime))) {</span>
+            
+<span class="nc bnc" id="L78" title="All 4 branches missed.">            String roomToCheck = (newRoomNumber != null &amp;&amp; !newRoomNumber.isEmpty()) ? newRoomNumber : originalRoomNumber;</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">            String dateToCheck = (newDate != null &amp;&amp; !newDate.isEmpty()) ? newDate : originalDate;</span>
+<span class="nc bnc" id="L80" title="All 4 branches missed.">            String startToCheck = (newStartTime != null &amp;&amp; !newStartTime.isEmpty()) ? newStartTime : originalStartTime;</span>
+<span class="nc bnc" id="L81" title="All 4 branches missed.">            String endToCheck = (newEndTime != null &amp;&amp; !newEndTime.isEmpty()) ? newEndTime : originalEndTime;</span>
+            
+            // Calculate end time if not provided
+<span class="nc bnc" id="L84" title="All 4 branches missed.">            if (endToCheck == null || endToCheck.isEmpty()) {</span>
+<span class="nc" id="L85">                endToCheck = calculateEndTime(startToCheck);</span>
+            }
+            
+<span class="nc" id="L88">            BookingCSV bookingCSV = BookingCSV.getInstance();</span>
+            // Exclude the current booking from conflict check
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (bookingCSV.hasTimeConflict(roomToCheck, dateToCheck, startToCheck, endToCheck, bookingId)) {</span>
+<span class="nc" id="L91">                System.err.println(&quot;EditBookingCommand: Time conflict detected for new booking details&quot;);</span>
+<span class="nc" id="L92">                return false;</span>
+            }
+        }
+        
+        // If room number changed, look up the new room to get building name
+<span class="nc bnc" id="L97" title="All 6 branches missed.">        if (newRoomNumber != null &amp;&amp; !newRoomNumber.isEmpty() &amp;&amp; !newRoomNumber.equals(originalRoomNumber)) {</span>
+<span class="nc" id="L98">            Room newRoom = findRoomByNumber(newRoomNumber);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            if (newRoom == null) {</span>
+<span class="nc" id="L100">                System.err.println(&quot;EditBookingCommand: New room not found: &quot; + newRoomNumber);</span>
+<span class="nc" id="L101">                return false;</span>
+            }
+            // Use the room's building name (ignore newBuildingName parameter - it should match the room)
+<span class="nc" id="L104">            newBuildingName = newRoom.getBuildingName();</span>
+        }
+        
+        // Update booking details
+<span class="nc bnc" id="L108" title="All 4 branches missed.">        if (newRoomNumber != null &amp;&amp; !newRoomNumber.isEmpty()) {</span>
+<span class="nc" id="L109">            booking.setRoomNumber(newRoomNumber);</span>
+        }
+<span class="nc bnc" id="L111" title="All 4 branches missed.">        if (newDate != null &amp;&amp; !newDate.isEmpty()) {</span>
+<span class="nc" id="L112">            booking.setBookingDate(newDate);</span>
+        }
+<span class="nc bnc" id="L114" title="All 4 branches missed.">        if (newStartTime != null &amp;&amp; !newStartTime.isEmpty()) {</span>
+<span class="nc" id="L115">            booking.setBookingStartTime(newStartTime);</span>
+        }
+<span class="nc bnc" id="L117" title="All 4 branches missed.">        if (newEndTime != null &amp;&amp; !newEndTime.isEmpty()) {</span>
+<span class="nc" id="L118">            booking.setBookingEndTime(newEndTime);</span>
+<span class="nc bnc" id="L119" title="All 4 branches missed.">        } else if (newStartTime != null &amp;&amp; !newStartTime.isEmpty()) {</span>
+            // If start time changed but end time not provided, calculate end time
+<span class="nc" id="L121">            booking.setBookingEndTime(calculateEndTime(newStartTime));</span>
+        }
+        
+        // Recalculate hours and price (REQ8)
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        int newHours = calculateHours(newStartTime != null ? newStartTime : booking.getBookingStartTime(),</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                                      newEndTime != null ? newEndTime : booking.getBookingEndTime());</span>
+<span class="nc" id="L127">        booking.setHours(newHours);</span>
+        
+        // Recalculate rate using pricing strategy (REQ8)
+        // Use Strategy pattern to get appropriate pricing strategy for user type
+<span class="nc" id="L131">        PricingPolicy policy = pricingFactory.createPolicy(booking.getUser());</span>
+<span class="nc" id="L132">        double newRate = policy.calculateRate(booking.getUser());</span>
+<span class="nc" id="L133">        booking.setRate(newRate); // Update rate first</span>
+<span class="nc" id="L134">        booking.setHours(newHours); // This will recalculate totalCost based on new rate and hours</span>
+<span class="nc" id="L135">        double newTotalCost = booking.getTotalCost();</span>
+        
+        // Calculate price difference
+<span class="nc" id="L138">        double priceDifference = newTotalCost - originalCost;</span>
+        
+        // Adjust payment (REQ8)
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (priceDifference &gt; 0) {</span>
+            // Charge additional amount
+<span class="nc" id="L143">            boolean chargeSuccess = paymentService.chargeAdditional(priceDifference);</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">            if (!chargeSuccess) {</span>
+<span class="nc" id="L145">                System.err.println(&quot;EditBookingCommand: Failed to charge additional amount&quot;);</span>
+<span class="nc" id="L146">                return false;</span>
+            }
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        } else if (priceDifference &lt; 0) {</span>
+            // Refund difference
+<span class="nc" id="L150">            boolean refundSuccess = paymentService.refund(Math.abs(priceDifference));</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">            if (!refundSuccess) {</span>
+<span class="nc" id="L152">                System.err.println(&quot;EditBookingCommand: Failed to refund difference&quot;);</span>
+                // Continue with edit even if refund fails
+            }
+        }
+        
+        // Update room in RoomDatabase.csv
+<span class="nc bnc" id="L158" title="All 4 branches missed.">        if (newRoomNumber != null &amp;&amp; !newRoomNumber.equals(originalRoomNumber)) {</span>
+            // Update old room - clear booking
+<span class="nc" id="L160">            Room oldRoom = findRoomByNumber(originalRoomNumber);</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            if (oldRoom != null) {</span>
+<span class="nc" id="L162">                oldRoom.getRoomContext().clearBookingInfo();</span>
+<span class="nc" id="L163">                oldRoom.getRoomContext().setState(AvailableState.getInstance());</span>
+<span class="nc" id="L164">                RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L165">                roomCSV.update(oldRoom);</span>
+            }
+            
+            // Update new room - set booking
+<span class="nc" id="L169">            Room newRoom = findRoomByNumber(newRoomNumber);</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            if (newRoom != null) {</span>
+<span class="nc" id="L171">                newRoom.getRoomContext().setBookingInfo(</span>
+<span class="nc" id="L172">                    booking.getBookingId(),</span>
+<span class="nc" id="L173">                    booking.getUser().getAccountId(),</span>
+<span class="nc" id="L174">                    booking.getBookingDate(),</span>
+<span class="nc" id="L175">                    booking.getBookingStartTime(),</span>
+<span class="nc" id="L176">                    booking.getBookingEndTime()</span>
+                );
+<span class="nc" id="L178">                newRoom.getRoomContext().setState(ReservedState.getInstance());</span>
+<span class="nc" id="L179">                RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L180">                roomCSV.update(newRoom);</span>
+            }
+<span class="nc" id="L182">        } else {</span>
+            // Same room, just update booking info
+<span class="nc" id="L184">            Room room = findRoomByNumber(booking.getRoomNumber());</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            if (room != null) {</span>
+<span class="nc" id="L186">                room.getRoomContext().setBookingInfo(</span>
+<span class="nc" id="L187">                    booking.getBookingId(),</span>
+<span class="nc" id="L188">                    booking.getUser().getAccountId(),</span>
+<span class="nc" id="L189">                    booking.getBookingDate(),</span>
+<span class="nc" id="L190">                    booking.getBookingStartTime(),</span>
+<span class="nc" id="L191">                    booking.getBookingEndTime()</span>
+                );
+<span class="nc" id="L193">                RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L194">                roomCSV.update(room);</span>
+            }
+        }
+        
+        // Persist changes through repository (REQ8)
+<span class="nc" id="L199">        repository.update(booking);</span>
+        
+        // Notify observers (REQ8)
+<span class="nc" id="L202">        notifyObservers(booking);</span>
+        
+<span class="nc" id="L204">        System.out.println(&quot;EditBookingCommand: Successfully edited booking &quot; + bookingId);</span>
+<span class="nc" id="L205">        return true;</span>
+    }
+    
+    @Override
+    public boolean undo() {
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">        if (originalBooking == null) {</span>
+<span class="fc" id="L211">            return false;</span>
+        }
+        
+        // Restore original values
+<span class="nc" id="L215">        originalBooking.setRoomNumber(originalRoomNumber);</span>
+<span class="nc" id="L216">        originalBooking.setBookingDate(originalDate);</span>
+<span class="nc" id="L217">        originalBooking.setBookingStartTime(originalStartTime);</span>
+<span class="nc" id="L218">        originalBooking.setBookingEndTime(originalEndTime);</span>
+<span class="nc" id="L219">        originalBooking.setHours(calculateHours(originalStartTime, originalEndTime));</span>
+        
+        // Restore original payment
+<span class="nc" id="L222">        double currentCost = originalBooking.getTotalCost();</span>
+<span class="nc" id="L223">        double costDifference = originalCost - currentCost;</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (costDifference &gt; 0) {</span>
+<span class="nc" id="L225">            paymentService.charge(costDifference);</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">        } else if (costDifference &lt; 0) {</span>
+<span class="nc" id="L227">            paymentService.refund(Math.abs(costDifference));</span>
+        }
+        
+        // Restore room states
+<span class="nc" id="L231">        Room room = findRoomByNumber(originalBooking.getRoomNumber());</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        if (room != null) {</span>
+<span class="nc" id="L233">            room.getRoomContext().setBookingInfo(</span>
+<span class="nc" id="L234">                originalBooking.getBookingId(),</span>
+<span class="nc" id="L235">                originalBooking.getUser().getAccountId(),</span>
+                originalDate,
+                originalStartTime,
+                originalEndTime
+            );
+<span class="nc" id="L240">            RoomCSV roomCSV = RoomCSV.getInstance();</span>
+<span class="nc" id="L241">            roomCSV.update(room);</span>
+        }
+        
+<span class="nc" id="L244">        repository.update(originalBooking);</span>
+<span class="nc" id="L245">        notifyObservers(originalBooking);</span>
+        
+<span class="nc" id="L247">        return true;</span>
+    }
+    
+    private int calculateHours(String startTime, String endTime) {
+<span class="nc bnc" id="L251" title="All 4 branches missed.">        if (startTime == null || endTime == null) {</span>
+<span class="nc" id="L252">            return 1; // Default</span>
+        }
+        try {
+<span class="nc" id="L255">            String[] startParts = startTime.split(&quot;:&quot;);</span>
+<span class="nc" id="L256">            String[] endParts = endTime.split(&quot;:&quot;);</span>
+<span class="nc" id="L257">            int startHour = Integer.parseInt(startParts[0]);</span>
+<span class="nc" id="L258">            int startMin = Integer.parseInt(startParts[1]);</span>
+<span class="nc" id="L259">            int endHour = Integer.parseInt(endParts[0]);</span>
+<span class="nc" id="L260">            int endMin = Integer.parseInt(endParts[1]);</span>
+            
+<span class="nc" id="L262">            int startMinutes = startHour * 60 + startMin;</span>
+<span class="nc" id="L263">            int endMinutes = endHour * 60 + endMin;</span>
+<span class="nc" id="L264">            int diffMinutes = endMinutes - startMinutes;</span>
+            
+            // Round up to nearest hour
+<span class="nc" id="L267">            return (int) Math.ceil(diffMinutes / 60.0);</span>
+<span class="nc" id="L268">        } catch (Exception e) {</span>
+<span class="nc" id="L269">            return 1; // Default</span>
+        }
+    }
+    
+    private String calculateEndTime(String startTime) {
+<span class="nc bnc" id="L274" title="All 4 branches missed.">        if (startTime == null || startTime.trim().isEmpty()) {</span>
+<span class="nc" id="L275">            return null;</span>
+        }
+        try {
+<span class="nc" id="L278">            String[] parts = startTime.trim().split(&quot;:&quot;);</span>
+<span class="nc" id="L279">            int hours = Integer.parseInt(parts[0]);</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">            int minutes = parts.length &gt; 1 ? Integer.parseInt(parts[1]) : 0;</span>
+            
+            // Add 1 hour
+<span class="nc" id="L283">            hours += 1;</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">            if (hours &gt;= 24) {</span>
+<span class="nc" id="L285">                hours = hours % 24;</span>
+            }
+            
+<span class="nc" id="L288">            return String.format(&quot;%02d:%02d&quot;, hours, minutes);</span>
+<span class="nc" id="L289">        } catch (Exception e) {</span>
+<span class="nc" id="L290">            return null;</span>
+        }
+    }
+    
+    private Room findRoomByNumber(String roomNumber) {
+<span class="nc bnc" id="L295" title="All 2 branches missed.">        if (roomNumber == null) {</span>
+<span class="nc" id="L296">            return null;</span>
+        }
+<span class="nc" id="L298">        List&lt;Room&gt; allRooms = roomService.getAllRooms();</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">        for (Room room : allRooms) {</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">            if (room.getRoomNumber().equals(roomNumber)) {</span>
+<span class="nc" id="L301">                return room;</span>
+            }
+<span class="nc" id="L303">        }</span>
+<span class="nc" id="L304">        return null;</span>
+    }
+    
+    private void notifyObservers(Booking booking) {
+<span class="nc bnc" id="L308" title="All 2 branches missed.">        if (observers != null) {</span>
+<span class="nc bnc" id="L309" title="All 2 branches missed.">            for (BookingObserver observer : observers) {</span>
+<span class="nc" id="L310">                observer.onBookingUpdated(booking);</span>
+<span class="nc" id="L311">            }</span>
+        }
+<span class="nc" id="L313">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckInWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">AppUI</a> &gt; <span class="el_source">CheckInWindow.java</span></div><h1>CheckInWindow.java</h1><pre class="source lang-java linenums">package AppUI;
+
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+public class CheckInWindow {
+	
+	private JPanel checkInPane;
+
+	private JLabel checkInTitleLabel;
+
+	private JLabel bookingIdLabel;
+	private JLabel emailLabel;
+	private JLabel occupantsLabel;
+
+	private JTextField bookingIdTextBox;
+	private JTextField emailTextBox;
+	private JTextField occupantsTextBox;
+
+	private JButton btnSimulateScan;
+
+	private JLabel roomNumberLabel;
+	private JLabel bookingTimeLabel;
+
+	private JTextField roomNumberTextBox;
+	private JTextField bookingTimeTextBox;
+
+	private JButton backToIntro;
+	
+	
+<span class="nc" id="L37">	public CheckInWindow() {</span>
+<span class="nc" id="L38">		buildWindow();</span>
+<span class="nc" id="L39">	}</span>
+	
+	public void buildWindow() {
+
+	    // =====================================================
+	    // 1. Base panel setup
+	    // =====================================================
+<span class="nc" id="L46">	    checkInPane = new JPanel();</span>
+<span class="nc" id="L47">	    checkInPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="nc" id="L48">	    checkInPane.setLayout(null);</span>
+
+	    // =====================================================
+	    // 2. Title
+	    // =====================================================
+
+<span class="nc" id="L54">	    checkInTitleLabel = new JLabel(&quot;Room Check-In&quot;);</span>
+<span class="nc" id="L55">	    checkInTitleLabel.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 28));</span>
+<span class="nc" id="L56">	    checkInTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L57">	    checkInTitleLabel.setBounds(120, 20, 450, 40);</span>
+<span class="nc" id="L58">	    checkInPane.add(checkInTitleLabel);</span>
+
+	    // =====================================================
+	    // 3. Input section: Booking ID, Email, # Occupants
+	    // =====================================================
+
+<span class="nc" id="L64">	    bookingIdLabel = new JLabel(&quot;Booking ID:&quot;);</span>
+<span class="nc" id="L65">	    bookingIdLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L66">	    bookingIdLabel.setBounds(140, 90, 120, 25);</span>
+<span class="nc" id="L67">	    checkInPane.add(bookingIdLabel);</span>
+
+<span class="nc" id="L69">	    bookingIdTextBox = new JTextField();</span>
+<span class="nc" id="L70">	    bookingIdTextBox.setBounds(270, 92, 250, 22);</span>
+<span class="nc" id="L71">	    checkInPane.add(bookingIdTextBox);</span>
+
+<span class="nc" id="L73">	    emailLabel = new JLabel(&quot;Email:&quot;);</span>
+<span class="nc" id="L74">	    emailLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L75">	    emailLabel.setBounds(140, 125, 120, 25);</span>
+<span class="nc" id="L76">	    checkInPane.add(emailLabel);</span>
+
+<span class="nc" id="L78">	    emailTextBox = new JTextField();</span>
+<span class="nc" id="L79">	    emailTextBox.setBounds(270, 127, 250, 22);</span>
+<span class="nc" id="L80">	    checkInPane.add(emailTextBox);</span>
+
+<span class="nc" id="L82">	    occupantsLabel = new JLabel(&quot;# of Attendees:&quot;);</span>
+<span class="nc" id="L83">	    occupantsLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L84">	    occupantsLabel.setBounds(140, 160, 130, 25);</span>
+<span class="nc" id="L85">	    checkInPane.add(occupantsLabel);</span>
+
+<span class="nc" id="L87">	    occupantsTextBox = new JTextField();</span>
+<span class="nc" id="L88">	    occupantsTextBox.setBounds(270, 162, 80, 22);</span>
+<span class="nc" id="L89">	    checkInPane.add(occupantsTextBox);</span>
+
+	    // =====================================================
+	    // 4. Simulate Scan button
+	    // =====================================================
+
+<span class="nc" id="L95">	    btnSimulateScan = new JButton(&quot;Check in&quot;);</span>
+<span class="nc" id="L96">	    btnSimulateScan.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.PLAIN, 22));</span>
+<span class="nc" id="L97">	    btnSimulateScan.setBounds(220, 205, 260, 50);</span>
+<span class="nc" id="L98">	    checkInPane.add(btnSimulateScan);</span>
+
+	    // =====================================================
+	    // 5. Output section: Room # and Booking Time
+	    // =====================================================
+
+<span class="nc" id="L104">	    roomNumberLabel = new JLabel(&quot;Room #:&quot;);</span>
+<span class="nc" id="L105">	    roomNumberLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L106">	    roomNumberLabel.setBounds(140, 280, 120, 25);</span>
+<span class="nc" id="L107">	    checkInPane.add(roomNumberLabel);</span>
+
+<span class="nc" id="L109">	    roomNumberTextBox = new JTextField();</span>
+<span class="nc" id="L110">	    roomNumberTextBox.setEditable(false);</span>
+<span class="nc" id="L111">	    roomNumberTextBox.setBounds(270, 282, 250, 22);</span>
+<span class="nc" id="L112">	    checkInPane.add(roomNumberTextBox);</span>
+
+<span class="nc" id="L114">	    bookingTimeLabel = new JLabel(&quot;Booking Time:&quot;);</span>
+<span class="nc" id="L115">	    bookingTimeLabel.setFont(new Font(&quot;Bell MT&quot;, Font.PLAIN, 18));</span>
+<span class="nc" id="L116">	    bookingTimeLabel.setBounds(140, 315, 130, 25);</span>
+<span class="nc" id="L117">	    checkInPane.add(bookingTimeLabel);</span>
+
+<span class="nc" id="L119">	    bookingTimeTextBox = new JTextField();</span>
+<span class="nc" id="L120">	    bookingTimeTextBox.setEditable(false);</span>
+<span class="nc" id="L121">	    bookingTimeTextBox.setBounds(270, 317, 250, 22);</span>
+<span class="nc" id="L122">	    checkInPane.add(bookingTimeTextBox);</span>
+	    
+	    // Back to Intro
+<span class="nc" id="L125">	    backToIntro = new JButton(&quot;Back&quot;);</span>
+<span class="nc" id="L126">	    backToIntro.setFont(new Font(&quot;Baskerville Old Face&quot;, Font.ITALIC, 14));</span>
+<span class="nc" id="L127">	    backToIntro.setBounds(20, 10, 80, 23);</span>
+<span class="nc" id="L128">	    checkInPane.add(backToIntro);</span>
+<span class="nc" id="L129">	}</span>
+
+	public JPanel getPane() {
+<span class="nc" id="L132">		return checkInPane;</span>
+	}
+
+	public JTextField getBookingIdTextBox() {
+<span class="nc" id="L136">		return bookingIdTextBox;</span>
+	}
+
+	public JTextField getEmailTextBox() {
+<span class="nc" id="L140">		return emailTextBox;</span>
+	}
+
+	public JTextField getOccupantsTextBox() {
+<span class="nc" id="L144">		return occupantsTextBox;</span>
+	}
+
+	public JButton getBtnSimulateScan() {
+<span class="nc" id="L148">		return btnSimulateScan;</span>
+	}
+
+	public JTextField getRoomNumberTextBox() {
+<span class="nc" id="L152">		return roomNumberTextBox;</span>
+	}
+
+	public JTextField getBookingTimeTextBox() {
+<span class="nc" id="L156">		return bookingTimeTextBox;</span>
+	}
+
+	public JButton getBtnBackToIntro() {
+<span class="nc" id="L160">		return backToIntro;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

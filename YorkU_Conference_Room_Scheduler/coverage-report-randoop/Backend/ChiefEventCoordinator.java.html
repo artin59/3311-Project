@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChiefEventCoordinator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">Backend</a> &gt; <span class="el_source">ChiefEventCoordinator.java</span></div><h1>ChiefEventCoordinator.java</h1><pre class="source lang-java linenums">package Backend;
+
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.UUID;
+
+public class ChiefEventCoordinator extends Administrator {
+
+	private final static String CHIEF_EMAIL = &quot;chief@gmail.com&quot;;
+	private final static String CHIEF_PASS = &quot;Chief1234$&quot;;
+	
+<span class="fc" id="L12">	private ArrayList&lt;Admin&gt; allAdmins = new ArrayList&lt;&gt;();</span>
+	
+<span class="fc" id="L14">	private static ChiefEventCoordinator CEOInstance = new ChiefEventCoordinator(CHIEF_EMAIL, CHIEF_PASS);</span>
+	
+	private ChiefEventCoordinator(String email, String password) {
+<span class="fc" id="L17">		super(email, password);</span>
+<span class="fc" id="L18">	}</span>
+	
+	public static ChiefEventCoordinator getCEOInstance() {
+<span class="fc" id="L21">		return CEOInstance;</span>
+	}
+	
+	public Admin createAdmin(String email, String password) {
+<span class="fc" id="L25">		Admin a = new Admin(email, password);</span>
+<span class="fc" id="L26">		allAdmins.add(a);</span>
+<span class="fc" id="L27">		return a;</span>
+	}
+	
+	// Convert existing user to admin
+	public Admin convertUserToAdmin(Accounts account) {
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">	    if (account instanceof Admin) {</span>
+<span class="nc" id="L33">	        System.out.println(&quot;Account is already an Admin.&quot;);</span>
+<span class="nc" id="L34">	        return (Admin) account;</span>
+	    }
+	    
+<span class="fc bfc" id="L37" title="All 2 branches covered.">	    if (account instanceof ChiefEventCoordinator) {</span>
+<span class="fc" id="L38">	        System.out.println(&quot;Cannot convert Chief Event Coordinator.&quot;);</span>
+<span class="fc" id="L39">	        return null;</span>
+	    }
+	    
+	    // Get the original data before creating new Admin
+<span class="fc" id="L43">	    UUID originalId = account.getAccountId();</span>
+<span class="fc" id="L44">	    Date originalDate = account.getCreatedDate();</span>
+<span class="fc" id="L45">	    String email = account.getEmail();</span>
+<span class="fc" id="L46">	    String password = account.getPassword();</span>
+	    
+	    // Create new Admin with same credentials
+<span class="fc" id="L49">	    Admin newAdmin = new Admin(email, password);</span>
+	    
+	    // Override the auto-generated values with original ones
+<span class="fc" id="L52">	    newAdmin.setAccountId(originalId);</span>
+<span class="fc" id="L53">	    newAdmin.setCreatedDate(originalDate);</span>
+	    
+<span class="fc" id="L55">	    allAdmins.add(newAdmin);</span>
+<span class="fc" id="L56">	    System.out.println(&quot;User &quot; + email + &quot; converted to Admin. ID: &quot; + originalId);</span>
+<span class="fc" id="L57">	    return newAdmin;</span>
+	}
+	
+	public ArrayList&lt;Admin&gt; viewAllAdmins() {
+<span class="fc" id="L61">		return allAdmins;</span>
+	}
+	
+	@Override
+	public String getAccountType() {
+<span class="fc" id="L66">		return &quot;Chief Event Coordinator&quot;;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
